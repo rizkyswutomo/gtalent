@@ -55,37 +55,39 @@
     }
   </style>
 </head>
-<body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9] overflow-x-hidden">
+<body class="h-full flex flex-col antialiased text-slate-800 bg-[#0f172a] overflow-x-hidden">
 
   <!-- ==================== 1. LOGIN SCREEN DENGAN FOTO TRUK + LAYER OPACITY NAVY 40% ==================== -->
   <div id="authScreen" class="fixed inset-0 z-50 w-full h-full min-h-screen flex items-center justify-center p-4 overflow-y-auto">
     
-    <!-- BACKGROUND FOTO ARMADA TRUK KONTAINER GRAHATRANS (FULL SCREEN) -->
+    <!-- 1. BASE BACKGROUND: GRADIEN NAVY AGAR TIDAK PERNAH JADI ABU-ABU -->
+    <div class="fixed inset-0 z-0 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d]"></div>
+
+    <!-- 2. FOTO ARMADA TRUK KONTAINER LOGISTIK (100% MUNCUL DARI CDN CEPAT) -->
     <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-         style="background-image: url('541a88a5170ccf21e20e55a645848d47.jpg'), url('https://drive.google.com/file/d/11TAzwPShqruohPAqUiRAs6vgV-EZErl7/view?usp=sharing');">
+         style="background-image: url('grahatrans-bg.jpg'), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=2070&q=80');">
     </div>
 
-    <!-- LAYER WARNA BIRU NAVY DENGAN OPACITY 40% (SESUAI PERMINTAAN ANDA) -->
+    <!-- 3. LAYER WARNA BIRU NAVY DENGAN OPACITY 40% (0.4) PERSIS SESUAI PERMINTAAN -->
     <div class="fixed inset-0 z-0 bg-[#1e3c72] opacity-40"></div>
 
-    <!-- KARTU LOGIN DARK GLASSMORPHIC MEWAH (AGAR LOGO PUTIH GRAHATRANS TERBACA TAJAM) -->
-    <div class="relative z-10 bg-slate-900/85 backdrop-blur-xl rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/20 text-white my-auto">
+    <!-- KARTU LOGIN DARK GLASSMORPHIC MEWAH DENGAN LOGO GRAHATRANS PUTIH -->
+    <div class="relative z-10 bg-slate-900/90 backdrop-blur-2xl rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/20 text-white my-auto">
       
-      <!-- HEADER LOGO GRAHATRANS PUTIH SESUAI GAMBAR BARU -->
+      <!-- LOGO GRAHATRANS PUTIH LENGKAP DENGAN EMBLEM IKONIK -->
       <div class="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="grahatrans-logo.png" alt="GrahaTrans" class="h-9 object-contain" onerror="this.classList.add('hidden'); document.getElementById('logoSvgFallback').classList.remove('hidden');" />
-          
-          <!-- Logo Vektor Putih Otomatis jika file PNG belum diupload -->
-          <div id="logoSvgFallback" class="hidden flex items-center gap-2.5">
-            <div class="w-9 h-9 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center font-black text-white text-base">
-              G
-            </div>
-            <span class="text-xl font-black text-white tracking-wider">GrahaTrans</span>
+          <!-- Emblem 3D G GrahaTrans -->
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl flex-shrink-0">
+            G
+          </div>
+          <div>
+            <span class="text-xl font-black text-white tracking-wider block leading-tight">GrahaTrans</span>
+            <span class="text-[9px] text-blue-200 font-semibold tracking-wider block">LOGISTICS & TRANSPORTATION</span>
           </div>
         </div>
 
-        <span class="text-[9px] font-black px-2 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/40 uppercase tracking-widest">
+        <span class="text-[9px] font-black px-2.5 py-1 rounded-md bg-blue-500/20 text-blue-300 border border-blue-400/30 uppercase tracking-widest">
           LMS HRIS
         </span>
       </div>
@@ -176,6 +178,7 @@
         <!-- Sisi Kiri: Logo GrahaTrans pada Navbar -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
           <div class="bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2">
+            <span class="w-5 h-5 rounded-md bg-white text-[#1e3c72] flex items-center justify-center font-black text-xs">G</span>
             <span class="text-xs font-black text-white tracking-widest">GrahaTrans</span>
           </div>
           <span class="text-white/40 font-light">|</span>
@@ -415,7 +418,7 @@
       </div>
 
       <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika Anda memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
+        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
       </p>
 
       <form onsubmit="app.saveSupabaseConfig(event)" class="space-y-4 text-xs">
@@ -487,7 +490,7 @@
 
   <!-- ==================== JAVASCRIPT LOGIC LENGKAP ==================== -->
   <script>
-    // KREDENSIAL SUPABASE LANGSUNG TERTANAM (URL SUDAH DINORMALKAN)
+    // KREDENSIAL SUPABASE LANGSUNG TERTANAM (URL SUDAH BERSIH DARI /rest/v1)
     window.SUPABASE_CONFIG = {
       url: "https://jvthmnuhoyysmttdedae.supabase.co",
       anonKey: "YOUR_SUPABASE_ANON_KEY"
@@ -598,7 +601,6 @@
         let rawKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
         if (rawUrl && rawKey && !rawUrl.includes('YOUR_PROJECT_ID')) {
-          // AUTO-CLEAN: Secara otomatis membuang /rest/v1 dan slash di akhir URL
           const cleanUrl = rawUrl.trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
           const cleanKey = rawKey.trim();
 
