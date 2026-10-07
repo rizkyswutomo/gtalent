@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BCS Logistics | Human Capital Management System - LMS</title>
+  <title>GrahaTrans | Human Capital Management System - LMS</title>
   
   <!-- Font Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,24 +62,29 @@
 </head>
 <body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9]">
 
-  <!-- ==================== 1. AUTH SCREEN (LOGIN & REGISTER) ==================== -->
-  <div id="authScreen" class="fixed inset-0 z-50 bg-theme-gradient flex items-center justify-center p-4 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100 my-6">
+  <!-- ==================== 1. AUTH SCREEN DENGAN FOTO TRUK GRAHATRANS + LAYER BIRU 40% ==================== -->
+  <div id="authScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-cover bg-center bg-no-repeat relative"
+       style="background-image: url('grahatrans-bg.jpg'), linear-gradient(to right, #1e3c72, #2a5298, #3b609d);">
+    
+    <!-- LAYER OVERLAY WARNA BIRU 40% (SESUAI PERMINTAAN) -->
+    <div class="absolute inset-0 bg-[#1e3c72]/40 backdrop-blur-[1.5px]"></div>
+    
+    <!-- KARTU FORMULIR LOGIN / REGISTER -->
+    <div class="bg-white/95 backdrop-blur-md rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-white/50 my-6 z-10">
       
-      <!-- Brand Logo Header Sesuai Gambar Referensi -->
+      <!-- Logo GrahaTrans Transparan Sesuai Gambar -->
       <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-100">
-        <div class="flex items-center gap-1.5 font-black text-sm">
-          <span class="bg-[#1e3c72] text-white px-2.5 py-1 rounded-md tracking-wider">BCS</span>
-          <span class="bg-[#f97316] text-white px-2.5 py-1 rounded-md tracking-wider">Logistics</span>
-        </div>
-        <div>
-          <span class="text-xs font-extrabold text-slate-900 block leading-tight">HUMAN CAPITAL LMS</span>
-          <p class="text-[10px] text-slate-500 font-medium">Enterprise Learning & Competency Hub</p>
+        <img src="grahatrans-logo.png" alt="GrahaTrans Logo" class="h-10 object-contain" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png'; this.classList.add('hidden'); document.getElementById('logoFallback').classList.remove('hidden');" />
+        <div id="logoFallback" class="hidden font-black text-lg text-[#1e3c72] tracking-tight">GrahaTrans</div>
+        
+        <div class="border-l border-slate-200 pl-3">
+          <span class="text-xs font-black text-slate-900 block leading-tight">HUMAN CAPITAL LMS</span>
+          <p class="text-[10px] text-slate-500 font-medium">GrahaTrans Corporate Academy</p>
         </div>
       </div>
 
       <!-- Tab Switcher: Masuk vs Buat Akun Baru -->
-      <div class="flex p-1 bg-slate-100 rounded-xl mb-6 text-xs font-bold">
+      <div class="flex p-1 bg-slate-100/80 rounded-xl mb-6 text-xs font-bold">
         <button id="tabLoginBtn" onclick="app.switchAuthMode('login')" class="flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition">
           Masuk Akun
         </button>
@@ -92,17 +97,17 @@
       <form id="formLogin" onsubmit="app.handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Email Pengguna:</label>
-          <input type="email" id="loginEmail" required placeholder="nama@innotalent.com atau staff_hr@bcslabs.tech" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="email" id="loginEmail" required placeholder="nama@grahatrans.com atau admin@innotalent.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Password:</label>
-          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <button type="submit" id="btnSubmitLogin" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md shadow-blue-900/20 hover:opacity-95 transition flex items-center justify-center gap-2">
           <i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran
         </button>
         
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-600 mt-2">
+        <div class="p-3 bg-slate-50/80 border border-slate-200 rounded-xl text-[11px] text-slate-600 mt-2">
           <div class="font-bold text-slate-700 mb-1 flex items-center justify-between">
             <span>Akses Cepat Pengujian:</span>
             <button type="button" onclick="app.fillDefaultAdmin()" class="text-[10px] text-[#1e3c72] underline font-semibold">Gunakan Akun HR</button>
@@ -115,11 +120,11 @@
       <form id="formRegister" onsubmit="app.handleRegister(event)" class="space-y-3.5 hidden">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap:</label>
-          <input type="text" id="regName" required placeholder="Contoh: Bambang Hermawan" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="text" id="regName" required placeholder="Contoh: Bambang Hermawan" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Email Kantor:</label>
-          <input type="email" id="regEmail" required placeholder="bambang@bcslabs.tech" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="email" id="regEmail" required placeholder="bambang@grahatrans.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Departemen / Divisi:</label>
@@ -133,11 +138,11 @@
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru:</label>
-          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Konfirmasi Password:</label>
-          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
         </div>
         <button type="submit" id="btnSubmitRegister" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md hover:opacity-95 transition flex items-center justify-center gap-2">
           <i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya
@@ -154,18 +159,17 @@
     </div>
   </div>
 
-  <!-- ==================== 2. APLIKASI UTAMA (REDESIGN 1:1 DARI REFERENSI) ==================== -->
+  <!-- ==================== 2. APLIKASI UTAMA ==================== -->
   <div id="appContainer" class="hidden flex-1 flex flex-col min-h-screen">
     
-    <!-- TOPBAR NAVBAR DENGAN WARNA GRADIENT KHAS -->
+    <!-- TOPBAR NAVBAR -->
     <header class="bg-theme-gradient text-white sticky top-0 z-30 shadow-md">
       <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Sisi Kiri: Logo BCS Logistics Sesuai Gambar -->
+        <!-- Sisi Kiri: Logo GrahaTrans pada Navbar -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
-          <div class="flex items-center gap-1 font-black text-sm">
-            <span class="bg-blue-600 text-white px-2.5 py-1 rounded-md shadow-sm">BCS</span>
-            <span class="bg-[#f97316] text-white px-2.5 py-1 rounded-md shadow-sm">Logistics</span>
+          <div class="bg-white/95 px-2.5 py-1 rounded-xl shadow-sm flex items-center">
+            <img src="grahatrans-logo.png" alt="GrahaTrans" class="h-6 object-contain" />
           </div>
           <span class="text-white/40 font-light">|</span>
           <span class="text-white/90 text-xs font-semibold tracking-wide">Main Dashboard</span>
@@ -173,7 +177,6 @@
 
         <!-- Sisi Kanan: Search Bar, Ikon & Profil Karyawan -->
         <div class="flex items-center space-x-4">
-          <!-- Kolom Pencarian Cepat Header -->
           <div class="relative hidden md:block w-72">
             <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
             <input type="text" placeholder="Search modules..." class="w-full pl-9 pr-3 py-1.5 rounded-full bg-white text-slate-800 placeholder-slate-400 text-xs border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-inner" />
@@ -191,14 +194,13 @@
 
           <span class="text-white/30 font-light">|</span>
 
-          <!-- Profil User Sesuai Gambar -->
+          <!-- Profil User -->
           <div class="flex items-center space-x-2.5">
             <div class="text-right hidden sm:block">
               <div id="userNameTop" class="text-xs font-extrabold text-white leading-tight">THAHIRA QANITA</div>
               <div id="userRoleTop" class="text-[10px] text-blue-200 font-semibold uppercase tracking-wider">STAFF_HR</div>
             </div>
 
-            <!-- Avatar Lingkaran TQ Sesuai Gambar -->
             <div id="userHeaderAvatar" class="w-8 h-8 rounded-full bg-[#1b2b48] border border-white/30 text-white flex items-center justify-center font-bold text-xs shadow">
               TQ
             </div>
@@ -219,12 +221,11 @@
     <!-- WRAPPER KONTEN UTAMA: SIDEBAR KIRI + WORKSPACE KANAN -->
     <div class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
       
-      <!-- ==================== SIDEBAR KIRI (PERSIS GAMBAR) ==================== -->
+      <!-- SIDEBAR KIRI -->
       <aside class="w-full lg:w-64 flex-shrink-0 space-y-4">
         
-        <!-- Card Human Capital Management System -->
         <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+          <div class="w-9 h-9 rounded-xl bg-blue-50 text-[#1e3c72] flex items-center justify-center font-bold">
             <i data-lucide="users" class="w-5 h-5"></i>
           </div>
           <div>
@@ -233,7 +234,6 @@
           </div>
         </div>
 
-        <!-- Section Menu TALENT & ORGANIZATION -->
         <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm space-y-1">
           <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-2">
             TALENT & ORGANIZATION
@@ -262,10 +262,10 @@
 
       </aside>
 
-      <!-- ==================== WORKSPACE UTAMA KANAN ==================== -->
+      <!-- WORKSPACE UTAMA KANAN -->
       <main class="flex-1 min-w-0 space-y-6" id="mainContent">
 
-        <!-- 1. TITLE BAR ATAS (PERSIS SEPERTI GAMBAR) -->
+        <!-- 1. TITLE BAR ATAS -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-0.5 border border-amber-200/60">
@@ -279,40 +279,36 @@
                 </span>
               </div>
               <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                Pusat pengembangan kompetensi, sertifikasi pengemudi, evaluasi multi-level Kirkpatrick, dan kepatuhan K3 PT BCS Logistics
+                Pusat pengembangan kompetensi armada, sertifikasi pengemudi, evaluasi multi-level Kirkpatrick, dan kepatuhan K3 PT GrahaTrans
               </p>
             </div>
           </div>
 
-          <!-- Action Buttons Pojok Kanan Atas Sesuai Gambar -->
           <div class="flex items-center gap-2.5 flex-shrink-0">
             <button onclick="app.navigate('programs')" class="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
               <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Portal Karyawan
             </button>
-            <button onclick="document.getElementById('addRoadmapModal').classList.remove('hidden')" class="px-4 py-2 rounded-xl bg-[#281b3b] hover:bg-[#1a1128] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+            <button onclick="document.getElementById('addRoadmapModal').classList.remove('hidden')" class="px-4 py-2 rounded-xl bg-[#1e3c72] hover:bg-[#16325c] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Pelatihan Baru
             </button>
           </div>
         </div>
 
-        <!-- 2. ENAM KARTU KPI METRIC CARDS (PERSIS GAMBAR REFERENSI) -->
+        <!-- 2. ENAM KARTU KPI METRIC CARDS -->
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
           
-          <!-- Metric 1: Total Pelatihan -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">TOTAL PELATIHAN</div>
             <div class="text-2xl font-black text-slate-900 mt-1">16</div>
             <div class="text-[10px] font-bold text-emerald-600 mt-0.5">Program Aktif</div>
           </div>
 
-          <!-- Metric 2: Peserta Aktif -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">PESERTA AKTIF</div>
             <div class="text-2xl font-black text-slate-900 mt-1">135</div>
             <div class="text-[10px] font-bold text-blue-600 mt-0.5">Driver & Staff Lapangan</div>
           </div>
 
-          <!-- Metric 3: Kepuasan Lvl 1 -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">KEPUASAN LVL 1</div>
             <div class="text-2xl font-black text-amber-500 mt-1 flex items-center gap-1">
@@ -321,21 +317,18 @@
             <div class="text-[10px] font-bold text-amber-600 mt-0.5">Reaksi Peserta Training</div>
           </div>
 
-          <!-- Metric 4: Review Atasan -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">REVIEW ATASAN</div>
             <div class="text-2xl font-black text-slate-900 mt-1">0</div>
             <div class="text-[10px] font-bold text-emerald-600 mt-0.5">Due Date H+3 Bulan</div>
           </div>
 
-          <!-- Metric 5: Kepatuhan K3 -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">KEPATUHAN K3</div>
             <div class="text-2xl font-black text-emerald-600 mt-1">94.5%</div>
             <div class="text-[10px] font-bold text-emerald-700 mt-0.5">Safety Test 2026</div>
           </div>
 
-          <!-- Metric 6: Sertifikat Terbit -->
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
             <div class="text-[10px] font-extrabold uppercase text-slate-400">SERTIFIKAT TERBIT</div>
             <div class="text-2xl font-black text-purple-600 mt-1">2</div>
@@ -344,7 +337,7 @@
 
         </div>
 
-        <!-- 3. CONTAINER TAB BAR UTAMA (PERSIS SEPERTI GAMBAR 1 & 2) -->
+        <!-- 3. CONTAINER TAB BAR UTAMA -->
         <div class="bg-[#8b92a5] p-1.5 rounded-2xl flex items-center space-x-1 overflow-x-auto text-xs font-bold text-slate-200">
           <button id="tabNavPrograms" onclick="app.setActiveTab('programs')" class="px-4 py-2.5 rounded-xl bg-white text-slate-800 shadow-sm flex items-center gap-2 whitespace-nowrap transition">
             <i data-lucide="graduation-cap" class="w-4 h-4 text-[#1e3c72]"></i> Program Pelatihan
@@ -373,7 +366,7 @@
 
   </div>
 
-  <!-- ==================== 3. MODAL GANTI PASSWORD ==================== -->
+  <!-- MODAL GANTI PASSWORD -->
   <div id="changePasswordModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
       <div class="flex items-center justify-between pb-3 border-b mb-5">
@@ -404,7 +397,7 @@
     </div>
   </div>
 
-  <!-- ==================== 4. MODAL SUPABASE CONFIG (DENGAN AUTO-CLEAN URL) ==================== -->
+  <!-- MODAL SUPABASE CONFIG -->
   <div id="supabaseModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-6">
       <div class="flex items-center justify-between pb-3 border-b mb-4">
@@ -415,7 +408,7 @@
       </div>
 
       <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika Anda tidak sengaja memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
+        Sistem dilengkapi <strong>fitur auto-clean URL</strong> (jika memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
       </p>
 
       <form onsubmit="app.saveSupabaseConfig(event)" class="space-y-4 text-xs">
@@ -435,7 +428,7 @@
     </div>
   </div>
 
-  <!-- ==================== 5. MODAL TAMBAH MODUL BARU ==================== -->
+  <!-- MODAL TAMBAH MODUL BARU -->
   <div id="addRoadmapModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-6">
       <div class="flex items-center justify-between pb-3 border-b mb-5">
@@ -485,9 +478,8 @@
   <!-- Modal Sertifikat Resmi Siap Cetak -->
   <div id="modalContainer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto"></div>
 
-  <!-- ==================== 6. CORE JAVASCRIPT APP LOGIC ==================== -->
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
   <script>
-    // Data Kursus & Soal Lengkap Sesuai Gambar Referensi
     const DEFAULT_COURSES = [
       {
         id: 'CRS-TEC-0020',
@@ -500,7 +492,7 @@
         level: 'Basic',
         target: 'Target: General Affairs',
         cost: 'Rp 500.000',
-        session: '2026-10-05 • 09:00 - 11:30 WIB (Ruang Aula BCS Cilegon)',
+        session: '2026-10-05 • 09:00 - 11:30 WIB (Ruang Aula GrahaTrans)',
         isOffline: true,
         duration: '2 Jam',
         moduleCount: 3,
@@ -556,7 +548,7 @@
 
     const DEFAULT_CERTIFICATES = [
       {
-        certNo: 'CERT-BCS-2026-0892',
+        certNo: 'CERT-GT-2026-0892',
         name: 'BAMBANG HERMAWAN',
         course: 'Defensive Driving & Road Safety Certification',
         category: 'Operations',
@@ -565,9 +557,9 @@
         expiry: 's/d 28 Agustus 2027 (AKTIF 1 TAHUN)'
       },
       {
-        certNo: 'CERT-BCS-2026-0889',
+        certNo: 'CERT-GT-2026-0889',
         name: 'GUNTORO MUHAMAD',
-        course: 'Panduan Operasional Mobile Apps Driver & ERP Core BCS',
+        course: 'Panduan Operasional Mobile Apps Driver & ERP Core GrahaTrans',
         category: 'Digital Systems',
         score: 95,
         issueDate: '2026-08-22',
@@ -575,21 +567,11 @@
       }
     ];
 
-    const QUESTION_BANK = {
-      'c1_pre_test': [
-        { id: 1, question: 'Sebelum berkendara, hal paling pertama yang harus dicek pada checklist K3 armada adalah:', options: ['Suhu AC kabin', 'Kondisi rem, tekanan ban, dan lampu utama', 'Musik radio', 'Kerapian jok'], correct: 1 }
-      ],
-      'c1_post_test': [
-        { id: 1, question: 'Prinsip utama Defensive Driving saat menghadapi blind spot kendaraan besar adalah:', options: ['Membunyikan klakson terus-menerus', 'Menjaga jarak aman minimal 3-4 detik dan memastikan kaca spion jelas', 'Menyalip dari bahu jalan kiri', 'Mempercepat laju armada'], correct: 1 }
-      ]
-    };
-
     window.app = {
       currentUser: null,
       activeTab: 'programs',
       courses: [...DEFAULT_COURSES],
       certificates: [...DEFAULT_CERTIFICATES],
-      courseProgress: {},
       supabase: null,
 
       init() {
@@ -598,13 +580,11 @@
         lucide.createIcons();
       },
 
-      // FUNGSI INISIALISASI DENGAN URL AUTO-CLEANER
       initSupabaseClient() {
         let rawUrl = localStorage.getItem('innotalent_sb_url') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.url : '');
         let rawKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
         if (rawUrl && rawKey && !rawUrl.includes('YOUR_PROJECT_ID')) {
-          // AUTO-CLEAN: Hapus /rest/v1 atau slash di ujung secara otomatis!
           const cleanUrl = rawUrl.trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
           const cleanKey = rawKey.trim();
 
@@ -641,7 +621,6 @@
         let url = document.getElementById('cfgSbUrl').value.trim();
         let key = document.getElementById('cfgSbKey').value.trim();
 
-        // Bersihkan otomatis
         url = url.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
 
         localStorage.setItem('innotalent_sb_url', url);
@@ -733,7 +712,6 @@
           }
         }
 
-        // Fallback jika login cepat
         btn.disabled = false;
         btn.innerHTML = '<i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran';
         let role = email.includes('admin') ? 'tod_admin' : 'learner';
@@ -797,7 +775,6 @@
           }
         }
 
-        // Fallback
         btn.disabled = false;
         btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya';
         alert('🎉 Akun Anda berhasil terdaftar!');
@@ -839,7 +816,6 @@
         document.getElementById('changePasswordModal').classList.add('hidden');
       },
 
-      // TAB NAVIGATION
       setActiveTab(tabName) {
         this.activeTab = tabName;
         const tabs = ['programs', 'schedule', 'kirkpatrick', 'assessment', 'certificates'];
@@ -865,7 +841,7 @@
             <div class="bg-white rounded-2xl border border-slate-200/90 p-12 text-center text-slate-500 space-y-2">
               <i data-lucide="info" class="w-8 h-8 mx-auto text-[#1e3c72]"></i>
               <h3 class="font-bold text-sm text-slate-800">Modul ${tabName.toUpperCase()} Siap Diisi Data</h3>
-              <p class="text-xs">Sistem monitoring terhubung dengan standarisasi PT Buana Centra Swakarsa Logistics.</p>
+              <p class="text-xs">Sistem monitoring terhubung dengan standarisasi PT GrahaTrans.</p>
             </div>
           `;
         }
@@ -873,12 +849,10 @@
         lucide.createIcons();
       },
 
-      // TAB 1: PROGRAM PELATIHAN (PERSIS GAMBAR 1)
       renderProgramsTab(container) {
         container.innerHTML = `
           <div class="space-y-4">
             
-            <!-- Filter Bar Sesuai Gambar 1 -->
             <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-3">
               <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div class="relative flex-1">
@@ -896,7 +870,6 @@
                 </div>
               </div>
 
-              <!-- Filter Sekunder: Klasifikasi Based -->
               <div class="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px]">
                 <span class="font-extrabold text-slate-400 uppercase text-[10px]">KLASIFIKASI BASED:</span>
                 <span class="px-2 py-0.5 rounded bg-slate-800 text-white font-bold">All</span>
@@ -906,17 +879,14 @@
               </div>
             </div>
 
-            <!-- GRID KARTU KURSUS MODERN (PERSIS GAMBAR 1) -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               ${this.courses.map(c => `
                 <div class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
                   <div>
-                    <!-- Cover Image & Badges Sesuai Gambar 1 -->
                     <div class="relative h-44 bg-slate-900 overflow-hidden">
                       <img src="${c.image}" class="w-full h-full object-cover opacity-80" alt="Cover" />
                       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                       
-                      <!-- Top Badges -->
                       <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
                         <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase text-white ${c.classification === 'GAP COMPETENCY' ? 'bg-purple-600' : 'bg-amber-600'}">
                           ${c.classification}
@@ -929,7 +899,6 @@
                         </span>
                       </div>
 
-                      <!-- Rating Star -->
                       <div class="absolute bottom-2.5 right-2.5 flex items-center gap-1 text-amber-400 font-black text-xs bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
                         <span>★</span> <span>${c.rating}</span>
                       </div>
@@ -939,7 +908,6 @@
                       </div>
                     </div>
 
-                    <!-- Content Details -->
                     <div class="p-4 space-y-2.5">
                       <h3 class="font-extrabold text-sm text-slate-900 leading-snug">${c.title}</h3>
                       
@@ -948,7 +916,6 @@
                         <span class="font-bold text-emerald-600">${c.cost}</span>
                       </div>
 
-                      <!-- Sesi Terdekat Box Sesuai Gambar -->
                       <div class="p-2.5 rounded-xl border border-slate-200/80 bg-slate-50/70 text-[11px] space-y-1">
                         <div class="flex items-center justify-between">
                           <span class="font-extrabold text-[10px] text-slate-500 uppercase">SESI TERDEKAT:</span>
@@ -961,7 +928,6 @@
                     </div>
                   </div>
 
-                  <!-- Card Footer -->
                   <div class="p-4 pt-0">
                     <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium mb-3">
                       <span><i data-lucide="clock" class="w-3 h-3 inline"></i> ${c.duration}</span>
@@ -981,19 +947,17 @@
         `;
       },
 
-      // TAB 5: LAPORAN & E-SERTIFIKAT (PERSIS GAMBAR 2)
       renderCertificatesTab(container) {
         container.innerHTML = `
           <div class="space-y-5">
             
-            <!-- Header Pusat Laporan Sesuai Gambar 2 -->
             <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <div class="flex items-center gap-2">
                   <h2 class="text-base font-extrabold text-slate-900">Pusat Laporan & Rekapitulasi Pembelajaran (LMS)</h2>
-                  <span class="text-[9px] font-black px-2 py-0.5 rounded bg-slate-100 text-slate-700 uppercase">STANDARD BCS</span>
+                  <span class="text-[9px] font-black px-2 py-0.5 rounded bg-slate-100 text-slate-700 uppercase">STANDARD GRAHATRANS</span>
                 </div>
-                <p class="text-xs text-slate-500 mt-0.5">5 Laporan master berstandar PT Buana Centra Swakarsa Logistics & E-Sertifikat Terverifikasi</p>
+                <p class="text-xs text-slate-500 mt-0.5">5 Laporan master berstandar PT GrahaTrans & E-Sertifikat Terverifikasi</p>
               </div>
 
               <button onclick="alert('Mengunduh data sertifikat dalam format CSV...')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
@@ -1001,26 +965,23 @@
               </button>
             </div>
 
-            <!-- Sub Tab Laporan Sesuai Gambar 2 -->
             <div class="flex items-center gap-2 overflow-x-auto text-xs font-bold text-slate-600 pb-1">
               <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">1. Annual Report Pelatihan (16)</span>
               <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">2. Laporan Kehadiran (22)</span>
               <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">3. Laporan Asesmen (2)</span>
               <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">4. Laporan GAP Kompetensi (TNA)</span>
-              <span class="px-3.5 py-2 rounded-xl bg-[#281b3b] text-white cursor-pointer shadow-sm">5. E-Sertifikat Digital (2)</span>
+              <span class="px-3.5 py-2 rounded-xl bg-[#1e3c72] text-white cursor-pointer shadow-sm">5. E-Sertifikat Digital (2)</span>
             </div>
 
-            <!-- Card Rekapitulasi E-Sertifikat Resmi Sesuai Gambar 2 -->
             <div class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm">
               <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                 <div>
                   <h3 class="font-extrabold text-xs text-slate-900 tracking-wider">REKAPITULASI E-SERTIFIKAT DIGITAL RESMI</h3>
-                  <p class="text-[11px] text-slate-500">Daftar sertifikat kelulusan ber-QR code otentikasi siap cetak A4 landscape standard BCS.</p>
+                  <p class="text-[11px] text-slate-500">Daftar sertifikat kelulusan ber-QR code otentikasi siap cetak A4 landscape standard GrahaTrans.</p>
                 </div>
                 <span class="text-[11px] text-slate-400 font-semibold">Sertifikat: 2 Lembar</span>
               </div>
 
-              <!-- Tabel Data Sesuai Gambar 2 -->
               <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs text-slate-600">
                   <thead class="bg-slate-50 text-[10px] font-black text-slate-500 uppercase border-b border-slate-100">
@@ -1050,7 +1011,7 @@
                           </span>
                         </td>
                         <td class="p-3.5 text-center">
-                          <button onclick="app.showCertificateModal('${item.certNo}', '${item.course}', ${item.score})" class="px-3 py-1.5 rounded-xl bg-[#281b3b] hover:bg-[#1a1128] text-white font-bold text-[11px] shadow transition inline-flex items-center gap-1.5">
+                          <button onclick="app.showCertificateModal('${item.certNo}', '${item.course}', ${item.score})" class="px-3 py-1.5 rounded-xl bg-[#1e3c72] hover:bg-[#16325c] text-white font-bold text-[11px] shadow transition inline-flex items-center gap-1.5">
                             <i data-lucide="award" class="w-3.5 h-3.5"></i> Lihat Sertifikat
                           </button>
                         </td>
@@ -1066,7 +1027,6 @@
         `;
       },
 
-      // FUNGSI KURSUS: PRE-TEST -> MATERI -> POST-TEST
       startCourse(courseId) {
         const c = this.courses.find(item => item.courseId === courseId) || this.courses[0];
         const container = document.getElementById('tabContentContainer');
@@ -1081,7 +1041,6 @@
               <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-[#1e3c72]">Passing Grade: ${c.passingScore}%</span>
             </div>
 
-            <!-- Stepper Pembelajaran Gated -->
             <div class="space-y-4">
               <div class="border-b pb-2">
                 <span class="text-[10px] font-black uppercase text-amber-600 tracking-wider">Tahap 1: Pre-Test Awal</span>
@@ -1180,14 +1139,13 @@
         }
       },
 
-      // MODAL SERTIFIKAT PERSIS STANDAR BCS A4
       showCertificateModal(certId, courseTitle, score) {
         const u = this.currentUser || { name: 'BAMBANG HERMAWAN' };
         const container = document.getElementById('modalContainer');
         container.innerHTML = `
           <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
             <div class="flex justify-between pb-3 border-b mb-4">
-              <span class="font-bold text-xs text-slate-700">Kredensial Resmi E-Sertifikat Digital BCS</span>
+              <span class="font-bold text-xs text-slate-700">Kredensial Resmi E-Sertifikat Digital GrahaTrans</span>
               <div class="flex gap-2">
                 <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-theme-gradient text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
                   <i data-lucide="printer" class="w-3.5 h-3.5"></i> Cetak PDF
@@ -1196,7 +1154,7 @@
               </div>
             </div>
             <div id="printableCertificate" class="certificate-frame p-8 sm:p-10 rounded-2xl text-center relative bg-white">
-              <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest mb-1">PT BUANA CENTRA SWAKARSA LOGISTICS</div>
+              <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest mb-1">PT GRAHA TRANS INDONESIA</div>
               <div class="text-xs text-slate-400 font-serif italic mb-4">Enterprise Competency & Safety Certification</div>
               <div class="text-xs text-slate-500 mb-1">Diberikan secara terhormat kepada:</div>
               <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2 font-serif text-[#1e3c72]">${u.name}</h1>
