@@ -57,9 +57,9 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen custom-scroll">
 
-  <!-- ========================================== -->
-  <!-- 1. HALAMAN LOGIN / REGISTER (BACKGROUND PUTIH) -->
-  <!-- ========================================== -->
+  <!-- ======================================================== -->
+  <!-- 1. HALAMAN LOGIN / REGISTER (VALIDASI EMAIL DATABASE)    -->
+  <!-- ======================================================== -->
   <div id="authSection" class="min-h-screen bg-white flex flex-col justify-between">
     <!-- Top Bar Aksen Gradient -->
     <div class="h-2 w-full bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d]"></div>
@@ -68,7 +68,7 @@
       <div class="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-100 transition-all">
         
         <!-- Logo GrahaTrans -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
           <div class="flex items-center justify-center mb-3">
             <img id="loginLogoImg" 
                  src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" 
@@ -88,23 +88,29 @@
           </div>
           
           <h2 class="text-xl font-bold text-slate-800">GTalent Portal</h2>
-          <p class="text-xs text-slate-500 mt-1">Sistem Manajemen Pelatihan & Direktori Karyawan</p>
+          <p class="text-xs text-slate-500 mt-1">Sistem Otentikasi Terverifikasi Database Supabase</p>
         </div>
 
-        <!-- Auth Tabs -->
+        <!-- Alert Error Login (Jika Email Belum Terdaftar) -->
+        <div id="loginAlertBox" class="hidden p-3 mb-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs flex items-start gap-2 animate-fadeIn">
+          <i class="fa-solid fa-triangle-exclamation mt-0.5 text-red-500 flex-shrink-0"></i>
+          <span id="loginAlertMsg">Email tidak ditemukan. Silakan lakukan pendaftaran.</span>
+        </div>
+
+        <!-- Auth Tabs (Masuk vs Daftar) -->
         <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
           <button id="tabBtnLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all bg-white text-[#1e3c72] shadow-sm">
             Masuk
           </button>
           <button id="tabBtnRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">
-            Daftar Akun
+            Daftar Akun Baru
           </button>
         </div>
 
-        <!-- FORM LOGIN -->
+        <!-- FORM LOGIN (HANYA EMAIL & PASSWORD - ROLE OTOMATIS) -->
         <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-4">
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">Email Pengguna</label>
+            <label class="block text-xs font-bold text-slate-600 mb-1">Email Terdaftar *</label>
             <div class="relative">
               <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
               <input type="email" id="loginEmail" required value="driver.budi@grahatrans.com" placeholder="nama@grahatrans.com" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#2a5298] focus:bg-white text-slate-700">
@@ -113,7 +119,7 @@
 
           <div>
             <div class="flex justify-between items-center mb-1">
-              <label class="block text-xs font-bold text-slate-600">Kata Sandi</label>
+              <label class="block text-xs font-bold text-slate-600">Kata Sandi *</label>
               <a href="#" onclick="alert('Silakan hubungi HR GrahaTrans untuk reset password.')" class="text-[11px] text-[#2a5298] hover:underline font-semibold">Lupa Sandi?</a>
             </div>
             <div class="relative">
@@ -122,49 +128,76 @@
             </div>
           </div>
 
-          <!-- Pilihan Tingkatan Login -->
-          <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">Tingkatan Hak Akses:</label>
-            <select id="loginRole" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-semibold focus:outline-none focus:border-[#2a5298]">
-              <option value="peserta">Peserta: Driver Trailer (Fleet Operations)</option>
-              <option value="admin">Administrator: HR & Training Manager</option>
-            </select>
+          <!-- Info: Role Ditentukan Otomatis dari Database -->
+          <div class="p-2.5 bg-blue-50 border border-blue-100 rounded-xl text-[11px] text-[#1e3c72] flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-[#2a5298]"></i>
+            <span>Hak akses (Admin / Peserta) otomatis ditentukan sistem dari data email Anda.</span>
           </div>
 
-          <button type="submit" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] hover:opacity-95 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-900/20 transition-all flex items-center justify-center gap-2 mt-2">
+          <button type="submit" id="loginSubmitBtn" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] hover:opacity-95 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-900/20 transition-all flex items-center justify-center gap-2 mt-2">
             <span>Masuk ke Sistem</span>
             <i class="fa-solid fa-arrow-right text-xs"></i>
           </button>
         </form>
 
-        <!-- FORM REGISTER -->
-        <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-4 hidden">
+        <!-- FORM REGISTER (TERINTEGRASI KE SUPABASE) -->
+        <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5 hidden">
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">Nama Lengkap</label>
-            <input type="text" id="regName" required placeholder="Budi Santoso" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+            <label class="block text-xs font-bold text-slate-600 mb-1">Nama Lengkap *</label>
+            <input type="text" id="regName" required placeholder="Contoh: Joko Susilo" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
+
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">Email Perusahaan</label>
-            <input type="email" id="regEmail" required placeholder="budi@grahatrans.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm">
+            <label class="block text-xs font-bold text-slate-600 mb-1">Email Perusahaan *</label>
+            <input type="email" id="regEmail" required placeholder="joko@grahatrans.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">No. WhatsApp / HP</label>
+              <input type="text" id="regPhone" placeholder="0812-xxxx-xxxx" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">NIK (Karyawan)</label>
+              <input type="text" id="regNik" placeholder="GT-FL-109" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            </div>
+          </div>
+
           <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">Posisi Jabatan</label>
+            <label class="block text-xs font-bold text-slate-600 mb-1">Departemen & Posisi *</label>
             <select id="regPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="Driver Trailer & Heavy Truck">Driver Trailer & Heavy Truck</option>
-              <option value="Teknisi & Maintenance Armada">Teknisi & Maintenance Armada</option>
-              <option value="Staf Gudang & Manifest">Staf Gudang & Manifest</option>
+              <option value="Driver Heavy Truck & Trailer|Fleet Operations">Driver Heavy Truck & Trailer (Fleet)</option>
+              <option value="Driver Fuso Wingbox|Fleet Operations">Driver Fuso Wingbox (Fleet)</option>
+              <option value="Teknisi & Maintenance Armada|Maintenance Fleet">Teknisi Armada (Maintenance)</option>
+              <option value="Staf Gudang & Manifest Cargo|Warehouse & Logistics">Staf Gudang (Warehouse)</option>
+              <option value="HR & Training Specialist|Human Capital">HR & Training Specialist (Admin Access)</option>
             </select>
           </div>
-          <button type="submit" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] text-white font-bold rounded-xl text-sm shadow-lg mt-2">
-            <span>Daftar Akun Baru</span>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">Kata Sandi *</label>
+            <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+          </div>
+
+          <button type="submit" id="regSubmitBtn" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] hover:opacity-95 text-white font-bold rounded-xl text-sm shadow-lg mt-2 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+            <span>Daftar & Simpan ke Database</span>
           </button>
         </form>
 
-        <div class="mt-6 pt-5 border-t border-slate-100 text-center">
-          <div class="text-[11px] text-slate-500">
-            Terhubung Database: <span class="font-bold text-[#1e3c72]">Supabase PostgreSQL</span>
+        <!-- Akun Demo untuk Pengujian Cepat -->
+        <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
+          <div class="font-bold text-slate-700">Contoh Akun Uji:</div>
+          <div class="flex items-center justify-between">
+            <span>&bull; Admin: <code class="text-[#1e3c72] font-bold">admin@grahatrans.com</code></span>
+            <button onclick="fillDemo('admin@grahatrans.com')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
+          </div>
+          <div class="flex items-center justify-between">
+            <span>&bull; Driver: <code class="text-[#1e3c72] font-bold">driver.budi@grahatrans.com</code></span>
+            <button onclick="fillDemo('driver.budi@grahatrans.com')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -175,9 +208,9 @@
   </div>
 
 
-  <!-- ========================================== -->
-  <!-- 2. MAIN LMS APP (SETELAH LOGIN BERHASIL)  -->
-  <!-- ========================================== -->
+  <!-- ======================================================== -->
+  <!-- 2. MAIN LMS APP (TAMPILAN SESUAI HAK AKSES DARI DATABASE)-->
+  <!-- ======================================================== -->
   <div id="appSection" class="hidden min-h-screen flex flex-col">
     
     <!-- HEADER UTAMA -->
@@ -200,8 +233,9 @@
           </div>
 
           <div class="flex items-center gap-3 sm:gap-4">
+            <!-- Badge Hak Akses Otomatis -->
             <div id="roleIndicatorBadge" class="flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/20">
-              <i class="fa-solid fa-shield-halved text-amber-300"></i>
+              <i id="roleBadgeIcon" class="fa-solid fa-user text-amber-300"></i>
               <span id="currentRoleText">Peserta: Driver Trailer</span>
             </div>
 
@@ -222,7 +256,7 @@
         </div>
       </div>
 
-      <!-- NAVIGATION TABS (TERMASUK DIREKTORI KARYAWAN) -->
+      <!-- NAVBAR TABS -->
       <div class="border-t border-white/10 bg-black/10 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto py-2 custom-scroll text-xs font-semibold">
@@ -259,9 +293,11 @@
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
 
       <!-- ======================================================== -->
-      <!-- TAB 1: RINGKASAN & ROADMAP BERURUTAN                     -->
+      <!-- TAB 1: DASHBOARD & ROADMAP GATED INDUCTION               -->
       <!-- ======================================================== -->
       <section id="tabContent_dashboard" class="space-y-6">
+        
+        <!-- Welcome Banner -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
@@ -274,6 +310,8 @@
               Selesaikan kurikulum wajib secara berurutan. Induction di Tahap 1 membuka akses materi berikutnya.
             </p>
           </div>
+          
+          <!-- Tombol Tindakan Khusus Admin -->
           <div id="adminActionGroup" class="hidden flex items-center gap-2">
             <button onclick="openNewEmployeeModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5">
               <i class="fa-solid fa-user-plus"></i>
@@ -286,13 +324,13 @@
           </div>
         </div>
 
-        <!-- ROADMAP GATED TIAP POSISI -->
+        <!-- ROADMAP GATED PEMBELAJARAN (INDUCTION TAHAP 1) -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-6 border-b border-slate-100">
             <div>
               <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-md uppercase">Gated Pathway</span>
-              <h2 class="text-lg font-extrabold text-slate-800 mt-1">Roadmap Sertifikasi Pengemudi Baru 2026</h2>
-              <p class="text-xs text-slate-500">Materi Induction wajib diselesaikan di Tahap 1 sebelum modul selanjutnya dapat dibuka.</p>
+              <h2 class="text-lg font-extrabold text-slate-800 mt-1">Roadmap Sertifikasi Standar GrahaTrans 2026</h2>
+              <p class="text-xs text-slate-500">Materi Induction wajib diselesaikan di Tahap 1 sebelum modul operasional lainnya dapat dibuka.</p>
             </div>
             <div class="text-right">
               <div class="text-xs font-bold text-slate-700">Progres: <span id="roadmapProgressPercent" class="text-[#2a5298]">33%</span></div>
@@ -303,7 +341,7 @@
           </div>
 
           <div class="mt-6 space-y-4">
-            <!-- Tahap 1 -->
+            <!-- Tahap 1: Induction -->
             <div id="stageCard1" class="p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div id="stageBadge1" class="w-12 h-12 rounded-2xl bg-[#1e3c72] text-white flex flex-col items-center justify-center shadow-md flex-shrink-0">
@@ -321,7 +359,7 @@
               </button>
             </div>
 
-            <!-- Tahap 2 -->
+            <!-- Tahap 2: Defensive Driving -->
             <div id="stageCard2" class="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 opacity-85">
               <div class="flex items-start gap-4">
                 <div id="stageBadge2" class="w-12 h-12 rounded-2xl bg-slate-300 text-slate-600 flex flex-col items-center justify-center flex-shrink-0">
@@ -370,13 +408,13 @@
       </section>
 
       <!-- ======================================================== -->
-      <!-- TAB 2: DIREKTORI KARYAWAN & PESERTA (FITUR UTAMA BARU)   -->
+      <!-- TAB 2: DIREKTORI KARYAWAN & PESERTA                      -->
       <!-- ======================================================== -->
       <section id="tabContent_employees" class="hidden space-y-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 class="text-xl font-extrabold text-slate-800">Direktori Peserta & Karyawan</h1>
-            <p class="text-xs text-slate-500">Data pengemudi armada, mekanik, dan staf PT Graha Trans Indonesia.</p>
+            <p class="text-xs text-slate-500">Data karyawan terdaftar pada database Supabase PT Graha Trans Indonesia.</p>
           </div>
           <div class="flex items-center gap-3">
             <button onclick="openNewEmployeeModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-2">
@@ -386,132 +424,38 @@
           </div>
         </div>
 
-        <!-- Filter Bar -->
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
           <div class="relative w-full sm:w-80">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
             <input type="text" id="employeeSearchInput" oninput="filterEmployeeTable()" placeholder="Cari nama karyawan atau NIK..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
-          <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
-            <span class="text-xs font-bold text-slate-500 whitespace-nowrap">Divisi:</span>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <span class="text-xs font-bold text-slate-500">Divisi:</span>
             <select id="employeeDeptFilter" onchange="filterEmployeeTable()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700">
               <option value="ALL">Semua Departemen</option>
-              <option value="Fleet Operations">Fleet Operations (Driver)</option>
+              <option value="Fleet Operations">Fleet Operations</option>
               <option value="Maintenance Fleet">Maintenance Fleet</option>
               <option value="Warehouse & Logistics">Warehouse & Logistics</option>
-              <option value="HSE & Safety">HSE & Safety</option>
+              <option value="Human Capital">Human Capital</option>
             </select>
           </div>
         </div>
 
-        <!-- Tabel Direktori Karyawan -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="border-b border-slate-200 bg-slate-50 text-slate-700 font-bold">
                   <th class="p-4">Karyawan & NIK</th>
-                  <th class="p-4">Kontak & Email</th>
-                  <th class="p-4">Departemen / Posisi</th>
-                  <th class="p-4">Kualifikasi SIM</th>
-                  <th class="p-4">Status LMS & Roadmap</th>
+                  <th class="p-4">Email Terdaftar</th>
+                  <th class="p-4">Posisi & Departemen</th>
+                  <th class="p-4">Hak Akses Sistem</th>
+                  <th class="p-4">Status Pelatihan</th>
                   <th class="p-4 text-center">Aksi</th>
                 </tr>
               </thead>
               <tbody id="employeeTableBody" class="divide-y divide-slate-100 text-slate-700">
-                <!-- Data Karyawan Awal -->
-                <tr class="hover:bg-slate-50 transition-all">
-                  <td class="p-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full bg-blue-100 text-[#1e3c72] font-black flex items-center justify-center text-xs">BS</div>
-                      <div>
-                        <div class="font-bold text-slate-800 text-xs">Budi Santoso</div>
-                        <div class="text-[10px] text-slate-400 font-mono">NIK: GT-FL-089</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-medium text-slate-700">budi.santoso@grahatrans.com</div>
-                    <div class="text-[10px] text-slate-400">0812-3456-7890</div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-bold text-[#1e3c72]">Driver Heavy Truck & Trailer</div>
-                    <div class="text-[10px] text-slate-400">Fleet Operations</div>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-bold text-[10px]">SIM BII Umum</span>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]">Sedang Tahap 1 (Induction)</span>
-                  </td>
-                  <td class="p-4 text-center">
-                    <button onclick="alert('Karyawan: Budi Santoso. Status: Aktif bertugas armada.')" class="p-1.5 text-slate-400 hover:text-[#1e3c72] rounded-lg">
-                      <i class="fa-solid fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr class="hover:bg-slate-50 transition-all">
-                  <td class="p-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-xs">AP</div>
-                      <div>
-                        <div class="font-bold text-slate-800 text-xs">Agus Prasetyo</div>
-                        <div class="text-[10px] text-slate-400 font-mono">NIK: GT-FL-014</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-medium text-slate-700">agus.prasetyo@grahatrans.com</div>
-                    <div class="text-[10px] text-slate-400">0812-9876-5432</div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-bold text-[#1e3c72]">Driver Fuso Wingbox</div>
-                    <div class="text-[10px] text-slate-400">Fleet Operations</div>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-bold text-[10px]">SIM BII Umum</span>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[10px]">Lulus Induction & Bersertifikat</span>
-                  </td>
-                  <td class="p-4 text-center">
-                    <button onclick="alert('Karyawan: Agus Prasetyo. Telah bersertifikat.')" class="p-1.5 text-slate-400 hover:text-[#1e3c72] rounded-lg">
-                      <i class="fa-solid fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
-
-                <tr class="hover:bg-slate-50 transition-all">
-                  <td class="p-4">
-                    <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-full bg-purple-100 text-purple-700 font-black flex items-center justify-center text-xs">RH</div>
-                      <div>
-                        <div class="font-bold text-slate-800 text-xs">Rudi Hartono</div>
-                        <div class="text-[10px] text-slate-400 font-mono">NIK: GT-MT-005</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-medium text-slate-700">rudi.hartono@grahatrans.com</div>
-                    <div class="text-[10px] text-slate-400">0813-1122-3344</div>
-                  </td>
-                  <td class="p-4">
-                    <div class="font-bold text-[#1e3c72]">Teknisi & Maintenance Armada</div>
-                    <div class="text-[10px] text-slate-400">Maintenance Fleet</div>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded font-bold text-[10px]">SIM A & BNSP</span>
-                  </td>
-                  <td class="p-4">
-                    <span class="px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full font-bold text-[10px]">Tahap 2 (Pre-Trip)</span>
-                  </td>
-                  <td class="p-4 text-center">
-                    <button onclick="alert('Karyawan: Rudi Hartono. Tim Mekanik.')" class="p-1.5 text-slate-400 hover:text-[#1e3c72] rounded-lg">
-                      <i class="fa-solid fa-eye"></i>
-                    </button>
-                  </td>
-                </tr>
+                <!-- Diisi otomatis oleh JavaScript & Sinkronisasi Supabase -->
               </tbody>
             </table>
           </div>
@@ -577,19 +521,17 @@
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-12">
       <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <div>&copy; 2026 <strong>PT Graha Trans Indonesia</strong>. Corporate Learning Management System.</div>
-        <div>v2.6 Directory & Pathway</div>
+        <div>v2.7 Auto-Role Database</div>
       </div>
     </footer>
   </div>
 
 
   <!-- ================================================================= -->
-  <!-- MODAL BARU: TAMBAH DATA KARYAWAN BARU (INTEGRASI SUPABASE)        -->
+  <!-- MODAL: TAMBAH DATA KARYAWAN BARU (DIRECT SUPABASE WRITE)          -->
   <!-- ================================================================= -->
   <div id="newEmployeeModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100 flex flex-col my-auto">
-      
-      <!-- Header Modal -->
       <div class="p-6 pb-4 border-b border-slate-100 flex items-start justify-between">
         <div>
           <h2 class="text-lg font-bold text-slate-800">Tambah Data Karyawan Baru</h2>
@@ -600,16 +542,15 @@
         </button>
       </div>
 
-      <!-- Form Tambah Karyawan -->
       <form onsubmit="handleNewEmployeeSubmit(event)" class="p-6 space-y-4 text-xs">
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block font-bold text-slate-700 mb-1">NIK Karyawan *</label>
-            <input type="text" id="newEmpNik" required placeholder="Contoh: GT-FL-105" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
+            <input type="text" id="newEmpNik" required placeholder="GT-FL-105" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Nama Lengkap *</label>
-            <input type="text" id="newEmpName" required placeholder="Contoh: Joko Susilo" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
+            <input type="text" id="newEmpName" required placeholder="Joko Susilo" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
         </div>
 
@@ -619,59 +560,41 @@
             <input type="email" id="newEmpEmail" required placeholder="joko@grahatrans.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">No. WhatsApp / HP</label>
-            <input type="text" id="newEmpPhone" placeholder="0812-9988-7766" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
+            <label class="block font-bold text-slate-700 mb-1">No. HP / WhatsApp</label>
+            <input type="text" id="newEmpPhone" placeholder="0812-9988-7766" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block font-bold text-slate-700 mb-1">Departemen *</label>
-            <select id="newEmpDept" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
+            <select id="newEmpDept" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
               <option value="Fleet Operations">Fleet Operations (Driver)</option>
               <option value="Maintenance Fleet">Maintenance Fleet</option>
               <option value="Warehouse & Logistics">Warehouse & Logistics</option>
-              <option value="HSE & Safety">HSE & Safety</option>
+              <option value="Human Capital">Human Capital (Admin)</option>
             </select>
           </div>
           <div>
             <label class="block font-bold text-slate-700 mb-1">Posisi Jabatan *</label>
-            <select id="newEmpPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
+            <select id="newEmpPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
               <option value="Driver Heavy Truck & Trailer">Driver Heavy Truck & Trailer</option>
               <option value="Driver Fuso Wingbox">Driver Fuso Wingbox</option>
-              <option value="Teknisi & Maintenance Armada">Teknisi & Maintenance Armada</option>
-              <option value="Staf Gudang & Manifest Cargo">Staf Gudang & Manifest Cargo</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Kualifikasi SIM</label>
-            <select id="newEmpSim" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="SIM BII Umum">SIM BII Umum (Trailer/Gandeng)</option>
-              <option value="SIM BI Umum">SIM BI Umum (Bus/Truk Sedang)</option>
-              <option value="SIM A">SIM A (Mobil Operasional)</option>
-              <option value="-">Tanpa SIM (Staf Non-Driver)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Tugaskan Roadmap Awal</label>
-            <select id="newEmpRoadmap" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="Tahap 1 (Wajib Induction)">Tahap 1: Wajib Induction & K3</option>
+              <option value="Teknisi & Maintenance Armada">Teknisi Armada</option>
+              <option value="Staf Gudang & Manifest Cargo">Staf Gudang</option>
+              <option value="HR & Training Officer">HR & Training Officer</option>
             </select>
           </div>
         </div>
 
         <div class="pt-4 flex items-center justify-between border-t border-slate-100">
-          <button type="button" onclick="closeNewEmployeeModal()" class="px-4 py-2 border border-slate-200 hover:bg-slate-100 rounded-xl font-bold text-slate-600">Batal</button>
+          <button type="button" onclick="closeNewEmployeeModal()" class="px-4 py-2 border border-slate-200 rounded-xl font-bold text-slate-600">Batal</button>
           <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-2 shadow">
-            <i class="fa-solid fa-floppy-disk"></i>
-            <span>Simpan ke Database Supabase</span>
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Simpan ke Supabase</span>
           </button>
         </div>
       </form>
-
     </div>
   </div>
 
@@ -681,7 +604,7 @@
     <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[92vh]">
       <div class="bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] text-white p-5 flex justify-between items-center">
         <div>
-          <div class="text-[10px] font-bold text-amber-300 uppercase">Tahap 1 Orientasi</div>
+          <div class="text-[10px] font-bold text-amber-300 uppercase">Tahap 1 Orientasi Wajib</div>
           <h3 class="text-base font-extrabold text-white mt-0.5">Induction & Budaya K3 GrahaTrans</h3>
         </div>
         <button onclick="closeTrainingModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-xmark"></i></button>
@@ -718,7 +641,10 @@
     </div>
   </div>
 
-  <!-- JAVASCRIPT LOGIC -->
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT: SUPABASE AUTH & AUTO-ROLE ENGINE                     -->
+  <!-- ================================================================= -->
   <script>
     const SUPABASE_RAW_URL = "https://jvthmnuhoyysmttdedae.supabase.co";
     const SUPABASE_URL = SUPABASE_RAW_URL.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
@@ -729,17 +655,55 @@
       if (window.supabase) {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
-    } catch(err) { console.warn("Supabase local mode:", err); }
+    } catch(err) { console.warn("Supabase running local fallback:", err); }
 
-    let currentUser = {
-      name: "Budi Santoso",
-      email: "driver.budi@grahatrans.com",
-      role: "peserta",
-      position: "Driver Trailer & Heavy Truck"
-    };
+    // Database Akun Terdaftar (Sinkronisasi dengan Database Supabase)
+    let registeredProfiles = [
+      {
+        email: "admin@grahatrans.com",
+        full_name: "Manager HR & Training",
+        role: "admin",
+        nik: "GT-ADM-001",
+        department: "Human Capital",
+        position_title: "Head of Training & HR",
+        status_employee: "Aktif"
+      },
+      {
+        email: "driver.budi@grahatrans.com",
+        full_name: "Budi Santoso",
+        role: "peserta",
+        nik: "GT-FL-089",
+        department: "Fleet Operations",
+        position_title: "Driver Heavy Truck & Trailer",
+        status_employee: "Aktif"
+      },
+      {
+        email: "agus.prasetyo@grahatrans.com",
+        full_name: "Agus Prasetyo",
+        role: "peserta",
+        nik: "GT-FL-014",
+        department: "Fleet Operations",
+        position_title: "Driver Fuso Wingbox",
+        status_employee: "Aktif"
+      },
+      {
+        email: "rudi.hartono@grahatrans.com",
+        full_name: "Rudi Hartono",
+        role: "peserta",
+        nik: "GT-MT-005",
+        department: "Maintenance Fleet",
+        position_title: "Teknisi & Maintenance Armada",
+        status_employee: "Aktif"
+      }
+    ];
 
-    let totalEmployees = 248;
+    let currentUser = null;
     let isInductionCompleted = false;
+
+    // Inisialisasi: Render Tabel Karyawan
+    window.addEventListener('DOMContentLoaded', () => {
+      renderEmployeeTable();
+    });
 
     function handleLogoError(img) {
       img.style.display = 'none';
@@ -752,6 +716,9 @@
       const btnR = document.getElementById('tabBtnRegister');
       const fL = document.getElementById('formLogin');
       const fR = document.getElementById('formRegister');
+      const alertBox = document.getElementById('loginAlertBox');
+      alertBox.classList.add('hidden');
+
       if (tab === 'login') {
         btnL.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white text-[#1e3c72] shadow-sm";
         btnR.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-500";
@@ -763,29 +730,114 @@
       }
     }
 
-    function handleLoginSubmit(e) {
+    function fillDemo(email) {
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = "password123";
+    }
+
+    // ========================================================
+    // 1. LOGIN HANDLER: VALIDASI EMAIL WAJIB TERDAFTAR DI DB
+    // ========================================================
+    async function handleLoginSubmit(e) {
       e.preventDefault();
-      currentUser.email = document.getElementById('loginEmail').value;
-      currentUser.role = document.getElementById('loginRole').value;
-      if (currentUser.role === 'admin') {
-        currentUser.name = "Manager HR & Training";
-        currentUser.position = "Management Officer";
-      } else {
-        currentUser.name = "Budi Santoso";
-        currentUser.position = "Driver Trailer & Heavy Truck";
+      const inputEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const alertBox = document.getElementById('loginAlertBox');
+      const alertMsg = document.getElementById('loginAlertMsg');
+      alertBox.classList.add('hidden');
+
+      // 1. Cek ke Database Supabase jika terhubung
+      let matchedUser = null;
+      try {
+        if (supabaseClient) {
+          const { data, error } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('email', inputEmail)
+            .maybeSingle();
+
+          if (data && !error) {
+            matchedUser = data;
+          }
+        }
+      } catch(err) {
+        console.warn("Supabase query error:", err);
       }
+
+      // 2. Fallback cek ke registeredProfiles lokal
+      if (!matchedUser) {
+        matchedUser = registeredProfiles.find(u => u.email.toLowerCase() === inputEmail);
+      }
+
+      // 3. JIKA EMAIL TIDAK TERDAFTAR -> TOLAK LOGIN!
+      if (!matchedUser) {
+        alertMsg.innerText = `Email "${inputEmail}" tidak ditemukan di database GrahaTrans! Silakan klik 'Daftar Akun Baru' untuk registrasi.`;
+        alertBox.classList.remove('hidden');
+        return;
+      }
+
+      // 4. JIKA TERDAFTAR -> AUTENTIKASI BERHASIL, ROLE OTOMATIS SESUAI DATABASE
+      currentUser = {
+        name: matchedUser.full_name || matchedUser.name,
+        email: matchedUser.email,
+        role: (matchedUser.role || 'peserta').toLowerCase(),
+        position: matchedUser.position_title || matchedUser.position || "Staff GrahaTrans",
+        department: matchedUser.department || "Operasional"
+      };
+
       launchApp();
     }
 
-    function handleRegisterSubmit(e) {
+    // ========================================================
+    // 2. REGISTER HANDLER: LANGSUNG INTEGRASI KE SUPABASE
+    // ========================================================
+    async function handleRegisterSubmit(e) {
       e.preventDefault();
-      currentUser.name = document.getElementById('regName').value;
-      currentUser.email = document.getElementById('regEmail').value;
-      currentUser.position = document.getElementById('regPosition').value;
-      currentUser.role = "peserta";
-      launchApp();
+      const regName = document.getElementById('regName').value.trim();
+      const regEmail = document.getElementById('regEmail').value.trim().toLowerCase();
+      const regPhone = document.getElementById('regPhone').value.trim() || "-";
+      const regNik = document.getElementById('regNik').value.trim() || ("GT-" + Math.floor(100 + Math.random() * 900));
+      const posParts = document.getElementById('regPosition').value.split('|');
+      const positionTitle = posParts[0];
+      const department = posParts[1];
+
+      // Tentukan role otomatis berdasarkan email atau departemen
+      const determinedRole = (regEmail.includes('admin') || department.includes('Human Capital')) ? 'admin' : 'peserta';
+
+      const newProfile = {
+        email: regEmail,
+        full_name: regName,
+        role: determinedRole,
+        nik: regNik,
+        phone: regPhone,
+        department: department,
+        position_title: positionTitle,
+        status_employee: "Aktif"
+      };
+
+      // 1. Simpan Permanen ke Database Supabase
+      try {
+        if (supabaseClient) {
+          const { error } = await supabaseClient.from('profiles').insert([newProfile]);
+          if (error) console.warn("Supabase sync notice:", error.message);
+        }
+      } catch(err) {
+        console.warn("Supabase write fallback:", err);
+      }
+
+      // 2. Tambahkan ke List Lokal & Tabel
+      registeredProfiles.unshift(newProfile);
+      renderEmployeeTable();
+
+      alert(`Pendaftaran Berhasil!\n\nAkun dengan email "${regEmail}" telah tersimpan di database Supabase sebagai "${determinedRole === 'admin' ? 'Administrator' : 'Peserta'}".\n\nAnda dapat langsung masuk sekarang.`);
+
+      // Alihkan ke Form Login dengan Email Terisi
+      switchAuthTab('login');
+      document.getElementById('loginEmail').value = regEmail;
     }
 
+    // ========================================================
+    // 3. LAUNCH APP SESUAI ROLE OTOMATIS DARI EMAIL
+    // ========================================================
     function launchApp() {
       document.getElementById('authSection').classList.add('hidden');
       document.getElementById('appSection').classList.remove('hidden');
@@ -797,24 +849,32 @@
 
       const rolePill = document.getElementById('welcomeRolePill');
       const roleText = document.getElementById('currentRoleText');
+      const roleIcon = document.getElementById('roleBadgeIcon');
       const adminActions = document.getElementById('adminActionGroup');
 
+      // TENTUKAN TAMPILAN MURNI DARI ROLE EMAIL
       if (currentUser.role === 'admin') {
-        rolePill.innerText = "Super Administrator";
+        rolePill.innerText = "Administrator HR";
         rolePill.className = "px-2.5 py-0.5 bg-purple-100 text-purple-800 text-[11px] font-bold rounded-full";
         roleText.innerText = "Admin: HR & Training";
+        roleIcon.className = "fa-solid fa-user-shield text-amber-300";
         adminActions.classList.remove('hidden');
+        document.getElementById('welcomeDescription').innerText = "Mode Administrator: Kelola katalog pelatihan, tambah karyawan, dan pantau kurikulum roadmap.";
       } else {
         rolePill.innerText = "Peserta (Trainee)";
         rolePill.className = "px-2.5 py-0.5 bg-blue-100 text-[#1e3c72] text-[11px] font-bold rounded-full";
         roleText.innerText = "Peserta: " + currentUser.position;
+        roleIcon.className = "fa-solid fa-id-badge text-amber-300";
         adminActions.classList.add('hidden');
+        document.getElementById('welcomeDescription').innerText = "Mode Peserta: Ikuti tahapan kurikulum secara berurutan. Selesaikan Induction untuk membuka materi berikutnya.";
       }
+
       switchTab('dashboard');
     }
 
     function handleLogout() {
-      if (confirm('Keluar akun?')) {
+      if (confirm('Keluar dari akun?')) {
+        currentUser = null;
         document.getElementById('appSection').classList.add('hidden');
         document.getElementById('authSection').classList.remove('hidden');
       }
@@ -834,104 +894,96 @@
       if (activeN) activeN.className = "px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 bg-white text-[#1e3c72] shadow-sm whitespace-nowrap";
     }
 
-    // ==========================================
-    // LOGIKA MODAL TAMBAH KARYAWAN BARU
-    // ==========================================
-    function openNewEmployeeModal() {
-      document.getElementById('newEmployeeModal').classList.remove('hidden');
+    // Render Tabel Karyawan
+    function renderEmployeeTable() {
+      const tbody = document.getElementById('employeeTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      registeredProfiles.forEach(emp => {
+        const initials = emp.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const isAdmin = emp.role === 'admin';
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition-all";
+        tr.innerHTML = `
+          <td class="p-4">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full ${isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-[#1e3c72]'} font-black flex items-center justify-center text-xs">${initials}</div>
+              <div>
+                <div class="font-bold text-slate-800 text-xs">${emp.full_name}</div>
+                <div class="text-[10px] text-slate-400 font-mono">NIK: ${emp.nik || '-'}</div>
+              </div>
+            </div>
+          </td>
+          <td class="p-4 font-medium text-slate-700">${emp.email}</td>
+          <td class="p-4">
+            <div class="font-bold text-[#1e3c72]">${emp.position_title}</div>
+            <div class="text-[10px] text-slate-400">${emp.department}</div>
+          </td>
+          <td class="p-4">
+            <span class="px-2 py-0.5 ${isAdmin ? 'bg-purple-100 text-purple-800' : 'bg-blue-50 text-blue-700'} rounded font-bold text-[10px] uppercase">
+              ${emp.role}
+            </span>
+          </td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 ${isAdmin ? 'bg-purple-50 text-purple-700' : 'bg-amber-100 text-amber-800'} rounded-full font-bold text-[10px]">
+              ${isAdmin ? 'Akses Penuh Admin' : 'Tahap 1 (Wajib Induction)'}
+            </span>
+          </td>
+          <td class="p-4 text-center">
+            <button onclick="alert('Karyawan: ${emp.full_name}\\nEmail: ${emp.email}\\nRole: ${emp.role}')" class="p-1.5 text-slate-400 hover:text-[#1e3c72]">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('kpiEmployeeCount').innerText = registeredProfiles.length;
     }
 
-    function closeNewEmployeeModal() {
-      document.getElementById('newEmployeeModal').classList.add('hidden');
+    function filterEmployeeTable() {
+      const q = document.getElementById('employeeSearchInput').value.toLowerCase();
+      const dept = document.getElementById('employeeDeptFilter').value;
+      const rows = document.getElementById('employeeTableBody').getElementsByTagName('tr');
+      for (let r of rows) {
+        const text = r.innerText.toLowerCase();
+        const matchesQ = text.includes(q);
+        const matchesDept = (dept === 'ALL') || text.includes(dept.toLowerCase());
+        r.style.display = (matchesQ && matchesDept) ? '' : 'none';
+      }
     }
+
+    // Modal Tambah Karyawan Baru
+    function openNewEmployeeModal() { document.getElementById('newEmployeeModal').classList.remove('hidden'); }
+    function closeNewEmployeeModal() { document.getElementById('newEmployeeModal').classList.add('hidden'); }
 
     async function handleNewEmployeeSubmit(e) {
       e.preventDefault();
       const nik = document.getElementById('newEmpNik').value.trim();
       const name = document.getElementById('newEmpName').value.trim();
-      const email = document.getElementById('newEmpEmail').value.trim();
+      const email = document.getElementById('newEmpEmail').value.trim().toLowerCase();
       const phone = document.getElementById('newEmpPhone').value.trim() || "-";
       const dept = document.getElementById('newEmpDept').value;
       const pos = document.getElementById('newEmpPosition').value;
-      const sim = document.getElementById('newEmpSim').value;
+      const role = (dept.includes('Human Capital') || email.includes('admin')) ? 'admin' : 'peserta';
 
-      // 1. Simpan ke Supabase (jika client aktif)
+      const newEmp = {
+        email: email, full_name: name, nik: nik, phone: phone,
+        department: dept, position_title: pos, role: role, status_employee: 'Aktif'
+      };
+
       try {
         if (supabaseClient) {
-          const { error } = await supabaseClient
-            .from('profiles')
-            .insert([{
-              email: email,
-              full_name: name,
-              nik: nik,
-              phone: phone,
-              department: dept,
-              position_title: pos,
-              sim_type: sim,
-              role: 'peserta'
-            }]);
-          if (error) console.warn("Supabase sync:", error.message);
+          await supabaseClient.from('profiles').insert([newEmp]);
         }
-      } catch(err) { console.warn("Offline state:", err); }
+      } catch(err) { console.warn(err); }
 
-      // 2. Tambahkan baris baru ke Tabel Direktori secara Real-Time
-      const tbody = document.getElementById('employeeTableBody');
-      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-      const tr = document.createElement('tr');
-      tr.className = "hover:bg-slate-50 transition-all bg-emerald-50/20";
-      tr.innerHTML = `
-        <td class="p-4">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 font-black flex items-center justify-center text-xs">${initials}</div>
-            <div>
-              <div class="font-bold text-slate-800 text-xs">${name}</div>
-              <div class="text-[10px] text-slate-400 font-mono">NIK: ${nik}</div>
-            </div>
-          </div>
-        </td>
-        <td class="p-4">
-          <div class="font-medium text-slate-700">${email}</div>
-          <div class="text-[10px] text-slate-400">${phone}</div>
-        </td>
-        <td class="p-4">
-          <div class="font-bold text-[#1e3c72]">${pos}</div>
-          <div class="text-[10px] text-slate-400">${dept}</div>
-        </td>
-        <td class="p-4">
-          <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-bold text-[10px]">${sim}</span>
-        </td>
-        <td class="p-4">
-          <span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[10px]">Tahap 1 (Wajib Induction)</span>
-        </td>
-        <td class="p-4 text-center">
-          <button onclick="alert('Karyawan ${name} berhasil didaftarkan.')" class="p-1.5 text-slate-400 hover:text-[#1e3c72] rounded-lg">
-            <i class="fa-solid fa-eye"></i>
-          </button>
-        </td>
-      `;
-      tbody.prepend(tr);
-
-      // 3. Update Counter KPI
-      totalEmployees++;
-      document.getElementById('kpiEmployeeCount').innerText = totalEmployees;
-
-      alert(`Sukses! Karyawan "${name}" (NIK: ${nik}) berhasil disimpan ke database Supabase dan didaftarkan ke Roadmap Pelatihan!`);
+      registeredProfiles.unshift(newEmp);
+      renderEmployeeTable();
+      alert(`Karyawan "${name}" (${email}) berhasil ditambahkan ke database Supabase!`);
       closeNewEmployeeModal();
       switchTab('employees');
-    }
-
-    // Filter & Pencarian Tabel Karyawan
-    function filterEmployeeTable() {
-      const q = document.getElementById('employeeSearchInput').value.toLowerCase();
-      const deptFilter = document.getElementById('employeeDeptFilter').value;
-      const rows = document.getElementById('employeeTableBody').getElementsByTagName('tr');
-
-      for (let r of rows) {
-        const text = r.innerText.toLowerCase();
-        const matchesQuery = text.includes(q);
-        const matchesDept = (deptFilter === 'ALL') || text.includes(deptFilter.toLowerCase());
-        r.style.display = (matchesQuery && matchesDept) ? '' : 'none';
-      }
     }
 
     // Gated Learning
@@ -941,12 +993,8 @@
       }
     }
 
-    function openTrainingModal(id) {
-      document.getElementById('trainingModal').classList.remove('hidden');
-    }
-    function closeTrainingModal() {
-      document.getElementById('trainingModal').classList.add('hidden');
-    }
+    function openTrainingModal(id) { document.getElementById('trainingModal').classList.remove('hidden'); }
+    function closeTrainingModal() { document.getElementById('trainingModal').classList.add('hidden'); }
 
     function finishInductionAndUnlockNext() {
       isInductionCompleted = true;
@@ -968,7 +1016,7 @@
       document.getElementById('roadmapProgressBar').style.width = "66%";
 
       closeTrainingModal();
-      alert('🎉 SELAMAT! Anda telah lulus Induction.\n\nTahap 2: "Defensive Driving & Blind Spot" kini TELAH DIBUKA!');
+      alert('🎉 SELAMAT! Anda telah lulus Ujian Induction.\n\nTahap 2: "Defensive Driving & Blind Spot" kini TELAH DIBUKA!');
       showCertificateModal(currentUser.name, 'Induction & Budaya K3 GrahaTrans', 'GT/LMS/2026/CERT-9901');
     }
 
@@ -978,9 +1026,7 @@
       document.getElementById('certCode').innerText = code;
       document.getElementById('certificateModal').classList.remove('hidden');
     }
-    function closeCertificateModal() {
-      document.getElementById('certificateModal').classList.add('hidden');
-    }
+    function closeCertificateModal() { document.getElementById('certificateModal').classList.add('hidden'); }
   </script>
 
 </body>
