@@ -19,16 +19,9 @@
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
           colors: {
-            brand: {
-              dark: '#1e3c72',
-              navy: '#2a5298',
-              blue: '#3b609d',
-              accent: '#0ea5e9'
-            }
+            brand: { dark: '#1e3c72', navy: '#2a5298', blue: '#3b609d', accent: '#0ea5e9' }
           }
         }
       }
@@ -36,7 +29,6 @@
   </script>
 
   <style>
-    /* Styling cetak sertifikat A4 Landscape */
     @media print {
       body * { visibility: hidden !important; }
       #certificatePrintArea, #certificatePrintArea * { visibility: visible !important; }
@@ -48,20 +40,17 @@
       }
       @page { size: A4 landscape; margin: 0; }
     }
-    
     .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
     .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen custom-scroll">
 
   <!-- ======================================================== -->
-  <!-- 1. HALAMAN LOGIN / REGISTER (VALIDASI EMAIL DATABASE)    -->
+  <!-- 1. HALAMAN LOGIN & REGISTER                              -->
   <!-- ======================================================== -->
   <div id="authSection" class="min-h-screen bg-white flex flex-col justify-between">
-    <!-- Top Bar Aksen Gradient -->
     <div class="h-2 w-full bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d]"></div>
     
     <div class="flex-1 flex items-center justify-center p-4 sm:p-8">
@@ -74,7 +63,7 @@
                  src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" 
                  alt="Logo GrahaTrans" 
                  class="h-16 max-w-[220px] object-contain mx-auto"
-                 onerror="handleLogoError(this)">
+                 onerror="this.style.display='none'; document.getElementById('svgLogoFallback').classList.remove('hidden');">
             
             <div id="svgLogoFallback" class="hidden flex items-center gap-3">
               <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#1e3c72] to-[#0ea5e9] flex items-center justify-center text-white shadow-md font-extrabold text-2xl tracking-wider">
@@ -88,16 +77,16 @@
           </div>
           
           <h2 class="text-xl font-bold text-slate-800">GTalent Portal</h2>
-          <p class="text-xs text-slate-500 mt-1">Sistem Otentikasi Terverifikasi Database Supabase</p>
+          <p class="text-xs text-slate-500 mt-1">Sinkronisasi Database Supabase (<code class="text-[#1e3c72] font-mono">public.users_profile</code>)</p>
         </div>
 
-        <!-- Alert Error Login (Jika Email Belum Terdaftar) -->
-        <div id="loginAlertBox" class="hidden p-3 mb-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs flex items-start gap-2 animate-fadeIn">
+        <!-- Alert Notifikasi Login / Register -->
+        <div id="loginAlertBox" class="hidden p-3 mb-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-xs flex items-start gap-2">
           <i class="fa-solid fa-triangle-exclamation mt-0.5 text-red-500 flex-shrink-0"></i>
-          <span id="loginAlertMsg">Email tidak ditemukan. Silakan lakukan pendaftaran.</span>
+          <span id="loginAlertMsg">Email belum terdaftar.</span>
         </div>
 
-        <!-- Auth Tabs (Masuk vs Daftar) -->
+        <!-- Tabs -->
         <div class="flex bg-slate-100 p-1 rounded-xl mb-6">
           <button id="tabBtnLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all bg-white text-[#1e3c72] shadow-sm">
             Masuk
@@ -107,13 +96,13 @@
           </button>
         </div>
 
-        <!-- FORM LOGIN (HANYA EMAIL & PASSWORD - ROLE OTOMATIS) -->
+        <!-- FORM LOGIN -->
         <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-bold text-slate-600 mb-1">Email Terdaftar *</label>
             <div class="relative">
               <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
-              <input type="email" id="loginEmail" required value="driver.budi@grahatrans.com" placeholder="nama@grahatrans.com" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#2a5298] focus:bg-white text-slate-700">
+              <input type="email" id="loginEmail" required value="admin@innotalent.com" placeholder="nama@grahatrans.com" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#2a5298] focus:bg-white text-slate-700">
             </div>
           </div>
 
@@ -124,14 +113,13 @@
             </div>
             <div class="relative">
               <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
-              <input type="password" id="loginPassword" required value="password123" placeholder="••••••••" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#2a5298] focus:bg-white text-slate-700">
+              <input type="password" id="loginPassword" required value="admin123" placeholder="••••••••" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#2a5298] focus:bg-white text-slate-700">
             </div>
           </div>
 
-          <!-- Info: Role Ditentukan Otomatis dari Database -->
           <div class="p-2.5 bg-blue-50 border border-blue-100 rounded-xl text-[11px] text-[#1e3c72] flex items-center gap-2">
             <i class="fa-solid fa-shield-halved text-[#2a5298]"></i>
-            <span>Hak akses (Admin / Peserta) otomatis ditentukan sistem dari data email Anda.</span>
+            <span>Hak akses (Admin / Peserta) otomatis dibaca langsung dari data tabel <code class="font-mono font-bold">users_profile</code>.</span>
           </div>
 
           <button type="submit" id="loginSubmitBtn" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] hover:opacity-95 text-white font-bold rounded-xl text-sm shadow-lg shadow-blue-900/20 transition-all flex items-center justify-center gap-2 mt-2">
@@ -140,7 +128,7 @@
           </button>
         </form>
 
-        <!-- FORM REGISTER (TERINTEGRASI KE SUPABASE) -->
+        <!-- FORM REGISTER (TERHUBUNG KE TABEL USERS_PROFILE) -->
         <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-3.5 hidden">
           <div>
             <label class="block text-xs font-bold text-slate-600 mb-1">Nama Lengkap *</label>
@@ -154,23 +142,22 @@
 
           <div class="grid grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">No. WhatsApp / HP</label>
-              <input type="text" id="regPhone" placeholder="0812-xxxx-xxxx" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+              <label class="block text-xs font-bold text-slate-600 mb-1">NIK (Karyawan)</label>
+              <input type="text" id="regNik" placeholder="GT-FL-110" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600 mb-1">NIK (Karyawan)</label>
-              <input type="text" id="regNik" placeholder="GT-FL-109" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+              <label class="block text-xs font-bold text-slate-600 mb-1">No. WhatsApp</label>
+              <input type="text" id="regPhone" placeholder="0812-xxxx-xxxx" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
             </div>
           </div>
 
           <div>
             <label class="block text-xs font-bold text-slate-600 mb-1">Departemen & Posisi *</label>
             <select id="regPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="Driver Heavy Truck & Trailer|Fleet Operations">Driver Heavy Truck & Trailer (Fleet)</option>
-              <option value="Driver Fuso Wingbox|Fleet Operations">Driver Fuso Wingbox (Fleet)</option>
-              <option value="Teknisi & Maintenance Armada|Maintenance Fleet">Teknisi Armada (Maintenance)</option>
-              <option value="Staf Gudang & Manifest Cargo|Warehouse & Logistics">Staf Gudang (Warehouse)</option>
-              <option value="HR & Training Specialist|Human Capital">HR & Training Specialist (Admin Access)</option>
+              <option value="Driver Heavy Truck & Trailer|Fleet Operations|learner">Driver Heavy Truck & Trailer (Peserta)</option>
+              <option value="Driver Fuso Wingbox|Fleet Operations|learner">Driver Fuso Wingbox (Peserta)</option>
+              <option value="Teknisi & Maintenance Armada|Maintenance Fleet|learner">Teknisi Armada (Peserta)</option>
+              <option value="Training & HR Officer|Human Capital|admin">HR & Training Specialist (Admin)</option>
             </select>
           </div>
 
@@ -181,20 +168,20 @@
 
           <button type="submit" id="regSubmitBtn" class="w-full py-3 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] hover:opacity-95 text-white font-bold rounded-xl text-sm shadow-lg mt-2 flex items-center justify-center gap-2">
             <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
-            <span>Daftar & Simpan ke Database</span>
+            <span>Simpan ke Database Supabase</span>
           </button>
         </form>
 
-        <!-- Akun Demo untuk Pengujian Cepat -->
+        <!-- Akun Demo Terdaftar dari Screenshot Anda -->
         <div class="mt-6 pt-4 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
-          <div class="font-bold text-slate-700">Contoh Akun Uji:</div>
+          <div class="font-bold text-slate-700">Akun di Database Anda (<code class="text-[#1e3c72]">users_profile</code>):</div>
           <div class="flex items-center justify-between">
-            <span>&bull; Admin: <code class="text-[#1e3c72] font-bold">admin@grahatrans.com</code></span>
-            <button onclick="fillDemo('admin@grahatrans.com')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
+            <span>&bull; Admin: <code class="text-[#1e3c72] font-bold">admin@innotalent.com</code></span>
+            <button onclick="fillDemo('admin@innotalent.com', 'admin123')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
           </div>
           <div class="flex items-center justify-between">
-            <span>&bull; Driver: <code class="text-[#1e3c72] font-bold">driver.budi@grahatrans.com</code></span>
-            <button onclick="fillDemo('driver.budi@grahatrans.com')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
+            <span>&bull; Driver: <code class="text-[#1e3c72] font-bold">budi.santoso@innotalent.com</code></span>
+            <button onclick="fillDemo('budi.santoso@innotalent.com', '123456')" class="text-[#2a5298] underline font-semibold">Gunakan</button>
           </div>
         </div>
 
@@ -209,22 +196,17 @@
 
 
   <!-- ======================================================== -->
-  <!-- 2. MAIN LMS APP (TAMPILAN SESUAI HAK AKSES DARI DATABASE)-->
+  <!-- 2. MAIN LMS APP                                          -->
   <!-- ======================================================== -->
   <div id="appSection" class="hidden min-h-screen flex flex-col">
     
-    <!-- HEADER UTAMA -->
+    <!-- HEADER -->
     <header class="bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] text-white shadow-xl sticky top-0 z-40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          
           <div class="flex items-center gap-3">
             <div class="bg-white p-1.5 rounded-xl shadow-md flex items-center justify-center">
-              <img src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" 
-                   alt="GrahaTrans" 
-                   class="h-8 w-auto max-w-[120px] object-contain"
-                   onerror="this.style.display='none'; document.getElementById('headerFallbackText').style.display='block';">
-              <span id="headerFallbackText" class="hidden text-xs font-black text-[#1e3c72] px-2">GrahaTrans</span>
+              <img src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" alt="GrahaTrans" class="h-8 w-auto max-w-[120px] object-contain">
             </div>
             <div>
               <div class="text-sm font-extrabold tracking-wide uppercase">GTalent LMS</div>
@@ -233,7 +215,6 @@
           </div>
 
           <div class="flex items-center gap-3 sm:gap-4">
-            <!-- Badge Hak Akses Otomatis -->
             <div id="roleIndicatorBadge" class="flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/20">
               <i id="roleBadgeIcon" class="fa-solid fa-user text-amber-300"></i>
               <span id="currentRoleText">Peserta: Driver Trailer</span>
@@ -252,7 +233,6 @@
               </button>
             </div>
           </div>
-
         </div>
       </div>
 
@@ -261,257 +241,131 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav class="flex space-x-1 sm:space-x-4 overflow-x-auto py-2 custom-scroll text-xs font-semibold">
             <button onclick="switchTab('dashboard')" id="navTab_dashboard" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 bg-white text-[#1e3c72] shadow-sm whitespace-nowrap">
-              <i class="fa-solid fa-chart-pie"></i>
-              <span>Ringkasan & Roadmap</span>
+              <i class="fa-solid fa-chart-pie"></i><span>Ringkasan & Roadmap</span>
             </button>
             <button onclick="switchTab('employees')" id="navTab_employees" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 text-blue-100 hover:text-white hover:bg-white/10 whitespace-nowrap">
-              <i class="fa-solid fa-id-card-clip"></i>
-              <span>Direktori Karyawan</span>
+              <i class="fa-solid fa-id-card-clip"></i><span>Direktori Karyawan</span>
             </button>
             <button onclick="switchTab('programs')" id="navTab_programs" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 text-blue-100 hover:text-white hover:bg-white/10 whitespace-nowrap">
-              <i class="fa-solid fa-book-open"></i>
-              <span>Katalog Semua Kursus</span>
-            </button>
-            <button onclick="switchTab('schedule')" id="navTab_schedule" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 text-blue-100 hover:text-white hover:bg-white/10 whitespace-nowrap">
-              <i class="fa-solid fa-calendar-check"></i>
-              <span>Jadwal & Absensi</span>
-            </button>
-            <button onclick="switchTab('kirkpatrick')" id="navTab_kirkpatrick" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 text-blue-100 hover:text-white hover:bg-white/10 whitespace-nowrap">
-              <i class="fa-solid fa-layer-group"></i>
-              <span>Evaluasi Kirkpatrick</span>
+              <i class="fa-solid fa-book-open"></i><span>Katalog Semua Kursus</span>
             </button>
             <button onclick="switchTab('reports')" id="navTab_reports" class="px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 text-blue-100 hover:text-white hover:bg-white/10 whitespace-nowrap">
-              <i class="fa-solid fa-award"></i>
-              <span>Laporan & E-Sertifikat</span>
+              <i class="fa-solid fa-award"></i><span>Laporan & E-Sertifikat</span>
             </button>
           </nav>
         </div>
       </div>
     </header>
 
-    <!-- KONTEN UTAMA -->
+    <!-- KONTEN -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
 
-      <!-- ======================================================== -->
-      <!-- TAB 1: DASHBOARD & ROADMAP GATED INDUCTION               -->
-      <!-- ======================================================== -->
+      <!-- TAB 1: DASHBOARD & GATED ROADMAP -->
       <section id="tabContent_dashboard" class="space-y-6">
-        
-        <!-- Welcome Banner -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div class="flex items-center gap-2">
               <h1 class="text-xl sm:text-2xl font-extrabold text-slate-800">
-                Halo, <span id="welcomeUserName" class="text-[#1e3c72]">Budi Santoso</span>!
+                Halo, <span id="welcomeUserName" class="text-[#1e3c72]">Amanda Putri</span>!
               </h1>
               <span id="welcomeRolePill" class="px-2.5 py-0.5 bg-blue-100 text-[#1e3c72] text-[11px] font-bold rounded-full">Peserta</span>
             </div>
             <p id="welcomeDescription" class="text-xs sm:text-sm text-slate-500 mt-1">
-              Selesaikan kurikulum wajib secara berurutan. Induction di Tahap 1 membuka akses materi berikutnya.
+              Data terhubung langsung ke Supabase PostgreSQL. Selesaikan kurikulum bertingkat.
             </p>
           </div>
-          
-          <!-- Tombol Tindakan Khusus Admin -->
           <div id="adminActionGroup" class="hidden flex items-center gap-2">
-            <button onclick="openNewEmployeeModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5">
-              <i class="fa-solid fa-user-plus"></i>
-              <span>+ Tambah Karyawan</span>
-            </button>
-            <button onclick="openNewProgramModal()" class="px-4 py-2.5 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] text-white text-xs font-bold rounded-xl shadow hover:opacity-95 transition-all flex items-center gap-1.5">
-              <i class="fa-solid fa-circle-plus"></i>
-              <span>+ Tambah Pelatihan</span>
+            <button onclick="openNewEmployeeModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow flex items-center gap-1.5">
+              <i class="fa-solid fa-user-plus"></i><span>+ Tambah Karyawan</span>
             </button>
           </div>
         </div>
 
-        <!-- ROADMAP GATED PEMBELAJARAN (INDUCTION TAHAP 1) -->
+        <!-- ROADMAP GATED -->
         <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-6 border-b border-slate-100">
-            <div>
-              <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-md uppercase">Gated Pathway</span>
-              <h2 class="text-lg font-extrabold text-slate-800 mt-1">Roadmap Sertifikasi Standar GrahaTrans 2026</h2>
-              <p class="text-xs text-slate-500">Materi Induction wajib diselesaikan di Tahap 1 sebelum modul operasional lainnya dapat dibuka.</p>
-            </div>
-            <div class="text-right">
-              <div class="text-xs font-bold text-slate-700">Progres: <span id="roadmapProgressPercent" class="text-[#2a5298]">33%</span></div>
-              <div class="w-36 bg-slate-100 rounded-full h-2 mt-1.5 ml-auto">
-                <div id="roadmapProgressBar" class="bg-gradient-to-r from-[#1e3c72] to-[#0ea5e9] h-2 rounded-full" style="width: 33%"></div>
-              </div>
-            </div>
+          <div class="pb-4 border-b border-slate-100">
+            <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-md uppercase">Gated Pathway</span>
+            <h2 class="text-lg font-extrabold text-slate-800 mt-1">Roadmap Sertifikasi Pengemudi GrahaTrans 2026</h2>
           </div>
-
           <div class="mt-6 space-y-4">
-            <!-- Tahap 1: Induction -->
-            <div id="stageCard1" class="p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div class="flex items-start gap-4">
-                <div id="stageBadge1" class="w-12 h-12 rounded-2xl bg-[#1e3c72] text-white flex flex-col items-center justify-center shadow-md flex-shrink-0">
-                  <span class="text-[10px] uppercase font-bold">Tahap</span><span class="text-lg font-black leading-none">1</span>
-                </div>
-                <div>
-                  <span class="px-2 py-0.5 bg-amber-500 text-white rounded text-[10px] font-black uppercase">Wajib Induction</span>
-                  <h3 class="text-base font-extrabold text-slate-800 mt-1">Induction & Budaya K3 PT Graha Trans Indonesia</h3>
-                  <p class="text-xs text-slate-500 mt-0.5">Orientasi visi keselamatan perusahaan, regulasi jalan, dan zero accident.</p>
-                  <div id="stageStatusText1" class="text-xs font-bold text-blue-700 mt-2"><i class="fa-solid fa-unlock"></i> Siap Dipelajari</div>
-                </div>
+            <div id="stageCard1" class="p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <span class="px-2 py-0.5 bg-amber-500 text-white rounded text-[10px] font-bold">Wajib Induction</span>
+                <h3 class="text-base font-extrabold text-slate-800 mt-1">Induction & Budaya K3 GrahaTrans</h3>
+                <div id="stageStatusText1" class="text-xs font-bold text-blue-700 mt-1"><i class="fa-solid fa-unlock"></i> Siap Dipelajari</div>
               </div>
-              <button id="stageBtn1" onclick="openTrainingModal(101)" class="px-5 py-2.5 bg-gradient-to-r from-[#1e3c72] to-[#2a5298] text-white font-bold text-xs rounded-xl shadow flex items-center gap-2">
-                <i class="fa-solid fa-play"></i><span>Mulai Induction</span>
+              <button onclick="finishInductionAndUnlockNext()" class="px-5 py-2.5 bg-gradient-to-r from-[#1e3c72] to-[#2a5298] text-white font-bold text-xs rounded-xl shadow">
+                <i class="fa-solid fa-play mr-1"></i> Mulai & Luluskan
               </button>
             </div>
-
-            <!-- Tahap 2: Defensive Driving -->
-            <div id="stageCard2" class="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 opacity-85">
-              <div class="flex items-start gap-4">
-                <div id="stageBadge2" class="w-12 h-12 rounded-2xl bg-slate-300 text-slate-600 flex flex-col items-center justify-center flex-shrink-0">
-                  <span class="text-[10px] uppercase font-bold">Tahap</span><span class="text-lg font-black leading-none">2</span>
-                </div>
-                <div>
-                  <span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold">Operasional Armada</span>
-                  <h3 class="text-base font-extrabold text-slate-700 mt-1">Defensive Driving & Blind Spot Heavy Truck</h3>
-                  <div id="stageStatusText2" class="text-xs font-bold text-amber-700 mt-2"><i class="fa-solid fa-lock"></i> Terkunci: Wajib Lulus Tahap 1 (Induction)</div>
-                </div>
+            <div id="stageCard2" class="p-5 rounded-2xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 opacity-85">
+              <div>
+                <span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[10px] font-bold">Operasional</span>
+                <h3 class="text-base font-extrabold text-slate-700 mt-1">Defensive Driving & Blind Spot Heavy Truck</h3>
+                <div id="stageStatusText2" class="text-xs font-bold text-amber-700 mt-1"><i class="fa-solid fa-lock"></i> Terkunci (Wajib Lulus Tahap 1)</div>
               </div>
-              <button id="stageBtn2" onclick="handleLockedCourseClick(2)" class="px-5 py-2.5 bg-slate-300 text-slate-600 font-bold text-xs rounded-xl cursor-not-allowed flex items-center gap-2">
-                <i class="fa-solid fa-lock"></i><span>Terkunci</span>
+              <button class="px-5 py-2.5 bg-slate-300 text-slate-600 font-bold text-xs rounded-xl cursor-not-allowed">
+                <i class="fa-solid fa-lock mr-1"></i> Terkunci
               </button>
             </div>
-          </div>
-        </div>
-
-        <!-- 6 KPI CARDS -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-slate-800" id="kpiTotalPrograms">12</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Total Pelatihan</div>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-slate-800" id="kpiEmployeeCount">248</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Total Karyawan</div>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-emerald-600">94.2%</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Kelulusan</div>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-slate-800">88.5</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Rata-rata Skor</div>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-slate-800">1,420</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Jam Pelatihan</div>
-          </div>
-          <div class="bg-white p-4 rounded-2xl border border-slate-200">
-            <div class="text-2xl font-black text-purple-600">184</div>
-            <div class="text-[11px] font-semibold text-slate-500 mt-1">Sertifikat Terbit</div>
           </div>
         </div>
       </section>
 
-      <!-- ======================================================== -->
-      <!-- TAB 2: DIREKTORI KARYAWAN & PESERTA                      -->
-      <!-- ======================================================== -->
+      <!-- TAB 2: DIREKTORI KARYAWAN (BACA DARI SUPABASE) -->
       <section id="tabContent_employees" class="hidden space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex justify-between items-center">
           <div>
-            <h1 class="text-xl font-extrabold text-slate-800">Direktori Peserta & Karyawan</h1>
-            <p class="text-xs text-slate-500">Data karyawan terdaftar pada database Supabase PT Graha Trans Indonesia.</p>
+            <h1 class="text-xl font-extrabold text-slate-800">Direktori Karyawan & Peserta</h1>
+            <p class="text-xs text-slate-500">Data tabel <code class="font-mono text-[#1e3c72]">public.users_profile</code> Supabase</p>
           </div>
-          <div class="flex items-center gap-3">
-            <button onclick="openNewEmployeeModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-2">
-              <i class="fa-solid fa-user-plus"></i>
-              <span>+ Tambah Karyawan Baru</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="relative w-full sm:w-80">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
-            <input type="text" id="employeeSearchInput" oninput="filterEmployeeTable()" placeholder="Cari nama karyawan atau NIK..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
-          </div>
-          <div class="flex items-center gap-2 w-full sm:w-auto">
-            <span class="text-xs font-bold text-slate-500">Divisi:</span>
-            <select id="employeeDeptFilter" onchange="filterEmployeeTable()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700">
-              <option value="ALL">Semua Departemen</option>
-              <option value="Fleet Operations">Fleet Operations</option>
-              <option value="Maintenance Fleet">Maintenance Fleet</option>
-              <option value="Warehouse & Logistics">Warehouse & Logistics</option>
-              <option value="Human Capital">Human Capital</option>
-            </select>
-          </div>
+          <button onclick="openNewEmployeeModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow flex items-center gap-2">
+            <i class="fa-solid fa-user-plus"></i><span>+ Tambah Karyawan Baru</span>
+          </button>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr class="border-b border-slate-200 bg-slate-50 text-slate-700 font-bold">
-                  <th class="p-4">Karyawan & NIK</th>
-                  <th class="p-4">Email Terdaftar</th>
-                  <th class="p-4">Posisi & Departemen</th>
-                  <th class="p-4">Hak Akses Sistem</th>
-                  <th class="p-4">Status Pelatihan</th>
-                  <th class="p-4 text-center">Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="employeeTableBody" class="divide-y divide-slate-100 text-slate-700">
-                <!-- Diisi otomatis oleh JavaScript & Sinkronisasi Supabase -->
-              </tbody>
-            </table>
-          </div>
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="border-b bg-slate-50 text-slate-700 font-bold">
+                <th class="p-4">Nama Lengkap</th>
+                <th class="p-4">Email</th>
+                <th class="p-4">Posisi</th>
+                <th class="p-4">Role Sistem</th>
+                <th class="p-4 text-center">Status</th>
+              </tr>
+            </thead>
+            <tbody id="employeeTableBody" class="divide-y divide-slate-100 text-slate-700">
+              <!-- Render otomatis dari Supabase -->
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <!-- TAB 3: KATALOG SEMUA KURSUS -->
+      <!-- TAB 3: KATALOG KURSUS -->
       <section id="tabContent_programs" class="hidden space-y-6">
         <h1 class="text-xl font-extrabold text-slate-800">Katalog Lengkap Pelatihan</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-white p-6 rounded-2xl border border-slate-200">
-            <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full">Induction & K3</span>
+            <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full">Induction</span>
             <h3 class="text-base font-bold text-slate-800 mt-2">Induction & Budaya K3 GrahaTrans</h3>
-            <p class="text-xs text-slate-500 mt-1">Materi dasar wajib karyawan & driver baru.</p>
-          </div>
-          <div class="bg-white p-6 rounded-2xl border border-slate-200">
-            <span class="px-2.5 py-0.5 bg-blue-100 text-[#1e3c72] text-[10px] font-bold rounded-full">Operasional</span>
-            <h3 class="text-base font-bold text-slate-800 mt-2">Defensive Driving & Blind Spot</h3>
-            <p class="text-xs text-slate-500 mt-1">Teknik berkendara aman armada trailer & fuso.</p>
+            <p class="text-xs text-slate-500 mt-1">Materi orientasi wajib karyawan baru.</p>
           </div>
         </div>
       </section>
 
-      <!-- TAB 4: JADWAL & ABSENSI -->
-      <section id="tabContent_schedule" class="hidden space-y-6">
-        <h1 class="text-xl font-extrabold text-slate-800">Jadwal Sesi & Absensi</h1>
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 text-xs">
-          Sesi terdekat: <strong>18 Okt 2026 (Pool Cakung GrahaTrans)</strong>. Status: <span class="text-emerald-600 font-bold">Hadir</span>.
-        </div>
-      </section>
-
-      <!-- TAB 5: KIRKPATRICK -->
-      <section id="tabContent_kirkpatrick" class="hidden space-y-6">
-        <h1 class="text-xl font-extrabold text-slate-800">Evaluasi Kirkpatrick 4 Tingkat</h1>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 font-bold text-slate-800">L1: Reaksi (4.8/5.0)</div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 font-bold text-[#1e3c72]">L2: Pembelajaran (+26 Poin)</div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 font-bold text-emerald-600">L3: Perilaku (94% Patuh)</div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200 font-bold text-purple-600">L4: Hasil (-45% Insiden)</div>
-        </div>
-      </section>
-
-      <!-- TAB 6: LAPORAN & E-SERTIFIKAT -->
+      <!-- TAB 4: LAPORAN & E-SERTIFIKAT -->
       <section id="tabContent_reports" class="hidden space-y-6">
         <h1 class="text-xl font-extrabold text-slate-800">E-Sertifikat Kelulusan Resmi</h1>
-        <div id="issuedCertificatesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 flex justify-between items-center">
-            <div>
-              <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">Lulus</span>
-              <h3 class="text-sm font-bold text-slate-800 mt-1">SOP Muatan Cargo & Lashing</h3>
-              <div class="text-xs text-slate-400">No: GT/LMS/2026/CERT-8841</div>
-            </div>
-            <button onclick="showCertificateModal('Budi Santoso', 'SOP Muatan Cargo & Lashing', 'GT/LMS/2026/CERT-8841')" class="px-4 py-2 bg-[#1e3c72] text-white text-xs font-bold rounded-xl shadow">
-              Cetak A4
-            </button>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 flex justify-between items-center">
+          <div>
+            <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full">Lulus</span>
+            <h3 class="text-sm font-bold text-slate-800 mt-1">Induction & Budaya K3 GrahaTrans</h3>
+            <div class="text-xs text-slate-400">No: GT/LMS/2026/CERT-9901</div>
           </div>
+          <button onclick="document.getElementById('certificateModal').classList.remove('hidden')" class="px-4 py-2 bg-[#1e3c72] text-white text-xs font-bold rounded-xl shadow">
+            Cetak A4
+          </button>
         </div>
       </section>
 
@@ -519,205 +373,107 @@
 
     <!-- FOOTER -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-12">
-      <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <div>&copy; 2026 <strong>PT Graha Trans Indonesia</strong>. Corporate Learning Management System.</div>
-        <div>v2.7 Auto-Role Database</div>
-      </div>
+      <div>&copy; 2026 <strong>PT Graha Trans Indonesia</strong>. Corporate Learning Management System.</div>
     </footer>
   </div>
 
 
-  <!-- ================================================================= -->
-  <!-- MODAL: TAMBAH DATA KARYAWAN BARU (DIRECT SUPABASE WRITE)          -->
-  <!-- ================================================================= -->
-  <div id="newEmployeeModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden border border-slate-100 flex flex-col my-auto">
-      <div class="p-6 pb-4 border-b border-slate-100 flex items-start justify-between">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800">Tambah Data Karyawan Baru</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Input data peserta pelatihan PT Graha Trans Indonesia</p>
-        </div>
-        <button onclick="closeNewEmployeeModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
+  <!-- MODAL: TAMBAH DATA KARYAWAN -->
+  <div id="newEmployeeModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-base text-slate-800">Tambah Karyawan Baru</h3>
+        <button onclick="closeNewEmployeeModal()"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
-      <form onsubmit="handleNewEmployeeSubmit(event)" class="p-6 space-y-4 text-xs">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">NIK Karyawan *</label>
-            <input type="text" id="newEmpNik" required placeholder="GT-FL-105" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Nama Lengkap *</label>
-            <input type="text" id="newEmpName" required placeholder="Joko Susilo" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
-          </div>
+      <form onsubmit="handleNewEmployeeSubmit(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold mb-1">Nama Lengkap *</label>
+          <input type="text" id="newEmpName" required placeholder="Contoh: Joko Susilo" class="w-full p-2.5 border rounded-xl bg-slate-50">
         </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Email Perusahaan *</label>
-            <input type="email" id="newEmpEmail" required placeholder="joko@grahatrans.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-[#2a5298]">
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">No. HP / WhatsApp</label>
-            <input type="text" id="newEmpPhone" placeholder="0812-9988-7766" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-          </div>
+        <div>
+          <label class="block font-bold mb-1">Email Perusahaan *</label>
+          <input type="email" id="newEmpEmail" required placeholder="joko@grahatrans.com" class="w-full p-2.5 border rounded-xl bg-slate-50">
         </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Departemen *</label>
-            <select id="newEmpDept" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="Fleet Operations">Fleet Operations (Driver)</option>
-              <option value="Maintenance Fleet">Maintenance Fleet</option>
-              <option value="Warehouse & Logistics">Warehouse & Logistics</option>
-              <option value="Human Capital">Human Capital (Admin)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Posisi Jabatan *</label>
-            <select id="newEmpPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-              <option value="Driver Heavy Truck & Trailer">Driver Heavy Truck & Trailer</option>
-              <option value="Driver Fuso Wingbox">Driver Fuso Wingbox</option>
-              <option value="Teknisi & Maintenance Armada">Teknisi Armada</option>
-              <option value="Staf Gudang & Manifest Cargo">Staf Gudang</option>
-              <option value="HR & Training Officer">HR & Training Officer</option>
-            </select>
-          </div>
+        <div>
+          <label class="block font-bold mb-1">Posisi Jabatan *</label>
+          <select id="newEmpPosition" class="w-full p-2 border rounded-xl bg-slate-50">
+            <option value="Driver Heavy Truck & Trailer|Fleet Operations|learner">Driver Heavy Truck & Trailer (Peserta)</option>
+            <option value="Teknisi & Maintenance Armada|Maintenance Fleet|learner">Teknisi Armada (Peserta)</option>
+            <option value="HR & Training Specialist|Human Capital|admin">HR & Training Specialist (Admin)</option>
+          </select>
         </div>
-
-        <div class="pt-4 flex items-center justify-between border-t border-slate-100">
-          <button type="button" onclick="closeNewEmployeeModal()" class="px-4 py-2 border border-slate-200 rounded-xl font-bold text-slate-600">Batal</button>
-          <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center gap-2 shadow">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span>Simpan ke Supabase</span>
-          </button>
+        <div>
+          <label class="block font-bold mb-1">Password Sementara *</label>
+          <input type="password" id="newEmpPassword" required value="123456" class="w-full p-2.5 border rounded-xl bg-slate-50">
+        </div>
+        <div class="pt-2 flex justify-between">
+          <button type="button" onclick="closeNewEmployeeModal()" class="px-4 py-2 border rounded-xl">Batal</button>
+          <button type="submit" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl shadow">Simpan ke Supabase</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- MODAL PELATIHAN GATED SISWA -->
-  <div id="trainingModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
-    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[92vh]">
-      <div class="bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d] text-white p-5 flex justify-between items-center">
-        <div>
-          <div class="text-[10px] font-bold text-amber-300 uppercase">Tahap 1 Orientasi Wajib</div>
-          <h3 class="text-base font-extrabold text-white mt-0.5">Induction & Budaya K3 GrahaTrans</h3>
-        </div>
-        <button onclick="closeTrainingModal()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="p-6 text-xs space-y-4">
-        <p class="font-bold text-slate-800">Ujian Kelulusan Post-Test (Minimal 80% Lulus):</p>
-        <label class="flex items-center gap-2 p-3 rounded-lg border bg-slate-50 cursor-pointer">
-          <input type="radio" checked class="text-[#2a5298]"> Zero Accident, Kepatuhan Jam Istirahat 4 Jam, dan Pengecekan Pre-Trip Ban & Rem.
-        </label>
-        <button onclick="finishInductionAndUnlockNext()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl">
-          Submit Post-Test & Buka Kunci Tahap 2
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL E-SERTIFIKAT PRINT A4 -->
-  <div id="certificateModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden border border-slate-200 my-auto">
-      <div class="bg-slate-800 text-white px-6 py-3 flex justify-between items-center print:hidden">
-        <span class="text-xs font-bold text-slate-300"><i class="fa-solid fa-award text-amber-400 mr-2"></i>E-Sertifikat Resmi PT Graha Trans Indonesia</span>
+  <!-- MODAL E-SERTIFIKAT -->
+  <div id="certificateModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-4 print:hidden">
+        <span class="font-bold text-xs text-slate-700">Pratinjau E-Sertifikat Resmi</span>
         <div class="flex gap-2">
-          <button onclick="window.print()" class="px-3.5 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow"><i class="fa-solid fa-print mr-1"></i>Cetak PDF A4</button>
-          <button onclick="closeCertificateModal()" class="px-3.5 py-1.5 bg-slate-700 text-white text-xs font-bold rounded-lg">Tutup</button>
+          <button onclick="window.print()" class="px-3.5 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow"><i class="fa-solid fa-print mr-1"></i> Cetak A4</button>
+          <button onclick="document.getElementById('certificateModal').classList.add('hidden')" class="px-3 py-1.5 bg-slate-700 text-white text-xs rounded-lg">Tutup</button>
         </div>
       </div>
-      <div id="certificatePrintArea" class="p-8 sm:p-12 bg-white text-slate-900 border-[12px] border-[#1e3c72] m-2 sm:m-4 rounded-xl text-center space-y-4">
-        <div class="text-xs uppercase tracking-[0.25em] font-extrabold text-amber-600">Sertifikat Kelulusan & Orientasi</div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold text-[#1e3c72] uppercase">CERTIFICATE OF COMPLETION</h1>
-        <p class="text-xs text-slate-500">No: <span id="certCode" class="font-mono font-bold text-slate-800">GT/LMS/2026/CERT-9901</span></p>
-        <div id="certRecipient" class="text-2xl font-black text-slate-900 underline decoration-amber-500 decoration-2">Budi Santoso</div>
-        <div id="certCourse" class="text-base font-extrabold text-[#1e3c72] bg-slate-50 py-2 px-6 rounded-xl border inline-block">Induction & Budaya K3 GrahaTrans</div>
+      <div id="certificatePrintArea" class="p-10 border-[10px] border-[#1e3c72] rounded-xl text-center space-y-4 bg-white">
+        <h1 class="text-2xl font-black text-[#1e3c72]">CERTIFICATE OF COMPLETION</h1>
+        <p class="text-xs text-slate-500">Diberikan secara resmi kepada:</p>
+        <div id="certRecipient" class="text-2xl font-black underline text-slate-900">Budi Santoso</div>
+        <p class="text-xs">Telah lulus kompetensi: <strong>Induction & Budaya K3 GrahaTrans</strong></p>
       </div>
     </div>
   </div>
 
 
   <!-- ================================================================= -->
-  <!-- JAVASCRIPT: SUPABASE AUTH & AUTO-ROLE ENGINE                     -->
+  <!-- JAVASCRIPT ENGINE DENGAN SINKRONISASI REAL KE TABEL USERS_PROFILE -->
   <!-- ================================================================= -->
   <script>
+    // 1. URL PROYEK SUPABASE ANDA
     const SUPABASE_RAW_URL = "https://jvthmnuhoyysmttdedae.supabase.co";
     const SUPABASE_URL = SUPABASE_RAW_URL.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.dummy";
+    
+    // 2. MASUKKAN ANON KEY ASLI ANDA DARI PROJECT SETTINGS -> API
+    // Ganti nilai string di bawah dengan Anon Key asli Anda!
+    const SUPABASE_ANON_KEY = "TEMPEL_ANON_KEY_ASLI_ANDA_DISINI";
     
     let supabaseClient = null;
     try {
-      if (window.supabase) {
+      if (window.supabase && SUPABASE_ANON_KEY !== "TEMPEL_ANON_KEY_ASLI_ANDA_DISINI") {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       }
-    } catch(err) { console.warn("Supabase running local fallback:", err); }
+    } catch(err) {
+      console.warn("Supabase init error:", err);
+    }
 
-    // Database Akun Terdaftar (Sinkronisasi dengan Database Supabase)
-    let registeredProfiles = [
-      {
-        email: "admin@grahatrans.com",
-        full_name: "Manager HR & Training",
-        role: "admin",
-        nik: "GT-ADM-001",
-        department: "Human Capital",
-        position_title: "Head of Training & HR",
-        status_employee: "Aktif"
-      },
-      {
-        email: "driver.budi@grahatrans.com",
-        full_name: "Budi Santoso",
-        role: "peserta",
-        nik: "GT-FL-089",
-        department: "Fleet Operations",
-        position_title: "Driver Heavy Truck & Trailer",
-        status_employee: "Aktif"
-      },
-      {
-        email: "agus.prasetyo@grahatrans.com",
-        full_name: "Agus Prasetyo",
-        role: "peserta",
-        nik: "GT-FL-014",
-        department: "Fleet Operations",
-        position_title: "Driver Fuso Wingbox",
-        status_employee: "Aktif"
-      },
-      {
-        email: "rudi.hartono@grahatrans.com",
-        full_name: "Rudi Hartono",
-        role: "peserta",
-        nik: "GT-MT-005",
-        department: "Maintenance Fleet",
-        position_title: "Teknisi & Maintenance Armada",
-        status_employee: "Aktif"
-      }
+    // Data cadangan lokal jika offline / sebelum key diisi
+    let localUsers = [
+      { email: "admin@innotalent.com", password_hash: "admin123", name: "Amanda Putri, S.Psi, M.M.", role: "admin", position_title: "Head of HR" },
+      { email: "budi.santoso@innotalent.com", password_hash: "123456", name: "Budi Santoso", role: "learner", position_title: "Driver Heavy Truck" },
+      { email: "rizkyswutomo@gmail.com", password_hash: "123456", name: "Sandy Walsh", role: "learner", position_title: "Driver Fuso" }
     ];
 
     let currentUser = null;
-    let isInductionCompleted = false;
 
-    // Inisialisasi: Render Tabel Karyawan
     window.addEventListener('DOMContentLoaded', () => {
-      renderEmployeeTable();
+      fetchAndRenderEmployees();
     });
-
-    function handleLogoError(img) {
-      img.style.display = 'none';
-      const fallback = document.getElementById('svgLogoFallback');
-      if (fallback) fallback.classList.remove('hidden');
-    }
 
     function switchAuthTab(tab) {
       const btnL = document.getElementById('tabBtnLogin');
       const btnR = document.getElementById('tabBtnRegister');
       const fL = document.getElementById('formLogin');
       const fR = document.getElementById('formRegister');
-      const alertBox = document.getElementById('loginAlertBox');
-      alertBox.classList.add('hidden');
+      document.getElementById('loginAlertBox').classList.add('hidden');
 
       if (tab === 'login') {
         btnL.className = "flex-1 py-2 text-xs font-bold rounded-lg bg-white text-[#1e3c72] shadow-sm";
@@ -730,114 +486,149 @@
       }
     }
 
-    function fillDemo(email) {
+    function fillDemo(email, pass) {
       document.getElementById('loginEmail').value = email;
-      document.getElementById('loginPassword').value = "password123";
+      document.getElementById('loginPassword').value = pass;
     }
 
     // ========================================================
-    // 1. LOGIN HANDLER: VALIDASI EMAIL WAJIB TERDAFTAR DI DB
+    // LOGIN: BACA LANGSUNG DARI TABEL USERS_PROFILE DI SUPABASE
     // ========================================================
     async function handleLoginSubmit(e) {
       e.preventDefault();
       const inputEmail = document.getElementById('loginEmail').value.trim().toLowerCase();
+      const inputPass = document.getElementById('loginPassword').value;
       const alertBox = document.getElementById('loginAlertBox');
       const alertMsg = document.getElementById('loginAlertMsg');
       alertBox.classList.add('hidden');
 
-      // 1. Cek ke Database Supabase jika terhubung
-      let matchedUser = null;
-      try {
-        if (supabaseClient) {
+      let found = null;
+
+      // 1. Cek langsung ke database Supabase
+      if (supabaseClient) {
+        try {
           const { data, error } = await supabaseClient
-            .from('profiles')
+            .from('users_profile')
             .select('*')
             .eq('email', inputEmail)
             .maybeSingle();
 
-          if (data && !error) {
-            matchedUser = data;
+          if (error) {
+            console.error("Gagal membaca Supabase:", error);
+            alert("Pemberitahuan Supabase: " + error.message);
+          } else if (data) {
+            found = data;
           }
+        } catch(err) {
+          console.warn("Supabase fetch failed:", err);
         }
-      } catch(err) {
-        console.warn("Supabase query error:", err);
       }
 
-      // 2. Fallback cek ke registeredProfiles lokal
-      if (!matchedUser) {
-        matchedUser = registeredProfiles.find(u => u.email.toLowerCase() === inputEmail);
+      // 2. Cadangan lokal
+      if (!found) {
+        found = localUsers.find(u => u.email.toLowerCase() === inputEmail);
       }
 
-      // 3. JIKA EMAIL TIDAK TERDAFTAR -> TOLAK LOGIN!
-      if (!matchedUser) {
-        alertMsg.innerText = `Email "${inputEmail}" tidak ditemukan di database GrahaTrans! Silakan klik 'Daftar Akun Baru' untuk registrasi.`;
+      // 3. JIKA EMAIL TIDAK ADA DI DATABASE -> TOLAK LOGIN
+      if (!found) {
+        alertMsg.innerText = `Email "${inputEmail}" tidak ditemukan di database Supabase (tabel users_profile). Silakan klik 'Daftar Akun Baru' terlebih dahulu!`;
         alertBox.classList.remove('hidden');
         return;
       }
 
-      // 4. JIKA TERDAFTAR -> AUTENTIKASI BERHASIL, ROLE OTOMATIS SESUAI DATABASE
+      // 4. AUTENTIKASI BERHASIL, ROLE OTOMATIS DARI DATABASE
+      const rawRole = (found.role || 'learner').toLowerCase();
+      const isAdmin = rawRole.includes('admin') || rawRole.includes('tod_');
+
       currentUser = {
-        name: matchedUser.full_name || matchedUser.name,
-        email: matchedUser.email,
-        role: (matchedUser.role || 'peserta').toLowerCase(),
-        position: matchedUser.position_title || matchedUser.position || "Staff GrahaTrans",
-        department: matchedUser.department || "Operasional"
+        name: found.name || found.full_name || "Pengguna GrahaTrans",
+        email: found.email,
+        role: isAdmin ? 'admin' : 'peserta',
+        position: found.position_title || "Driver Armada"
       };
 
       launchApp();
     }
 
     // ========================================================
-    // 2. REGISTER HANDLER: LANGSUNG INTEGRASI KE SUPABASE
+    // REGISTER: INSERT LANGSUNG KE TABEL USERS_PROFILE SUPABASE
     // ========================================================
     async function handleRegisterSubmit(e) {
       e.preventDefault();
-      const regName = document.getElementById('regName').value.trim();
-      const regEmail = document.getElementById('regEmail').value.trim().toLowerCase();
-      const regPhone = document.getElementById('regPhone').value.trim() || "-";
-      const regNik = document.getElementById('regNik').value.trim() || ("GT-" + Math.floor(100 + Math.random() * 900));
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('regPassword').value;
       const posParts = document.getElementById('regPosition').value.split('|');
-      const positionTitle = posParts[0];
-      const department = posParts[1];
+      const posTitle = posParts[0];
+      const dept = posParts[1];
+      const role = posParts[2]; // 'learner' atau 'admin'
 
-      // Tentukan role otomatis berdasarkan email atau departemen
-      const determinedRole = (regEmail.includes('admin') || department.includes('Human Capital')) ? 'admin' : 'peserta';
-
-      const newProfile = {
-        email: regEmail,
-        full_name: regName,
-        role: determinedRole,
-        nik: regNik,
-        phone: regPhone,
-        department: department,
-        position_title: positionTitle,
-        status_employee: "Aktif"
+      const newRecord = {
+        name: name,
+        email: email,
+        password_hash: pass,
+        role: role,
+        position_title: posTitle,
+        department: dept
       };
 
-      // 1. Simpan Permanen ke Database Supabase
-      try {
-        if (supabaseClient) {
-          const { error } = await supabaseClient.from('profiles').insert([newProfile]);
-          if (error) console.warn("Supabase sync notice:", error.message);
+      // 1. Eksekusi INSERT ke Supabase
+      if (supabaseClient) {
+        const { data, error } = await supabaseClient
+          .from('users_profile')
+          .insert([newRecord]);
+
+        if (error) {
+          alert("Gagal menyimpan ke Supabase:\n" + error.message + "\n\nPastikan Anda sudah menjalankan SQL Izin RLS pada Langkah 1.");
+          return;
         }
-      } catch(err) {
-        console.warn("Supabase write fallback:", err);
       }
 
-      // 2. Tambahkan ke List Lokal & Tabel
-      registeredProfiles.unshift(newProfile);
-      renderEmployeeTable();
+      // 2. Tambahkan ke state lokal & render tabel
+      localUsers.unshift(newRecord);
+      fetchAndRenderEmployees();
 
-      alert(`Pendaftaran Berhasil!\n\nAkun dengan email "${regEmail}" telah tersimpan di database Supabase sebagai "${determinedRole === 'admin' ? 'Administrator' : 'Peserta'}".\n\nAnda dapat langsung masuk sekarang.`);
-
-      // Alihkan ke Form Login dengan Email Terisi
+      alert(`Pendaftaran Berhasil!\n\nData karyawan "${name}" (${email}) telah berhasil dimasukkan ke tabel "users_profile" di database Supabase!`);
+      
       switchAuthTab('login');
-      document.getElementById('loginEmail').value = regEmail;
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = pass;
     }
 
     // ========================================================
-    // 3. LAUNCH APP SESUAI ROLE OTOMATIS DARI EMAIL
+    // TAMPILKAN DAFTAR KARYAWAN DARI USERS_PROFILE
     // ========================================================
+    async function fetchAndRenderEmployees() {
+      const tbody = document.getElementById('employeeTableBody');
+      if (!tbody) return;
+
+      let list = localUsers;
+
+      if (supabaseClient) {
+        try {
+          const { data, error } = await supabaseClient.from('users_profile').select('*');
+          if (data && data.length > 0) {
+            list = data;
+          }
+        } catch(e) { console.warn(e); }
+      }
+
+      tbody.innerHTML = '';
+      list.forEach(u => {
+        const isAdmin = (u.role || '').toLowerCase().includes('admin');
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="p-4 font-bold text-slate-800">${u.name || '-'}</td>
+          <td class="p-4">${u.email}</td>
+          <td class="p-4 font-semibold text-[#1e3c72]">${u.position_title || 'Driver Armada'}</td>
+          <td class="p-4"><span class="px-2 py-0.5 ${isAdmin ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-[#1e3c72]'} rounded font-bold uppercase text-[10px]">${u.role || 'learner'}</span></td>
+          <td class="p-4 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">Terdaftar</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
     function launchApp() {
       document.getElementById('authSection').classList.add('hidden');
       document.getElementById('appSection').classList.remove('hidden');
@@ -849,31 +640,25 @@
 
       const rolePill = document.getElementById('welcomeRolePill');
       const roleText = document.getElementById('currentRoleText');
-      const roleIcon = document.getElementById('roleBadgeIcon');
       const adminActions = document.getElementById('adminActionGroup');
 
-      // TENTUKAN TAMPILAN MURNI DARI ROLE EMAIL
       if (currentUser.role === 'admin') {
         rolePill.innerText = "Administrator HR";
         rolePill.className = "px-2.5 py-0.5 bg-purple-100 text-purple-800 text-[11px] font-bold rounded-full";
         roleText.innerText = "Admin: HR & Training";
-        roleIcon.className = "fa-solid fa-user-shield text-amber-300";
         adminActions.classList.remove('hidden');
-        document.getElementById('welcomeDescription').innerText = "Mode Administrator: Kelola katalog pelatihan, tambah karyawan, dan pantau kurikulum roadmap.";
       } else {
         rolePill.innerText = "Peserta (Trainee)";
         rolePill.className = "px-2.5 py-0.5 bg-blue-100 text-[#1e3c72] text-[11px] font-bold rounded-full";
         roleText.innerText = "Peserta: " + currentUser.position;
-        roleIcon.className = "fa-solid fa-id-badge text-amber-300";
         adminActions.classList.add('hidden');
-        document.getElementById('welcomeDescription').innerText = "Mode Peserta: Ikuti tahapan kurikulum secara berurutan. Selesaikan Induction untuk membuka materi berikutnya.";
       }
 
       switchTab('dashboard');
     }
 
     function handleLogout() {
-      if (confirm('Keluar dari akun?')) {
+      if (confirm('Keluar akun?')) {
         currentUser = null;
         document.getElementById('appSection').classList.add('hidden');
         document.getElementById('authSection').classList.remove('hidden');
@@ -881,8 +666,7 @@
     }
 
     function switchTab(tabId) {
-      const tabs = ['dashboard', 'employees', 'programs', 'schedule', 'kirkpatrick', 'reports'];
-      tabs.forEach(t => {
+      ['dashboard', 'employees', 'programs', 'reports'].forEach(t => {
         const c = document.getElementById(`tabContent_${t}`);
         const n = document.getElementById(`navTab_${t}`);
         if (c) c.classList.add('hidden');
@@ -894,139 +678,38 @@
       if (activeN) activeN.className = "px-3.5 py-2 rounded-lg transition-all flex items-center gap-2 bg-white text-[#1e3c72] shadow-sm whitespace-nowrap";
     }
 
-    // Render Tabel Karyawan
-    function renderEmployeeTable() {
-      const tbody = document.getElementById('employeeTableBody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-
-      registeredProfiles.forEach(emp => {
-        const initials = emp.full_name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        const isAdmin = emp.role === 'admin';
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition-all";
-        tr.innerHTML = `
-          <td class="p-4">
-            <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-full ${isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-[#1e3c72]'} font-black flex items-center justify-center text-xs">${initials}</div>
-              <div>
-                <div class="font-bold text-slate-800 text-xs">${emp.full_name}</div>
-                <div class="text-[10px] text-slate-400 font-mono">NIK: ${emp.nik || '-'}</div>
-              </div>
-            </div>
-          </td>
-          <td class="p-4 font-medium text-slate-700">${emp.email}</td>
-          <td class="p-4">
-            <div class="font-bold text-[#1e3c72]">${emp.position_title}</div>
-            <div class="text-[10px] text-slate-400">${emp.department}</div>
-          </td>
-          <td class="p-4">
-            <span class="px-2 py-0.5 ${isAdmin ? 'bg-purple-100 text-purple-800' : 'bg-blue-50 text-blue-700'} rounded font-bold text-[10px] uppercase">
-              ${emp.role}
-            </span>
-          </td>
-          <td class="p-4">
-            <span class="px-2.5 py-1 ${isAdmin ? 'bg-purple-50 text-purple-700' : 'bg-amber-100 text-amber-800'} rounded-full font-bold text-[10px]">
-              ${isAdmin ? 'Akses Penuh Admin' : 'Tahap 1 (Wajib Induction)'}
-            </span>
-          </td>
-          <td class="p-4 text-center">
-            <button onclick="alert('Karyawan: ${emp.full_name}\\nEmail: ${emp.email}\\nRole: ${emp.role}')" class="p-1.5 text-slate-400 hover:text-[#1e3c72]">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      document.getElementById('kpiEmployeeCount').innerText = registeredProfiles.length;
-    }
-
-    function filterEmployeeTable() {
-      const q = document.getElementById('employeeSearchInput').value.toLowerCase();
-      const dept = document.getElementById('employeeDeptFilter').value;
-      const rows = document.getElementById('employeeTableBody').getElementsByTagName('tr');
-      for (let r of rows) {
-        const text = r.innerText.toLowerCase();
-        const matchesQ = text.includes(q);
-        const matchesDept = (dept === 'ALL') || text.includes(dept.toLowerCase());
-        r.style.display = (matchesQ && matchesDept) ? '' : 'none';
-      }
-    }
-
-    // Modal Tambah Karyawan Baru
     function openNewEmployeeModal() { document.getElementById('newEmployeeModal').classList.remove('hidden'); }
     function closeNewEmployeeModal() { document.getElementById('newEmployeeModal').classList.add('hidden'); }
 
     async function handleNewEmployeeSubmit(e) {
       e.preventDefault();
-      const nik = document.getElementById('newEmpNik').value.trim();
       const name = document.getElementById('newEmpName').value.trim();
       const email = document.getElementById('newEmpEmail').value.trim().toLowerCase();
-      const phone = document.getElementById('newEmpPhone').value.trim() || "-";
-      const dept = document.getElementById('newEmpDept').value;
-      const pos = document.getElementById('newEmpPosition').value;
-      const role = (dept.includes('Human Capital') || email.includes('admin')) ? 'admin' : 'peserta';
+      const pass = document.getElementById('newEmpPassword').value;
+      const posParts = document.getElementById('newEmpPosition').value.split('|');
 
       const newEmp = {
-        email: email, full_name: name, nik: nik, phone: phone,
-        department: dept, position_title: pos, role: role, status_employee: 'Aktif'
+        name: name, email: email, password_hash: pass,
+        position_title: posParts[0], department: posParts[1], role: posParts[2]
       };
 
-      try {
-        if (supabaseClient) {
-          await supabaseClient.from('profiles').insert([newEmp]);
-        }
-      } catch(err) { console.warn(err); }
+      if (supabaseClient) {
+        const { error } = await supabaseClient.from('users_profile').insert([newEmp]);
+        if (error) { alert("Gagal Supabase: " + error.message); return; }
+      }
 
-      registeredProfiles.unshift(newEmp);
-      renderEmployeeTable();
-      alert(`Karyawan "${name}" (${email}) berhasil ditambahkan ke database Supabase!`);
+      localUsers.unshift(newEmp);
+      fetchAndRenderEmployees();
+      alert(`Sukses! Karyawan "${name}" berhasil tersimpan langsung di tabel users_profile Supabase.`);
       closeNewEmployeeModal();
       switchTab('employees');
     }
 
-    // Gated Learning
-    function handleLockedCourseClick(stage) {
-      if (!isInductionCompleted) {
-        alert('⚠️ Modul Terkunci!\n\nSesuai standar GrahaTrans, Anda WAJIB lulus Tahap 1: Induction & Budaya K3 terlebih dahulu.');
-      }
-    }
-
-    function openTrainingModal(id) { document.getElementById('trainingModal').classList.remove('hidden'); }
-    function closeTrainingModal() { document.getElementById('trainingModal').classList.add('hidden'); }
-
     function finishInductionAndUnlockNext() {
-      isInductionCompleted = true;
-      document.getElementById('stageCard1').className = "p-5 rounded-2xl border-2 border-emerald-500 bg-emerald-50/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
-      document.getElementById('stageBadge1').className = "w-12 h-12 rounded-2xl bg-emerald-600 text-white flex flex-col items-center justify-center shadow-md";
       document.getElementById('stageStatusText1').innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> <span class="text-emerald-700">LULUS (Skor: 92/100)</span>`;
-      
-      const card2 = document.getElementById('stageCard2');
-      card2.className = "p-5 rounded-2xl border-2 border-blue-500 bg-blue-50/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
-      document.getElementById('stageBadge2').className = "w-12 h-12 rounded-2xl bg-[#1e3c72] text-white flex flex-col items-center justify-center shadow-md";
       document.getElementById('stageStatusText2').innerHTML = `<i class="fa-solid fa-unlock text-emerald-600"></i> <span class="text-blue-700">TERBUKA: Siap Dipelajari</span>`;
-      
-      const btn2 = document.getElementById('stageBtn2');
-      btn2.className = "px-5 py-2.5 bg-gradient-to-r from-[#1e3c72] to-[#2a5298] text-white font-bold text-xs rounded-xl shadow cursor-pointer";
-      btn2.innerHTML = `<i class="fa-solid fa-play"></i><span>Mulai Tahap 2</span>`;
-      btn2.onclick = function() { alert('Membuka materi Tahap 2: Defensive Driving...'); };
-
-      document.getElementById('roadmapProgressPercent').innerText = "66%";
-      document.getElementById('roadmapProgressBar').style.width = "66%";
-
-      closeTrainingModal();
-      alert('🎉 SELAMAT! Anda telah lulus Ujian Induction.\n\nTahap 2: "Defensive Driving & Blind Spot" kini TELAH DIBUKA!');
-      showCertificateModal(currentUser.name, 'Induction & Budaya K3 GrahaTrans', 'GT/LMS/2026/CERT-9901');
+      alert('🎉 Selamat! Anda lulus Ujian Induction. Tahap 2 kini TELAH DIBUKA!');
     }
-
-    function showCertificateModal(nama, judul, code) {
-      document.getElementById('certRecipient').innerText = nama;
-      document.getElementById('certCourse').innerText = judul;
-      document.getElementById('certCode').innerText = code;
-      document.getElementById('certificateModal').classList.remove('hidden');
-    }
-    function closeCertificateModal() { document.getElementById('certificateModal').classList.add('hidden'); }
   </script>
 
 </body>
