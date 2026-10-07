@@ -57,34 +57,27 @@
 </head>
 <body class="h-full flex flex-col antialiased text-slate-800 bg-[#0f172a] overflow-x-hidden">
 
-  <!-- ==================== 1. LOGIN SCREEN DENGAN FOTO TRUK + LAYER OPACITY NAVY 40% ==================== -->
+  <!-- ==================== 1. LOGIN SCREEN DENGAN FOTO TRUK GDRIVE + LAYER OPACITY NAVY 40% ==================== -->
   <div id="authScreen" class="fixed inset-0 z-50 w-full h-full min-h-screen flex items-center justify-center p-4 overflow-y-auto">
     
-    <!-- 1. BASE BACKGROUND: GRADIEN NAVY AGAR TIDAK PERNAH JADI ABU-ABU -->
+    <!-- 1. BASE BACKGROUND: GRADIEN NAVY (AGAR TIDAK PERNAH JADI ABU-ABU) -->
     <div class="fixed inset-0 z-0 bg-gradient-to-r from-[#1e3c72] via-[#2a5298] to-[#3b609d]"></div>
 
-    <!-- 2. FOTO ARMADA TRUK KONTAINER LOGISTIK (100% MUNCUL DARI CDN CEPAT) -->
+    <!-- 2. FOTO TRUK ASLI DARI GOOGLE DRIVE ANDA DENGAN DIRECT CDN LINK -->
     <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-         style="background-image: url('grahatrans-bg.jpg'), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=2070&q=80');">
+         style="background-image: url('https://lh3.googleusercontent.com/d/11TAzwPShqruohPAqUiRAs6vgV-EZErl7');">
     </div>
 
-    <!-- 3. LAYER WARNA BIRU NAVY DENGAN OPACITY 40% (0.4) PERSIS SESUAI PERMINTAAN -->
+    <!-- 3. LAYER WARNA BIRU NAVY DENGAN OPACITY 40% (0.4) PERSIS SESUAI PERMINTAAN ANDA -->
     <div class="fixed inset-0 z-0 bg-[#1e3c72] opacity-40"></div>
 
-    <!-- KARTU LOGIN DARK GLASSMORPHIC MEWAH DENGAN LOGO GRAHATRANS PUTIH -->
+    <!-- KARTU LOGIN DARK GLASSMORPHIC MEWAH DENGAN LOGO GRAHATRANS PUTIH DARI GDRIVE ANDA -->
     <div class="relative z-10 bg-slate-900/90 backdrop-blur-2xl rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/20 text-white my-auto">
       
-      <!-- LOGO GRAHATRANS PUTIH LENGKAP DENGAN EMBLEM IKONIK -->
+      <!-- LOGO GRAHATRANS PUTIH ASLI DARI GOOGLE DRIVE ANDA -->
       <div class="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <!-- Emblem 3D G GrahaTrans -->
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 text-white font-black text-xl flex-shrink-0">
-            G
-          </div>
-          <div>
-            <span class="text-xl font-black text-white tracking-wider block leading-tight">GrahaTrans</span>
-            <span class="text-[9px] text-blue-200 font-semibold tracking-wider block">LOGISTICS & TRANSPORTATION</span>
-          </div>
+          <img src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" alt="GrahaTrans" class="h-9 object-contain" />
         </div>
 
         <span class="text-[9px] font-black px-2.5 py-1 rounded-md bg-blue-500/20 text-blue-300 border border-blue-400/30 uppercase tracking-widest">
@@ -171,15 +164,14 @@
   <!-- ==================== 2. APLIKASI UTAMA SETELAH LOGIN ==================== -->
   <div id="appContainer" class="hidden flex-1 flex flex-col min-h-screen">
     
-    <!-- TOPBAR NAVBAR DENGAN LOGO GRAHATRANS PUTIH -->
+    <!-- TOPBAR NAVBAR DENGAN LOGO GRAHATRANS PUTIH DARI GDRIVE -->
     <header class="bg-theme-gradient text-white sticky top-0 z-30 shadow-md">
       <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         <!-- Sisi Kiri: Logo GrahaTrans pada Navbar -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
-          <div class="bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2">
-            <span class="w-5 h-5 rounded-md bg-white text-[#1e3c72] flex items-center justify-center font-black text-xs">G</span>
-            <span class="text-xs font-black text-white tracking-widest">GrahaTrans</span>
+          <div class="bg-white/10 px-2.5 py-1 rounded-xl border border-white/20 flex items-center">
+            <img src="https://lh3.googleusercontent.com/d/1rJvzFfif2pdGkHjMVUuhzWvcIPPi_eHu" alt="GrahaTrans" class="h-6 object-contain" />
           </div>
           <span class="text-white/40 font-light">|</span>
           <span class="text-white/90 text-xs font-semibold tracking-wide">Main Dashboard</span>
