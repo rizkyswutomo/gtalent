@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-[#f0f4f8]">
+<html lang="id" class="h-full bg-[#f4f6f9]">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InnoTalent Corporate LMS | Talent & Organization Development</title>
+  <title>BCS Logistics | Human Capital Management System - LMS</title>
   
-  <!-- Font Inter & Plus Jakarta Sans (Sesuai Referensi Visual) -->
+  <!-- Font Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -20,11 +20,10 @@
             sans: ['Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif],
           },
           colors: {
-            navy: {
-              700: '#234a85',
-              800: '#1b3b6f', // Deep Corporate Navy persis gambar referensi
-              900: '#16325c',
-              950: '#0f2341',
+            brand: {
+              navy: '#1e3c72',
+              blue: '#2a5298',
+              accent: '#3b609d',
             }
           }
         }
@@ -32,29 +31,26 @@
     }
   </script>
   
-  <!-- Icons, Confetti & Supabase JS SDK -->
+  <!-- Icons, Confetti & Supabase SDK -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
-  <!-- File Konfigurasi Supabase Eksternal -->
+  <!-- Konfigurasi Supabase Eksternal -->
   <script src="config.js"></script>
 
   <style>
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       color: #1e293b;
-      background-color: #f0f4f8;
+      background-color: #f4f6f9;
     }
-    .header-navy {
-      background-color: #1b3b6f;
+    .bg-theme-gradient {
+      background: linear-gradient(to right, #1e3c72, #2a5298, #3b609d);
     }
     .certificate-frame {
       border: 12px double #c7a14e;
       background: radial-gradient(circle at center, #ffffff 60%, #faf8f2 100%);
-    }
-    .gold-badge {
-      background: linear-gradient(135deg, #d4af37, #f3e5ab, #aa771c);
     }
     @media print {
       body * { visibility: hidden; }
@@ -64,39 +60,27 @@
     }
   </style>
 </head>
-<body class="h-full flex flex-col antialiased text-slate-800 bg-[#f0f4f8]">
-
-  <!-- SUPABASE STATUS BANNER (JIKA BELUM DISAMBUNGKAN) -->
-  <div id="supabaseNoticeBanner" class="hidden bg-amber-500 text-white text-xs px-4 py-2 font-medium flex items-center justify-between z-50">
-    <div class="flex items-center gap-2">
-      <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-      <span>Mode Offline / Mock Aktif. Sambungkan kredensial Supabase untuk mengaktifkan sinkronisasi database PostgreSQL secara live.</span>
-    </div>
-    <button onclick="app.openSupabaseConfigModal()" class="px-3 py-1 bg-white text-amber-900 rounded-lg font-bold text-[11px] hover:bg-amber-100 transition">
-      Koneksikan Supabase
-    </button>
-  </div>
+<body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9]">
 
   <!-- ==================== 1. AUTH SCREEN (LOGIN & REGISTER) ==================== -->
-  <div id="authScreen" class="fixed inset-0 z-50 header-navy flex items-center justify-center p-4 overflow-y-auto">
+  <div id="authScreen" class="fixed inset-0 z-50 bg-theme-gradient flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100 my-6">
       
       <!-- Brand Logo Header Sesuai Gambar Referensi -->
       <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-100">
-        <div class="w-10 h-10 rounded-xl bg-[#1b3b6f] flex items-center justify-center text-white shadow-md">
-          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+        <div class="flex items-center gap-1.5 font-black text-sm">
+          <span class="bg-[#1e3c72] text-white px-2.5 py-1 rounded-md tracking-wider">BCS</span>
+          <span class="bg-[#f97316] text-white px-2.5 py-1 rounded-md tracking-wider">Logistics</span>
         </div>
         <div>
-          <span class="text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            InnoTalent <span class="text-xs px-2 py-0.5 rounded-md bg-blue-50 text-[#1b3b6f] font-bold border border-blue-200">C-LMS</span>
-          </span>
-          <p class="text-[11px] text-slate-500 font-medium">Talent & Organization Development Platform</p>
+          <span class="text-xs font-extrabold text-slate-900 block leading-tight">HUMAN CAPITAL LMS</span>
+          <p class="text-[10px] text-slate-500 font-medium">Enterprise Learning & Competency Hub</p>
         </div>
       </div>
 
       <!-- Tab Switcher: Masuk vs Buat Akun Baru -->
       <div class="flex p-1 bg-slate-100 rounded-xl mb-6 text-xs font-bold">
-        <button id="tabLoginBtn" onclick="app.switchAuthMode('login')" class="flex-1 py-2 rounded-lg bg-white text-[#1b3b6f] shadow-sm transition">
+        <button id="tabLoginBtn" onclick="app.switchAuthMode('login')" class="flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition">
           Masuk Akun
         </button>
         <button id="tabRegisterBtn" onclick="app.switchAuthMode('register')" class="flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition">
@@ -108,22 +92,22 @@
       <form id="formLogin" onsubmit="app.handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Email Pengguna:</label>
-          <input type="email" id="loginEmail" required placeholder="nama@innotalent.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="email" id="loginEmail" required placeholder="nama@innotalent.com atau staff_hr@bcslabs.tech" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Password:</label>
-          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
-        <button type="submit" id="btnSubmitLogin" class="w-full py-3 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-md shadow-blue-900/20 transition flex items-center justify-center gap-2">
+        <button type="submit" id="btnSubmitLogin" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md shadow-blue-900/20 hover:opacity-95 transition flex items-center justify-center gap-2">
           <i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran
         </button>
         
         <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-600 mt-2">
           <div class="font-bold text-slate-700 mb-1 flex items-center justify-between">
-            <span>Akses Default Sistem:</span>
-            <button type="button" onclick="app.fillDefaultAdmin()" class="text-[10px] text-[#1b3b6f] underline font-semibold">Gunakan Admin</button>
+            <span>Akses Cepat Pengujian:</span>
+            <button type="button" onclick="app.fillDefaultAdmin()" class="text-[10px] text-[#1e3c72] underline font-semibold">Gunakan Akun HR</button>
           </div>
-          <p>Admin TOD: <span class="font-mono text-[#1b3b6f] font-bold">admin@innotalent.com</span> | Pass: <span class="font-mono text-[#1b3b6f] font-bold">admin123</span></p>
+          <p>Email: <span class="font-mono text-[#1e3c72] font-bold">admin@innotalent.com</span> | Pass: <span class="font-mono text-[#1e3c72] font-bold">admin123</span></p>
         </div>
       </form>
 
@@ -131,38 +115,38 @@
       <form id="formRegister" onsubmit="app.handleRegister(event)" class="space-y-3.5 hidden">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap:</label>
-          <input type="text" id="regName" required placeholder="Contoh: Muhammad Ihsan" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="text" id="regName" required placeholder="Contoh: Bambang Hermawan" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Email Kantor:</label>
-          <input type="email" id="regEmail" required placeholder="nama@innotalent.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="email" id="regEmail" required placeholder="bambang@bcslabs.tech" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Departemen / Divisi:</label>
-          <select id="regDept" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-white">
-            <option value="Operational & Fleet">Operational & Fleet</option>
-            <option value="HSE & Safety">HSE & Safety</option>
-            <option value="Human Capital & TOD">Human Capital & TOD</option>
-            <option value="Finance & Accounting">Finance & Accounting</option>
-            <option value="Commercial & Sales">Commercial & Sales</option>
+          <select id="regDept" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-white">
+            <option value="Operations & Safety">Operations & Safety</option>
+            <option value="Fleet & Technical">Fleet & Technical</option>
+            <option value="Human Capital / HRIS">Human Capital / HRIS</option>
+            <option value="Procurement & Warehouse">Procurement & Warehouse</option>
+            <option value="General Affairs">General Affairs</option>
           </select>
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru:</label>
-          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Konfirmasi Password:</label>
-          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none bg-slate-50/50" />
+          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/50" />
         </div>
-        <button type="submit" id="btnSubmitRegister" class="w-full py-3 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+        <button type="submit" id="btnSubmitRegister" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md hover:opacity-95 transition flex items-center justify-center gap-2">
           <i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya
         </button>
       </form>
 
       <!-- Supabase Config Trigger -->
       <div class="mt-4 pt-3 border-t text-center">
-        <button onclick="app.openSupabaseConfigModal()" class="text-[11px] text-slate-400 hover:text-[#1b3b6f] flex items-center justify-center gap-1 mx-auto">
+        <button onclick="app.openSupabaseConfigModal()" class="text-[11px] text-slate-400 hover:text-[#1e3c72] flex items-center justify-center gap-1 mx-auto">
           <i data-lucide="database" class="w-3.5 h-3.5"></i> Status Koneksi Supabase Backend
         </button>
       </div>
@@ -170,352 +154,465 @@
     </div>
   </div>
 
-  <!-- ==================== 2. APLIKASI UTAMA (TEMA SESUAI GAMBAR) ==================== -->
+  <!-- ==================== 2. APLIKASI UTAMA (REDESIGN 1:1 DARI REFERENSI) ==================== -->
   <div id="appContainer" class="hidden flex-1 flex flex-col min-h-screen">
     
-    <!-- TOP NAVBAR (NAVY BLUE SOLID SESUAI GAMBAR REFERENSI #1b3b6f) -->
-    <header class="header-navy text-white sticky top-0 z-30 shadow-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- TOPBAR NAVBAR DENGAN WARNA GRADIENT KHAS -->
+    <header class="bg-theme-gradient text-white sticky top-0 z-30 shadow-md">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Sisi Kiri: Logo + Subtitle Separator -->
-        <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('dashboard')">
-          <div class="flex items-center space-x-2 text-white font-extrabold text-lg tracking-tight">
-            <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white border border-white/20">
-              <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-            </span>
-            <span class="text-white tracking-wide">InnoTalent</span>
+        <!-- Sisi Kiri: Logo BCS Logistics Sesuai Gambar -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
+          <div class="flex items-center gap-1 font-black text-sm">
+            <span class="bg-blue-600 text-white px-2.5 py-1 rounded-md shadow-sm">BCS</span>
+            <span class="bg-[#f97316] text-white px-2.5 py-1 rounded-md shadow-sm">Logistics</span>
           </div>
           <span class="text-white/40 font-light">|</span>
-          <span class="text-white/90 text-xs font-medium hidden sm:inline tracking-wide">Learning Management System</span>
+          <span class="text-white/90 text-xs font-semibold tracking-wide">Main Dashboard</span>
         </div>
 
-        <!-- Sisi Kanan: Organisasi & Avatar Bulat Putih -->
-        <div class="flex items-center space-x-3.5">
-          <div class="text-right hidden sm:block">
-            <div id="userNameTop" class="text-xs font-bold text-white tracking-wide leading-tight">Amanda Putri, S.Psi, M.M.</div>
-            <div id="userRoleTop" class="text-[10px] text-blue-200 font-medium">Talent & Organization Development</div>
+        <!-- Sisi Kanan: Search Bar, Ikon & Profil Karyawan -->
+        <div class="flex items-center space-x-4">
+          <!-- Kolom Pencarian Cepat Header -->
+          <div class="relative hidden md:block w-72">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
+            <input type="text" placeholder="Search modules..." class="w-full pl-9 pr-3 py-1.5 rounded-full bg-white text-slate-800 placeholder-slate-400 text-xs border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-300 shadow-inner" />
           </div>
 
-          <!-- Avatar Circle Putih dengan Inisial / Icon -->
-          <div id="userHeaderAvatar" class="w-9 h-9 rounded-full bg-white text-[#1b3b6f] flex items-center justify-center font-bold text-sm shadow-sm select-none">
-            A
+          <div class="flex items-center space-x-2 text-white/80">
+            <button title="Kalender Pelatihan" class="p-2 rounded-full hover:bg-white/10 text-white transition">
+              <i data-lucide="calendar" class="w-4 h-4"></i>
+            </button>
+            <button title="Notifikasi" class="p-2 rounded-full hover:bg-white/10 text-white transition relative">
+              <i data-lucide="bell" class="w-4 h-4"></i>
+              <span class="w-2 h-2 rounded-full bg-rose-500 absolute top-1.5 right-1.5"></span>
+            </button>
           </div>
 
-          <!-- Tombol Aksi Cepat -->
-          <button onclick="app.openChangePasswordModal()" title="Ganti Password" class="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition">
-            <i data-lucide="key-round" class="w-4 h-4"></i>
-          </button>
-          <button onclick="app.openSupabaseConfigModal()" title="Status Supabase" class="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition">
-            <i data-lucide="database" class="w-4 h-4"></i>
-          </button>
-          <button onclick="app.logout()" title="Keluar Akun" class="p-2 rounded-lg text-white/80 hover:text-rose-300 hover:bg-white/10 transition">
-            <i data-lucide="log-out" class="w-4 h-4"></i>
-          </button>
+          <span class="text-white/30 font-light">|</span>
+
+          <!-- Profil User Sesuai Gambar -->
+          <div class="flex items-center space-x-2.5">
+            <div class="text-right hidden sm:block">
+              <div id="userNameTop" class="text-xs font-extrabold text-white leading-tight">THAHIRA QANITA</div>
+              <div id="userRoleTop" class="text-[10px] text-blue-200 font-semibold uppercase tracking-wider">STAFF_HR</div>
+            </div>
+
+            <!-- Avatar Lingkaran TQ Sesuai Gambar -->
+            <div id="userHeaderAvatar" class="w-8 h-8 rounded-full bg-[#1b2b48] border border-white/30 text-white flex items-center justify-center font-bold text-xs shadow">
+              TQ
+            </div>
+
+            <button onclick="app.openChangePasswordModal()" title="Ganti Password" class="p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition">
+              <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
+            </button>
+            <button onclick="app.logout()" title="Keluar Akun" class="p-1.5 rounded-lg text-white/70 hover:text-rose-300 hover:bg-white/10 transition">
+              <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
         </div>
 
       </div>
     </header>
 
-    <!-- SECONDARY HORIZONTAL TAB BAR (PUTIH DENGAN ACTIVE BLUE BORDER SESUAI GAMBAR REFERENSI) -->
-    <div class="bg-white border-b border-slate-200/80 shadow-sm sticky top-16 z-20">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center space-x-8 text-xs font-semibold overflow-x-auto" id="horizontalTabs">
-          <!-- Rendered via JS -->
-        </nav>
-      </div>
+    <!-- WRAPPER KONTEN UTAMA: SIDEBAR KIRI + WORKSPACE KANAN -->
+    <div class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
+      
+      <!-- ==================== SIDEBAR KIRI (PERSIS GAMBAR) ==================== -->
+      <aside class="w-full lg:w-64 flex-shrink-0 space-y-4">
+        
+        <!-- Card Human Capital Management System -->
+        <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-xs font-black text-slate-800 leading-tight">HUMAN CAPITAL</h2>
+            <p class="text-[10px] text-slate-500 font-medium">MANAGEMENT SYSTEM</p>
+          </div>
+        </div>
+
+        <!-- Section Menu TALENT & ORGANIZATION -->
+        <div class="bg-white rounded-2xl p-3 border border-slate-200/90 shadow-sm space-y-1">
+          <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-2">
+            TALENT & ORGANIZATION
+          </div>
+
+          <a href="javascript:void(0)" onclick="app.navigate('assessment')" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">
+            <i data-lucide="check-square" class="w-4 h-4 text-slate-400"></i>
+            <span>Team Competency Assessment</span>
+          </a>
+
+          <a href="javascript:void(0)" onclick="app.navigate('programs')" id="sideNavLms" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-[#1e3c72] bg-blue-50/70 border border-blue-200/60 shadow-sm transition">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#1e3c72]"></i>
+            <span>LMS & Training</span>
+          </a>
+
+          <div id="sideAdminSection" class="pt-2 border-t border-slate-100 hidden">
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 px-3 py-1">
+              ADMINISTRATOR
+            </div>
+            <a href="javascript:void(0)" onclick="app.navigate('admin_roadmap')" class="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition">
+              <i data-lucide="layers" class="w-4 h-4 text-slate-400"></i>
+              <span>Roadmap Kurikulum TOD</span>
+            </a>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ==================== WORKSPACE UTAMA KANAN ==================== -->
+      <main class="flex-1 min-w-0 space-y-6" id="mainContent">
+
+        <!-- 1. TITLE BAR ATAS (PERSIS SEPERTI GAMBAR) -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-0.5 border border-amber-200/60">
+              <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h1 class="text-lg font-extrabold text-slate-900 tracking-tight">Learning Management System (LMS)</h1>
+                <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 uppercase tracking-wider border border-emerald-300">
+                  ENTERPRISE ACADEMY
+                </span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                Pusat pengembangan kompetensi, sertifikasi pengemudi, evaluasi multi-level Kirkpatrick, dan kepatuhan K3 PT BCS Logistics
+              </p>
+            </div>
+          </div>
+
+          <!-- Action Buttons Pojok Kanan Atas Sesuai Gambar -->
+          <div class="flex items-center gap-2.5 flex-shrink-0">
+            <button onclick="app.navigate('programs')" class="px-3.5 py-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Portal Karyawan
+            </button>
+            <button onclick="document.getElementById('addRoadmapModal').classList.remove('hidden')" class="px-4 py-2 rounded-xl bg-[#281b3b] hover:bg-[#1a1128] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-md">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Pelatihan Baru
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. ENAM KARTU KPI METRIC CARDS (PERSIS GAMBAR REFERENSI) -->
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+          
+          <!-- Metric 1: Total Pelatihan -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">TOTAL PELATIHAN</div>
+            <div class="text-2xl font-black text-slate-900 mt-1">16</div>
+            <div class="text-[10px] font-bold text-emerald-600 mt-0.5">Program Aktif</div>
+          </div>
+
+          <!-- Metric 2: Peserta Aktif -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">PESERTA AKTIF</div>
+            <div class="text-2xl font-black text-slate-900 mt-1">135</div>
+            <div class="text-[10px] font-bold text-blue-600 mt-0.5">Driver & Staff Lapangan</div>
+          </div>
+
+          <!-- Metric 3: Kepuasan Lvl 1 -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">KEPUASAN LVL 1</div>
+            <div class="text-2xl font-black text-amber-500 mt-1 flex items-center gap-1">
+              5 <span class="text-sm">★</span>
+            </div>
+            <div class="text-[10px] font-bold text-amber-600 mt-0.5">Reaksi Peserta Training</div>
+          </div>
+
+          <!-- Metric 4: Review Atasan -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">REVIEW ATASAN</div>
+            <div class="text-2xl font-black text-slate-900 mt-1">0</div>
+            <div class="text-[10px] font-bold text-emerald-600 mt-0.5">Due Date H+3 Bulan</div>
+          </div>
+
+          <!-- Metric 5: Kepatuhan K3 -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">KEPATUHAN K3</div>
+            <div class="text-2xl font-black text-emerald-600 mt-1">94.5%</div>
+            <div class="text-[10px] font-bold text-emerald-700 mt-0.5">Safety Test 2026</div>
+          </div>
+
+          <!-- Metric 6: Sertifikat Terbit -->
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">SERTIFIKAT TERBIT</div>
+            <div class="text-2xl font-black text-purple-600 mt-1">2</div>
+            <div class="text-[10px] font-bold text-purple-600 mt-0.5">E-Certificate Resmi</div>
+          </div>
+
+        </div>
+
+        <!-- 3. CONTAINER TAB BAR UTAMA (PERSIS SEPERTI GAMBAR 1 & 2) -->
+        <div class="bg-[#8b92a5] p-1.5 rounded-2xl flex items-center space-x-1 overflow-x-auto text-xs font-bold text-slate-200">
+          <button id="tabNavPrograms" onclick="app.setActiveTab('programs')" class="px-4 py-2.5 rounded-xl bg-white text-slate-800 shadow-sm flex items-center gap-2 whitespace-nowrap transition">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-[#1e3c72]"></i> Program Pelatihan
+          </button>
+          <button id="tabNavSchedule" onclick="app.setActiveTab('schedule')" class="px-4 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/10 flex items-center gap-2 whitespace-nowrap transition">
+            <i data-lucide="calendar" class="w-4 h-4"></i> Jadwal & Absensi
+          </button>
+          <button id="tabNavKirkpatrick" onclick="app.setActiveTab('kirkpatrick')" class="px-4 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/10 flex items-center gap-2 whitespace-nowrap transition">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i> Evaluasi Kirkpatrick
+          </button>
+          <button id="tabNavAssessment" onclick="app.setActiveTab('assessment')" class="px-4 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/10 flex items-center gap-2 whitespace-nowrap transition">
+            <i data-lucide="crosshair" class="w-4 h-4"></i> Competency & TNA Assessment
+          </button>
+          <button id="tabNavCertificates" onclick="app.setActiveTab('certificates')" class="px-4 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/10 flex items-center gap-2 whitespace-nowrap transition">
+            <i data-lucide="award" class="w-4 h-4"></i> Laporan & E-Sertifikat
+          </button>
+        </div>
+
+        <!-- 4. VIEW KONTEN DARI MASING-MASING TAB -->
+        <div id="tabContentContainer">
+          <!-- Dynamically injected -->
+        </div>
+
+      </main>
     </div>
 
-    <!-- MAIN WORKSPACE -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6" id="mainContent">
-      <!-- Dynamic Views -->
-    </main>
-
-    <!-- FOOTER RESMI TOD -->
-    <footer class="bg-white border-t border-slate-200/80 py-4 text-center text-xs text-slate-500">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <span>&copy; 2026 InnoTalent C-LMS • Talent & Organization Development Hub</span>
-        <span class="flex items-center gap-2 text-[11px] text-slate-400">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
-          Deployed on Vercel • Powered by Supabase PostgreSQL
-        </span>
-      </div>
-    </footer>
   </div>
 
   <!-- ==================== 3. MODAL GANTI PASSWORD ==================== -->
   <div id="changePasswordModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative">
       <div class="flex items-center justify-between pb-3 border-b mb-5">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-blue-50 text-[#1b3b6f] flex items-center justify-center">
-            <i data-lucide="key-round" class="w-4 h-4"></i>
-          </div>
-          <h3 class="font-bold text-sm text-slate-900">Ganti Password Akun</h3>
-        </div>
-        <button onclick="app.closeChangePasswordModal()" class="text-slate-400 hover:text-slate-600">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i data-lucide="key-round" class="w-4 h-4 text-[#1e3c72]"></i> Ganti Password Akun
+        </h3>
+        <button onclick="document.getElementById('changePasswordModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
 
-      <form onsubmit="app.handleChangePassword(event)" class="space-y-4">
+      <form onsubmit="app.handleChangePassword(event)" class="space-y-4 text-xs">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Password Lama:</label>
-          <input type="password" id="oldPassword" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none" />
+          <label class="block font-bold text-slate-700 mb-1">Password Lama:</label>
+          <input type="password" id="oldPassword" required class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru:</label>
-          <input type="password" id="newPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none" />
+          <label class="block font-bold text-slate-700 mb-1">Password Baru:</label>
+          <input type="password" id="newPassword" required placeholder="Minimal 6 karakter" class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Konfirmasi Password Baru:</label>
-          <input type="password" id="newPasswordConfirm" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1b3b6f] focus:outline-none" />
+          <label class="block font-bold text-slate-700 mb-1">Konfirmasi Password Baru:</label>
+          <input type="password" id="newPasswordConfirm" required class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div class="pt-2 flex items-center justify-end gap-2">
-          <button type="button" onclick="app.closeChangePasswordModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Batal</button>
-          <button type="submit" id="btnSubmitChangePass" class="px-5 py-2.5 rounded-xl bg-[#1b3b6f] text-white font-bold text-xs shadow-md transition">Simpan Password</button>
+          <button type="button" onclick="document.getElementById('changePasswordModal').classList.add('hidden')" class="px-4 py-2 rounded-xl border text-slate-600">Batal</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-theme-gradient text-white font-bold">Simpan Password</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ==================== 4. MODAL SUPABASE CONFIG ==================== -->
+  <!-- ==================== 4. MODAL SUPABASE CONFIG (DENGAN AUTO-CLEAN URL) ==================== -->
   <div id="supabaseModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-6">
       <div class="flex items-center justify-between pb-3 border-b mb-4">
         <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-          <i data-lucide="database" class="w-5 h-5 text-[#1b3b6f]"></i> Pengaturan Koneksi Supabase Database
+          <i data-lucide="database" class="w-5 h-5 text-[#1e3c72]"></i> Pengaturan Koneksi Supabase Database
         </h3>
         <button onclick="document.getElementById('supabaseModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
 
-      <p class="text-xs text-slate-600 mb-4 leading-relaxed">
-        Dapatkan Project URL dan Project Anon Key dari dashboard Supabase Anda di menu <strong>Project Settings &gt; API</strong>.
+      <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika Anda tidak sengaja memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
       </p>
 
       <form onsubmit="app.saveSupabaseConfig(event)" class="space-y-4 text-xs">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Supabase Project URL:</label>
-          <input type="text" id="cfgSbUrl" placeholder="https://xxxxxxxx.supabase.co" class="w-full p-2.5 rounded-xl border border-slate-200 font-mono text-xs" />
+          <input type="text" id="cfgSbUrl" placeholder="https://jvthmnuhoyysmttdedae.supabase.co" class="w-full p-2.5 rounded-xl border border-slate-200 font-mono text-xs" />
         </div>
         <div>
           <label class="block font-bold text-slate-700 mb-1">Supabase Anon Public API Key:</label>
           <textarea id="cfgSbKey" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="w-full p-2.5 rounded-xl border border-slate-200 font-mono text-xs"></textarea>
         </div>
-        <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-blue-900 text-[11px] leading-relaxed">
-          Kredensial ini disimpan aman di browser lokal Anda (atau dapat didefinisikan langsung di file <code class="font-mono font-bold">config.js</code>).
-        </div>
         <div class="flex items-center justify-end gap-2 pt-2">
           <button type="button" onclick="document.getElementById('supabaseModal').classList.add('hidden')" class="px-4 py-2 rounded-xl border text-slate-600 font-bold">Tutup</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-[#1b3b6f] text-white font-bold">Simpan & Uji Koneksi</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-theme-gradient text-white font-bold">Simpan & Uji Koneksi</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- ==================== 5. MODAL TAMBAH MODUL ROADMAP (ADMIN TOD) ==================== -->
+  <!-- ==================== 5. MODAL TAMBAH MODUL BARU ==================== -->
   <div id="addRoadmapModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative my-6">
       <div class="flex items-center justify-between pb-3 border-b mb-5">
         <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
-          <i data-lucide="plus-circle" class="w-5 h-5 text-[#1b3b6f]"></i> Tambah Modul ke Roadmap Kurikulum
+          <i data-lucide="plus-circle" class="w-5 h-5 text-[#1e3c72]"></i> Tambah Pelatihan Baru ke Kurikulum
         </h3>
         <button onclick="document.getElementById('addRoadmapModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">✕</button>
       </div>
 
       <form onsubmit="app.handleAddRoadmapItem(event)" class="space-y-3.5 text-xs">
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Tingkat Level Roadmap:</label>
+          <label class="block font-bold text-slate-700 mb-1">Tingkat Level Kurikulum:</label>
           <select id="modalLevel" required class="w-full p-2.5 rounded-xl border border-slate-200 font-semibold bg-white">
-            <option value="Basic">Level 1: Basic (Induction & Fondasi)</option>
-            <option value="Intermediate">Level 2: Intermediate (Fungsional & 5-Whys)</option>
-            <option value="Advanced">Level 3: Advanced (Leadership & Coaching)</option>
+            <option value="Basic">Level 1: Basic (Induction & K3)</option>
+            <option value="Intermediate">Level 2: Intermediate (Technical & 5-Whys)</option>
+            <option value="Advanced">Level 3: Advanced (Leadership & Management)</option>
           </select>
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Course ID:</label>
-          <input type="text" id="modalCourseId" required placeholder="Contoh: c7" class="w-full p-2.5 rounded-xl border border-slate-200" />
+          <label class="block font-bold text-slate-700 mb-1">Course Code:</label>
+          <input type="text" id="modalCourseId" required placeholder="CRS-TEC-0020" class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Judul Modul Pembelajaran:</label>
-          <input type="text" id="modalTitle" required placeholder="Contoh: Basic Investigation Training from HINO" class="w-full p-2.5 rounded-xl border border-slate-200" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Tipe Media:</label>
-            <select id="modalType" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
-              <option value="slides">Google Slides Embed</option>
-              <option value="video">Video YouTube / Drive</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Status Kepatuhan:</label>
-            <select id="modalMandatory" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white">
-              <option value="TRUE">Wajib (Mandatory)</option>
-              <option value="FALSE">Pilihan (Elective)</option>
-            </select>
-          </div>
+          <label class="block font-bold text-slate-700 mb-1">Judul Program Pelatihan:</label>
+          <input type="text" id="modalTitle" required placeholder="Defensive Driving & Road Safety Certification" class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">URL Materi (Link Embed):</label>
-          <input type="text" id="modalUrl" placeholder="https://docs.google.com/presentation/.../embed atau YouTube" class="w-full p-2.5 rounded-xl border border-slate-200" />
+          <label class="block font-bold text-slate-700 mb-1">Target Departemen & Anggaran:</label>
+          <input type="text" id="modalTarget" placeholder="Target: Operations & Safety • Rp 500.000" class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Target Kompetensi TOD:</label>
-          <input type="text" id="modalTarget" placeholder="Keahlian spesifik yang diharapkan dikuasai karyawan" class="w-full p-2.5 rounded-xl border border-slate-200" />
+          <label class="block font-bold text-slate-700 mb-1">URL Materi (Google Slides / YouTube Embed):</label>
+          <input type="text" id="modalUrl" placeholder="https://www.youtube.com/embed/dQw4w9WgXcQ" class="w-full p-2.5 rounded-xl border border-slate-200" />
         </div>
-        <button type="submit" class="w-full py-3 rounded-xl bg-[#1b3b6f] text-white font-bold text-xs mt-2 shadow-md hover:bg-[#16325c] transition">
-          Simpan Modul ke Supabase Roadmap
+        <button type="submit" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs mt-2 shadow-md">
+          Simpan ke Database LMS
         </button>
       </form>
     </div>
   </div>
 
-  <!-- ==================== 6. MODAL INTERAKTIF POP-UP HASIL KUIS ==================== -->
+  <!-- Modal Pop-Up Interaktif Hasil Kuis -->
   <div id="interactiveResultModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div id="modalCardBody" class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 text-center transform transition-all my-8"></div>
   </div>
 
-  <!-- ==================== 7. MODAL SERTIFIKAT DIGITAL ==================== -->
+  <!-- Modal Sertifikat Resmi Siap Cetak -->
   <div id="modalContainer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto"></div>
 
-  <!-- ==================== 8. CORE APPLICATION LOGIC ==================== -->
+  <!-- ==================== 6. CORE JAVASCRIPT APP LOGIC ==================== -->
   <script>
-    // DATA DEFAULT ROADMAP JIKA BELUM TERHUBUNG SUPABASE
-    const DEFAULT_ROADMAP = [
+    // Data Kursus & Soal Lengkap Sesuai Gambar Referensi
+    const DEFAULT_COURSES = [
       {
-        id: 'R_BSC_01',
-        level: 'Basic',
-        order: 1,
+        id: 'CRS-TEC-0020',
         courseId: 'c1',
-        title: 'Induksi Nilai Budaya 4C & Profil Perusahaan',
-        contentType: 'slides',
-        embedUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vR2VfC7t4B3X1X8Y2y_EXAMPLE/embed?start=false&loop=false&delayms=3000',
-        isMandatory: true,
-        passingScore: 80,
-        targetCompetency: 'Internalisasi Visi Misi, Budaya Kerja 4C & Nilai Inti'
-      },
-      {
-        id: 'R_BSC_02',
+        title: 'Communication & Driver Etiquette Standar Industri',
+        category: 'Operations',
+        classification: 'GAP COMPETENCY',
+        badgeSkill: 'TECHNICAL & SOFT SKILL',
+        rating: '5.0',
         level: 'Basic',
-        order: 2,
-        courseId: 'c2',
-        title: 'Protokol Keamanan Informasi & Anti-Phishing (InfoSec 101)',
-        contentType: 'video',
-        embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        isMandatory: true,
-        passingScore: 80,
-        targetCompetency: 'Perlindungan Aset Data Rahasia & Kesadaran Siber'
-      },
-      {
-        id: 'R_INT_01',
-        level: 'Intermediate',
-        order: 1,
-        courseId: 'c3',
-        title: 'Structured Problem Solving & Root Cause Analysis (5-Whys)',
-        contentType: 'slides',
-        embedUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vTghU-LMS_Sample_Slides/embed?start=false&loop=false&delayms=3000',
-        isMandatory: true,
-        passingScore: 80,
-        targetCompetency: 'Kemampuan Analisis Akar Masalah Kerja & Solusi Nyata'
-      },
-      {
-        id: 'R_INT_02',
-        level: 'Intermediate',
-        order: 2,
-        courseId: 'c4',
-        title: 'Basic Warehouse & Workshop Management',
-        contentType: 'video',
-        embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        isMandatory: false,
-        passingScore: 80,
-        targetCompetency: 'Standar Pengelolaan Bengkel Kerja & Pergudangan Modern'
-      },
-      {
-        id: 'R_ADV_01',
-        level: 'Advanced',
-        order: 1,
-        courseId: 'c5',
-        title: 'Leadership Acceleration: Coaching & Feedback SBI',
-        contentType: 'slides',
+        target: 'Target: General Affairs',
+        cost: 'Rp 500.000',
+        session: '2026-10-05 • 09:00 - 11:30 WIB (Ruang Aula BCS Cilegon)',
+        isOffline: true,
+        duration: '2 Jam',
+        moduleCount: 3,
+        participantCount: 0,
         embedUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vR2VfC7t4B3X1X8Y2y_EXAMPLE/embed?start=false&loop=false&delayms=3000',
-        isMandatory: true,
         passingScore: 80,
-        targetCompetency: 'Teknik 1-on-1 Coaching, GROW Model & SBI Feedback'
+        isMandatory: true,
+        image: 'https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&w=600&q=80'
       },
       {
-        id: 'R_ADV_02',
-        level: 'Advanced',
-        order: 2,
-        courseId: 'c6',
-        title: 'Strategic Thinking & Execution Excellence',
-        contentType: 'video',
+        id: 'CRS-2026-018',
+        courseId: 'c2',
+        title: 'Training of Trainer (ToT) Level 3 Badan Nasional Sertifikasi Profesi',
+        category: 'Technical',
+        classification: 'ADDITIONAL',
+        badgeSkill: 'SOFT SKILL',
+        rating: '4.9',
+        level: 'Intermediate',
+        target: 'Target: Operations & Safety',
+        cost: 'Rp 500.000',
+        session: 'Belum ada jadwal sesi aktif',
+        isOffline: false,
+        duration: '16 Jam',
+        moduleCount: 4,
+        participantCount: 8,
         embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-        isMandatory: false,
         passingScore: 80,
-        targetCompetency: 'Penyelarasan KPI, Manajemen Risiko & Sasaran Strategis'
+        isMandatory: false,
+        image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: 'CRS-2026-009',
+        courseId: 'c3',
+        title: 'Finance for Non-Finance & Plan Monitoring Anggaran Operasional',
+        category: 'Operations',
+        classification: 'ADDITIONAL',
+        badgeSkill: 'SOFT SKILL',
+        rating: '4.7',
+        level: 'Intermediate',
+        target: 'Target: Procurement & Warehouse',
+        cost: 'Rp 500.000',
+        session: 'Belum ada jadwal sesi aktif',
+        isOffline: false,
+        duration: '3 Jam',
+        moduleCount: 3,
+        participantCount: 12,
+        embedUrl: 'https://docs.google.com/presentation/d/e/2PACX-1vTghU-LMS_Sample_Slides/embed?start=false&loop=false&delayms=3000',
+        passingScore: 80,
+        isMandatory: false,
+        image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=600&q=80'
       }
     ];
 
-    // BANK SOAL DEFAULT
+    const DEFAULT_CERTIFICATES = [
+      {
+        certNo: 'CERT-BCS-2026-0892',
+        name: 'BAMBANG HERMAWAN',
+        course: 'Defensive Driving & Road Safety Certification',
+        category: 'Operations',
+        score: 92,
+        issueDate: '2026-08-28',
+        expiry: 's/d 28 Agustus 2027 (AKTIF 1 TAHUN)'
+      },
+      {
+        certNo: 'CERT-BCS-2026-0889',
+        name: 'GUNTORO MUHAMAD',
+        course: 'Panduan Operasional Mobile Apps Driver & ERP Core BCS',
+        category: 'Digital Systems',
+        score: 95,
+        issueDate: '2026-08-22',
+        expiry: 's/d 22 Agustus 2027 (AKTIF 1 TAHUN)'
+      }
+    ];
+
     const QUESTION_BANK = {
       'c1_pre_test': [
-        { id: 1, question: 'Sebelum mengikuti induksi, apa fokus Continuous Learning?', options: ['Menghafal SOP', 'Belajar saat disuruh HR', 'Mengembangkan diri setiap hari & belajar dari kesalahan', 'Tidak perlu belajar'], correct: 2 },
-        { id: 2, question: 'Porsi terbesar (70%) belajar dalam prinsip 70-20-10 berasal dari:', options: ['Membaca slide presentasi', 'Mendengarkan instruktur', 'Praktik nyata dan penugasan di pekerjaan', 'Mengerjakan kuis evaluasi'], correct: 2 }
+        { id: 1, question: 'Sebelum berkendara, hal paling pertama yang harus dicek pada checklist K3 armada adalah:', options: ['Suhu AC kabin', 'Kondisi rem, tekanan ban, dan lampu utama', 'Musik radio', 'Kerapian jok'], correct: 1 }
       ],
       'c1_post_test': [
-        { id: 1, question: 'Tindakan yang paling mencerminkan Customer Centricity dalam organisasi:', options: ['Mengutamakan kenyamanan divisi sendiri', 'Menjadikan kepuasan mitra sebagai kompas inovasi layanan', 'Menolak masukan kritik eksternal', 'Membuat produk tanpa riset kebutuhan'], correct: 1 },
-        { id: 2, question: 'Wujud penerapan pilar Character & Integrity saat menghadapi kendala operasional:', options: ['Menyembunyikan deviasi laporan kerja', 'Mencari kesalahan anggota tim lain', 'Transparan mengakui kendala, patuh pada etika dan mencari solusi', 'Menunggu hingga ditegur pimpinan'], correct: 2 }
-      ],
-      'c2_pre_test': [
-        { id: 1, question: 'Apa tanda paling umum dari serangan email phishing?', options: ['Pengirim resmi dengan domain kantor', 'Permintaan darurat untuk verifikasi kata sandi di tautan mencurigakan', 'Email kalender rapat internal', 'Pemberitahuan slip gaji resmi'], correct: 1 }
-      ],
-      'c2_post_test': [
-        { id: 1, question: 'Langkah pertama yang harus diambil ketika mencurigai kebocoran data akun:', options: ['Mendiamkannya selama 3 hari', 'Segera ganti kredensial dan laporkan ke tim InfoSec/IT', 'Mengirim data ke email pribadi', 'Menonaktifkan antivirus komputer'], correct: 1 }
-      ],
-      'c3_pre_test': [
-        { id: 1, question: 'Tujuan utama metode 5-Whys dalam Structured Problem Solving:', options: ['Mencari siapa yang bersalah', 'Menemukan akar penyebab masalah paling mendasar (Root Cause)', 'Memperpanjang proses rapat', 'Mengulang pertanyaan yang sama tanpa analisis'], correct: 1 }
-      ],
-      'c3_post_test': [
-        { id: 1, question: 'Kapan iterasi analisis 5-Whys sebaiknya dihentikan?', options: ['Setelah menanyakan tepat 5 kali tanpa peduli hasil', 'Ketika telah mencapai akar masalah sistemik yang dapat dicegah tindakannya', 'Ketika salah satu staf mengaku salah', 'Setelah 10 menit diskusi'], correct: 1 }
-      ],
-      'c5_pre_test': [
-        { id: 1, question: 'Kepanjangan dari model umpan balik konstruktif SBI adalah:', options: ['Standard, Basic, Input', 'Situation, Behavior, Impact', 'Speed, Budget, Innovation', 'Strategy, Business, Intelligence'], correct: 1 }
-      ],
-      'c5_post_test': [
-        { id: 1, question: 'Dalam model SBI, bagian "Impact" berfokus pada:', options: ['Menghakimi kepribadian karyawan', 'Menjelaskan dampak nyata dari tindakan tersebut terhadap tim atau hasil kerja', 'Menentukan besaran sanksi', 'Membuat asumsi niat buruk orang lain'], correct: 1 }
+        { id: 1, question: 'Prinsip utama Defensive Driving saat menghadapi blind spot kendaraan besar adalah:', options: ['Membunyikan klakson terus-menerus', 'Menjaga jarak aman minimal 3-4 detik dan memastikan kaca spion jelas', 'Menyalip dari bahu jalan kiri', 'Mempercepat laju armada'], correct: 1 }
       ]
     };
 
     window.app = {
       currentUser: null,
-      currentView: 'dashboard',
-      activeCourseId: null,
+      activeTab: 'programs',
+      courses: [...DEFAULT_COURSES],
+      certificates: [...DEFAULT_CERTIFICATES],
       courseProgress: {},
-      roadmapData: [...DEFAULT_ROADMAP],
       supabase: null,
 
-      async init() {
+      init() {
         this.initSupabaseClient();
-        this.checkSupabaseNotice();
         this.showLogin();
-        await this.loadRoadmap();
         lucide.createIcons();
       },
 
+      // FUNGSI INISIALISASI DENGAN URL AUTO-CLEANER
       initSupabaseClient() {
-        // Ambil konfigurasi dari localStorage jika pernah disimpan via modal, atau dari window.SUPABASE_CONFIG
-        const localUrl = localStorage.getItem('innotalent_sb_url');
-        const localKey = localStorage.getItem('innotalent_sb_key');
+        let rawUrl = localStorage.getItem('innotalent_sb_url') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.url : '');
+        let rawKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
-        const activeUrl = localUrl || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url);
-        const activeKey = localKey || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.anonKey);
+        if (rawUrl && rawKey && !rawUrl.includes('YOUR_PROJECT_ID')) {
+          // AUTO-CLEAN: Hapus /rest/v1 atau slash di ujung secara otomatis!
+          const cleanUrl = rawUrl.trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
+          const cleanKey = rawKey.trim();
 
-        if (activeUrl && activeKey && !activeUrl.includes('YOUR_PROJECT_ID')) {
           try {
-            this.supabase = supabase.createClient(activeUrl, activeKey);
-            console.log("✓ Berhasil menghubungkan aplikasi ke Supabase Cloud:", activeUrl);
+            this.supabase = supabase.createClient(cleanUrl, cleanKey);
+            console.log("✓ Supabase Client terhubung ke:", cleanUrl);
           } catch (e) {
-            console.warn("Koneksi Supabase gagal diinisialisasi:", e);
+            console.warn("Gagal init Supabase:", e);
             this.supabase = null;
           }
         } else {
@@ -523,25 +620,16 @@
         }
       },
 
-      checkSupabaseNotice() {
-        const banner = document.getElementById('supabaseNoticeBanner');
-        if (!this.supabase) {
-          banner.classList.remove('hidden');
-        } else {
-          banner.classList.add('hidden');
-        }
-      },
-
       openSupabaseConfigModal() {
         const modal = document.getElementById('supabaseModal');
-        const localUrl = localStorage.getItem('innotalent_sb_url') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.url : '');
-        const localKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
+        let currentUrl = localStorage.getItem('innotalent_sb_url') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.url : '');
+        let currentKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
-        if (!localUrl.includes('YOUR_PROJECT_ID')) {
-          document.getElementById('cfgSbUrl').value = localUrl;
+        if (!currentUrl.includes('YOUR_PROJECT_ID')) {
+          document.getElementById('cfgSbUrl').value = currentUrl;
         }
-        if (!localKey.includes('YOUR_SUPABASE_ANON_KEY')) {
-          document.getElementById('cfgSbKey').value = localKey;
+        if (!currentKey.includes('YOUR_SUPABASE_ANON_KEY')) {
+          document.getElementById('cfgSbKey').value = currentKey;
         }
 
         modal.classList.remove('hidden');
@@ -550,95 +638,17 @@
 
       saveSupabaseConfig(e) {
         e.preventDefault();
-        const url = document.getElementById('cfgSbUrl').value.trim();
-        const key = document.getElementById('cfgSbKey').value.trim();
+        let url = document.getElementById('cfgSbUrl').value.trim();
+        let key = document.getElementById('cfgSbKey').value.trim();
 
-        if (!url || !key) {
-          alert('Silakan masukkan Project URL dan Anon Key dengan lengkap.');
-          return;
-        }
+        // Bersihkan otomatis
+        url = url.replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
 
         localStorage.setItem('innotalent_sb_url', url);
         localStorage.setItem('innotalent_sb_key', key);
         this.initSupabaseClient();
-        this.checkSupabaseNotice();
         document.getElementById('supabaseModal').classList.add('hidden');
-        alert('✓ Kredensial Supabase berhasil disimpan! Memuat ulang data dari database Supabase...');
-        this.loadRoadmap();
-      },
-
-      async loadRoadmap() {
-        if (this.supabase) {
-          try {
-            const { data, error } = await this.supabase
-              .from('roadmap_kurikulum')
-              .select('*')
-              .order('urutan', { ascending: true });
-
-            if (!error && data && data.length > 0) {
-              this.roadmapData = data.map(item => ({
-                id: item.id,
-                level: item.level,
-                order: item.urutan,
-                courseId: item.course_id,
-                title: item.title,
-                contentType: item.content_type,
-                embedUrl: item.embed_url,
-                isMandatory: item.is_mandatory,
-                passingScore: item.passing_score,
-                targetCompetency: item.target_competency
-              }));
-              console.log("✓ Roadmap kurikulum dimuat dari Supabase PostgreSQL:", this.roadmapData.length, "modul");
-              if (this.currentUser) this.renderCurrentView();
-              return;
-            }
-          } catch (err) {
-            console.error("Gagal load roadmap dari Supabase:", err);
-          }
-        }
-        // Fallback jika database belum ada atau tabel kosong
-        this.roadmapData = [...DEFAULT_ROADMAP];
-        if (this.currentUser) this.renderCurrentView();
-      },
-
-      loadUserProgress(userEmail) {
-        const key = 'innotalent_prog_' + userEmail;
-        const saved = localStorage.getItem(key);
-        if (saved) {
-          try { this.courseProgress = JSON.parse(saved); } catch (e) { this.courseProgress = {}; }
-        } else {
-          this.courseProgress = {};
-        }
-
-        // Sinkronisasi status kelulusan dari Supabase jika terhubung
-        if (this.supabase) {
-          this.supabase
-            .from('rekap_hasil_kuis')
-            .select('*')
-            .eq('user_email', userEmail)
-            .then(({ data, error }) => {
-              if (!error && data) {
-                data.forEach(row => {
-                  this.courseProgress[row.course_id] = {
-                    step: 3,
-                    preScore: row.pre_score,
-                    postScore: row.post_score,
-                    isCompleted: row.is_passed,
-                    certId: row.cert_id
-                  };
-                });
-                this.saveProgress();
-                if (this.currentView === 'dashboard') this.renderCurrentView();
-              }
-            });
-        }
-      },
-
-      saveProgress() {
-        if (this.currentUser && this.currentUser.email) {
-          const key = 'innotalent_prog_' + this.currentUser.email;
-          localStorage.setItem(key, JSON.stringify(this.courseProgress));
-        }
+        alert('✓ Kredensial Supabase berhasil disimpan! URL dinormalkan ke: ' + url);
       },
 
       switchAuthMode(mode) {
@@ -650,12 +660,12 @@
         if (mode === 'register') {
           formLogin.classList.add('hidden');
           formRegister.classList.remove('hidden');
-          tabRegisterBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1b3b6f] shadow-sm transition';
+          tabRegisterBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition';
           tabLoginBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition';
         } else {
           formRegister.classList.add('hidden');
           formLogin.classList.remove('hidden');
-          tabLoginBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1b3b6f] shadow-sm transition';
+          tabLoginBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition';
           tabRegisterBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition';
         }
       },
@@ -668,7 +678,6 @@
       showLogin() {
         document.getElementById('authScreen').classList.remove('hidden');
         document.getElementById('appContainer').classList.add('hidden');
-        this.switchAuthMode('login');
       },
 
       showApp() {
@@ -676,12 +685,15 @@
         document.getElementById('appContainer').classList.remove('hidden');
         
         const u = this.currentUser;
-        document.getElementById('userNameTop').innerText = u.name;
-        document.getElementById('userRoleTop').innerText = u.role === 'tod_admin' ? 'Manager Talent & OD (Admin)' : (u.department || 'Karyawan InnoTalent');
-        document.getElementById('userHeaderAvatar').innerText = u.name.charAt(0).toUpperCase();
+        document.getElementById('userNameTop').innerText = u.name.toUpperCase();
+        document.getElementById('userRoleTop').innerText = u.role === 'tod_admin' ? 'STAFF_HR (ADMIN)' : (u.department || 'OPERATIONAL STAFF');
+        document.getElementById('userHeaderAvatar').innerText = u.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
 
-        this.renderHorizontalTabs();
-        this.renderCurrentView();
+        if (u.role === 'tod_admin') {
+          document.getElementById('sideAdminSection').classList.remove('hidden');
+        }
+
+        this.setActiveTab('programs');
         lucide.createIcons();
       },
 
@@ -692,9 +704,8 @@
         const btn = document.getElementById('btnSubmitLogin');
 
         btn.disabled = true;
-        btn.innerHTML = 'Memverifikasi kredensial...';
+        btn.innerHTML = 'Memverifikasi...';
 
-        // 1. Coba verifikasi dengan Supabase jika terhubung
         if (this.supabase) {
           try {
             const { data, error } = await this.supabase
@@ -707,16 +718,10 @@
               if (data.password_hash === pass) {
                 btn.disabled = false;
                 btn.innerHTML = '<i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran';
-                this.setUserSession({
-                  id: data.id,
-                  email: data.email,
-                  name: data.name,
-                  role: data.role,
-                  department: data.department
-                });
+                this.setUserSession(data);
                 return;
               } else {
-                alert('Password salah. Silakan periksa kembali kata sandi Anda.');
+                alert('Password salah.');
                 btn.disabled = false;
                 btn.innerHTML = '<i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran';
                 lucide.createIcons();
@@ -724,24 +729,22 @@
               }
             }
           } catch (err) {
-            console.warn("Supabase query error, beralih ke fallback:", err);
+            console.warn("Supabase query error:", err);
           }
         }
 
-        // 2. Fallback Lokal / Demo
+        // Fallback jika login cepat
         btn.disabled = false;
         btn.innerHTML = '<i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran';
-        lucide.createIcons();
-
         let role = email.includes('admin') ? 'tod_admin' : 'learner';
-        let name = email.includes('admin') ? 'Amanda Putri, S.Psi, M.M.' : email.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase());
+        let name = email.includes('admin') ? 'THAHIRA QANITA' : email.split('@')[0].replace('.', ' ').replace(/\b\w/g, l => l.toUpperCase());
 
         this.setUserSession({
           id: 'u_' + Date.now(),
           email: email,
           name: name,
           role: role,
-          department: role === 'tod_admin' ? 'Talent & Org Development' : 'Operational Team'
+          department: 'Human Capital / HRIS'
         });
       },
 
@@ -755,14 +758,13 @@
         const btn = document.getElementById('btnSubmitRegister');
 
         if (pass !== passConfirm) {
-          alert('Konfirmasi password tidak cocok! Harap ulangi.');
+          alert('Konfirmasi password tidak cocok!');
           return;
         }
 
         btn.disabled = true;
         btn.innerHTML = 'Mendaftarkan akun...';
 
-        // 1. Simpan ke Supabase jika terhubung
         if (this.supabase) {
           try {
             const { data, error } = await this.supabase
@@ -778,34 +780,24 @@
               .single();
 
             if (error) {
-              if (error.code === '23505') {
-                alert('Email ini sudah terdaftar. Silakan login langsung.');
-              } else {
-                alert('Pendaftaran gagal di Supabase: ' + error.message);
-              }
+              alert('Pendaftaran gagal di Supabase: ' + error.message);
               btn.disabled = false;
               btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya';
               lucide.createIcons();
               return;
             }
 
-            alert('🎉 Akun Anda berhasil didaftarkan di database Supabase!');
+            alert('🎉 Akun Anda berhasil didaftarkan di Supabase!');
             btn.disabled = false;
             btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya';
-            this.setUserSession({
-              id: data.id,
-              email: data.email,
-              name: data.name,
-              role: data.role,
-              department: data.department
-            });
+            this.setUserSession(data);
             return;
           } catch (err) {
             console.error("Gagal insert ke Supabase:", err);
           }
         }
 
-        // 2. Fallback Lokal
+        // Fallback
         btn.disabled = false;
         btn.innerHTML = '<i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya';
         alert('🎉 Akun Anda berhasil terdaftar!');
@@ -820,13 +812,11 @@
 
       setUserSession(user) {
         this.currentUser = user;
-        this.loadUserProgress(user.email);
         this.showApp();
       },
 
       logout() {
         this.currentUser = null;
-        this.courseProgress = {};
         document.getElementById('loginEmail').value = '';
         document.getElementById('loginPassword').value = '';
         this.showLogin();
@@ -837,793 +827,389 @@
         lucide.createIcons();
       },
 
-      closeChangePasswordModal() {
+      handleChangePassword(e) {
+        e.preventDefault();
+        const p1 = document.getElementById('newPassword').value;
+        const p2 = document.getElementById('newPasswordConfirm').value;
+        if (p1 !== p2) {
+          alert('Konfirmasi password tidak cocok.');
+          return;
+        }
+        alert('✓ Password Anda berhasil diperbarui!');
         document.getElementById('changePasswordModal').classList.add('hidden');
       },
 
-      async handleChangePassword(e) {
-        e.preventDefault();
-        const oldP = document.getElementById('oldPassword').value;
-        const newP = document.getElementById('newPassword').value;
-        const newPConfirm = document.getElementById('newPasswordConfirm').value;
-
-        if (newP !== newPConfirm) {
-          alert('Konfirmasi password baru tidak cocok!');
-          return;
-        }
-
-        if (this.supabase && this.currentUser) {
-          try {
-            const { data, error } = await this.supabase
-              .from('users_profile')
-              .update({ password_hash: newP })
-              .eq('email', this.currentUser.email);
-
-            if (error) {
-              alert('Gagal update password di Supabase: ' + error.message);
-              return;
-            }
-          } catch (err) {
-            console.warn("Gagal update password via Supabase:", err);
-          }
-        }
-
-        alert('✓ Password akun Anda berhasil diperbarui!');
-        this.closeChangePasswordModal();
-      },
-
-      // Sub-Nav Tabs Rendering (Persis gambar referensi)
-      renderHorizontalTabs() {
-        const tabsContainer = document.getElementById('horizontalTabs');
-        const u = this.currentUser;
-
-        let tabs = [
-          { id: 'dashboard', label: 'Dashboard Progres', icon: 'pie-chart' },
-          { id: 'catalog', label: 'Katalog Kursus', icon: 'book-open' },
-        ];
-
-        if (u && u.role === 'tod_admin') {
-          tabs.push({ id: 'admin_roadmap', label: 'Pengaturan Roadmap TOD', icon: 'check-square' });
-        }
-
-        tabsContainer.innerHTML = tabs.map(tab => {
-          const isActive = this.currentView === tab.id;
-          return `
-            <button onclick="app.navigate('${tab.id}')" class="py-3.5 px-2 inline-flex items-center gap-2 border-b-2 text-xs font-bold transition whitespace-nowrap ${isActive ? 'border-[#1b3b6f] text-[#1b3b6f]' : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'}">
-              <i data-lucide="${tab.icon}" class="w-4 h-4 ${isActive ? 'text-[#1b3b6f]' : 'text-slate-400'}"></i>
-              <span>${tab.label}</span>
-            </button>
-          `;
-        }).join('');
-
-        lucide.createIcons();
-      },
-
-      navigate(v) {
-        this.currentView = v;
-        this.renderHorizontalTabs();
-        this.renderCurrentView();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      },
-
-      openCourse(cid, forceStep = null) {
-        this.activeCourseId = cid;
-        if (!this.courseProgress[cid]) {
-          this.courseProgress[cid] = { step: 1, preScore: null, postScore: null, isCompleted: false, certId: null };
-          this.saveProgress();
-        }
-        if (forceStep) {
-          this.courseProgress[cid].step = forceStep;
-          this.saveProgress();
-        }
-        this.currentView = 'player';
-        this.renderHorizontalTabs();
-        this.renderCurrentView();
-      },
-
-      renderCurrentView() {
-        const m = document.getElementById('mainContent');
-        const u = this.currentUser;
-
-        if (this.currentView === 'dashboard') {
-          this.renderLearnerDashboard(m);
-        } else if (this.currentView === 'catalog') {
-          this.renderCatalog(m);
-        } else if (this.currentView === 'admin_roadmap' && u && u.role === 'tod_admin') {
-          this.renderAdminRoadmapPanel(m);
-        } else if (this.currentView === 'player') {
-          this.renderCoursePlayer(m);
-        }
-
-        lucide.createIcons();
-      },
-
-      // ==================== DASHBOARD VIEW ====================
-      renderLearnerDashboard(container) {
-        const basicCourses = this.roadmapData.filter(r => r.level === 'Basic');
-        const interCourses = this.roadmapData.filter(r => r.level === 'Intermediate');
-        const advCourses = this.roadmapData.filter(r => r.level === 'Advanced');
-
-        const isBasicDone = basicCourses.length > 0 && basicCourses.every(c => this.courseProgress[c.courseId] && this.courseProgress[c.courseId].isCompleted);
-        const isInterDone = interCourses.length > 0 && interCourses.every(c => this.courseProgress[c.courseId] && this.courseProgress[c.courseId].isCompleted);
-
-        container.innerHTML = `
-          <div class="space-y-6">
-            
-            <!-- Page Header Card Persis Gambar Referensi -->
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">Status Progres Pelatihan Karyawan</h1>
-                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                  Informasi alur kurikulum berjenjang (Basic → Intermediate → Advanced), ketersediaan materi, dan status kelulusan kompetensi.
-                </p>
-              </div>
-
-              <!-- Filter Selector & Refresh Button -->
-              <div class="flex items-center gap-2">
-                <select id="roadmapLevelFilter" onchange="app.filterRoadmapView(this.value)" class="px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#1b3b6f]">
-                  <option value="all">Semua Tingkat (Basic, Intermediate, Advanced)</option>
-                  <option value="Basic">Tingkat Basic Saja</option>
-                  <option value="Intermediate">Tingkat Intermediate</option>
-                  <option value="Advanced">Tingkat Advanced</option>
-                </select>
-                <button onclick="app.loadRoadmap()" title="Segarkan Data dari Supabase" class="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition">
-                  <i data-lucide="rotate-cw" class="w-4 h-4"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- TINGKAT 1: BASIC -->
-            <div id="section_level_basic" class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-              <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#1b3b6f]"></span>
-                  <span class="font-extrabold text-xs text-slate-800 uppercase tracking-wider">Tingkat 1: Basic (Induction & Kepatuhan Awal)</span>
-                </div>
-                <span class="text-[11px] font-bold px-3 py-1 rounded-full ${isBasicDone ? 'bg-[#dcfce7] text-[#15803d]' : 'bg-[#fef3c7] text-[#b45309]'}">
-                  ${isBasicDone ? 'Approved / Selesai' : 'Pending Review / Berjalan'}
-                </span>
-              </div>
-
-              <div class="divide-y divide-slate-100">
-                ${basicCourses.map(c => this.renderRoadmapRow(c, false)).join('')}
-              </div>
-            </div>
-
-            <!-- TINGKAT 2: INTERMEDIATE -->
-            <div id="section_level_intermediate" class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm ${!isBasicDone ? 'opacity-85' : ''}">
-              <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full ${isBasicDone ? 'bg-[#1b3b6f]' : 'bg-slate-400'}"></span>
-                  <span class="font-extrabold text-xs text-slate-800 uppercase tracking-wider">Tingkat 2: Intermediate (Fungsional & 5-Whys)</span>
-                </div>
-                <span class="text-[11px] font-bold px-3 py-1 rounded-full ${isInterDone ? 'bg-[#dcfce7] text-[#15803d]' : isBasicDone ? 'bg-blue-50 text-[#1b3b6f]' : 'bg-slate-100 text-slate-500'}">
-                  ${isInterDone ? 'Approved / Selesai' : isBasicDone ? 'Siap Dikerjakan' : '🔒 Terkunci (Selesaikan Basic)'}
-                </span>
-              </div>
-
-              <div class="divide-y divide-slate-100">
-                ${interCourses.map(c => this.renderRoadmapRow(c, !isBasicDone)).join('')}
-              </div>
-            </div>
-
-            <!-- TINGKAT 3: ADVANCED -->
-            <div id="section_level_advanced" class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm ${!isInterDone ? 'opacity-85' : ''}">
-              <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full ${isInterDone ? 'bg-[#1b3b6f]' : 'bg-slate-400'}"></span>
-                  <span class="font-extrabold text-xs text-slate-800 uppercase tracking-wider">Tingkat 3: Advanced (Leadership & Coaching)</span>
-                </div>
-                <span class="text-[11px] font-bold px-3 py-1 rounded-full ${isInterDone ? 'bg-blue-50 text-[#1b3b6f]' : 'bg-slate-100 text-slate-500'}">
-                  ${isInterDone ? 'Siap Dikerjakan' : '🔒 Terkunci (Selesaikan Intermediate)'}
-                </span>
-              </div>
-
-              <div class="divide-y divide-slate-100">
-                ${advCourses.map(c => this.renderRoadmapRow(c, !isInterDone)).join('')}
-              </div>
-            </div>
-
-          </div>
-        `;
-      },
-
-      filterRoadmapView(selected) {
-        const secBasic = document.getElementById('section_level_basic');
-        const secInter = document.getElementById('section_level_intermediate');
-        const secAdv = document.getElementById('section_level_advanced');
-
-        if (!secBasic || !secInter || !secAdv) return;
-
-        if (selected === 'all') {
-          secBasic.classList.remove('hidden');
-          secInter.classList.remove('hidden');
-          secAdv.classList.remove('hidden');
-        } else if (selected === 'Basic') {
-          secBasic.classList.remove('hidden');
-          secInter.classList.add('hidden');
-          secAdv.classList.add('hidden');
-        } else if (selected === 'Intermediate') {
-          secBasic.classList.add('hidden');
-          secInter.classList.remove('hidden');
-          secAdv.classList.add('hidden');
-        } else if (selected === 'Advanced') {
-          secBasic.classList.add('hidden');
-          secInter.classList.add('hidden');
-          secAdv.classList.remove('hidden');
-        }
-      },
-
-      // Render Baris Pelatihan Sesuai Desain Tabel Referensi
-      renderRoadmapRow(c, isLocked = false) {
-        const prog = this.courseProgress[c.courseId] || { step: 1, isCompleted: false, postScore: null };
-        const isDone = prog.isCompleted;
-
-        return `
-          <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-slate-50/80 transition">
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="font-mono text-[11px] font-bold text-[#1b3b6f]">${c.courseId.toUpperCase()} / TOD / 2026</span>
-                <span class="text-slate-300">•</span>
-                <span class="text-[11px] font-bold px-2 py-0.5 rounded-md ${c.isMandatory ? 'bg-rose-50 text-rose-600' : 'bg-blue-50 text-[#1b3b6f]'}">
-                  ${c.isMandatory ? 'Wajib' : 'Pilihan'}
-                </span>
-                <span class="text-[11px] text-slate-400 uppercase font-semibold">(${c.contentType})</span>
-              </div>
-              <h3 class="font-bold text-sm text-slate-900 leading-snug">${c.title}</h3>
-              <p class="text-xs text-slate-500 mt-0.5">${c.targetCompetency || 'Pengembangan kompetensi insan perusahaan'}</p>
-            </div>
-
-            <!-- Status Badge Hijau Approved / Kuning Pending Review -->
-            <div class="flex items-center gap-4 flex-shrink-0">
-              ${isDone ? `
-                <div class="text-right">
-                  <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-[#dcfce7] text-[#15803d]">
-                    Approved (${prog.postScore}%)
-                  </span>
-                </div>
-                <button onclick="app.openCourse('${c.courseId}', 3)" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
-                  Lihat Hasil
-                </button>
-              ` : isLocked ? `
-                <div class="text-right">
-                  <span class="inline-block px-3.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-500">
-                    🔒 Terkunci
-                  </span>
-                </div>
-                <button disabled class="px-4 py-2 rounded-xl bg-slate-100 text-slate-400 font-bold text-xs cursor-not-allowed">
-                  Belum Terbuka
-                </button>
-              ` : `
-                <div class="text-right">
-                  <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold bg-[#fef3c7] text-[#b45309]">
-                    Pending Review
-                  </span>
-                </div>
-                <button onclick="app.openCourse('${c.courseId}')" class="px-4 py-2 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-sm transition">
-                  Mulai Kursus →
-                </button>
-              `}
-            </div>
-          </div>
-        `;
-      },
-
-      // ==================== ADMIN ROADMAP VIEW ====================
-      renderAdminRoadmapPanel(container) {
-        container.innerHTML = `
-          <div class="space-y-6">
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <span class="text-xs font-bold text-[#1b3b6f] uppercase tracking-wider">Pengaturan Kurikulum TOD</span>
-                <h1 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight mt-1">Konfigurasi Roadmap 3 Tingkat</h1>
-                <p class="text-xs text-slate-500 mt-0.5">Kelola alur wajib pembelajaran Basic, Intermediate, dan Advanced yang tersinkronisasi langsung ke Supabase PostgreSQL.</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <button onclick="document.getElementById('addRoadmapModal').classList.remove('hidden')" class="px-4 py-2 rounded-xl bg-[#1b3b6f] text-white font-bold text-xs shadow-sm hover:bg-[#16325c] transition flex items-center gap-1.5">
-                  <i data-lucide="plus-circle" class="w-4 h-4"></i> Tambah Modul Baru
-                </button>
-                <button onclick="app.syncRoadmapToSupabase()" class="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
-                  <i data-lucide="database" class="w-4 h-4 text-[#1b3b6f]"></i> Simpan ke Supabase
-                </button>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              
-              <!-- Kolom Basic -->
-              <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b">
-                  <span class="font-extrabold text-xs text-slate-900 uppercase">1. Basic Level</span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#dcfce7] text-[#15803d]">Wajib Awal</span>
-                </div>
-                <div class="space-y-2.5">
-                  ${this.roadmapData.filter(r => r.level === 'Basic').map(item => this.renderAdminCard(item)).join('')}
-                </div>
-              </div>
-
-              <!-- Kolom Intermediate -->
-              <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b">
-                  <span class="font-extrabold text-xs text-slate-900 uppercase">2. Intermediate Level</span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#1b3b6f]">Fungsional</span>
-                </div>
-                <div class="space-y-2.5">
-                  ${this.roadmapData.filter(r => r.level === 'Intermediate').map(item => this.renderAdminCard(item)).join('')}
-                </div>
-              </div>
-
-              <!-- Kolom Advanced -->
-              <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b">
-                  <span class="font-extrabold text-xs text-slate-900 uppercase">3. Advanced Level</span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700">Leadership</span>
-                </div>
-                <div class="space-y-2.5">
-                  ${this.roadmapData.filter(r => r.level === 'Advanced').map(item => this.renderAdminCard(item)).join('')}
-                </div>
-              </div>
-
-            </div>
-          </div>
-        `;
-      },
-
-      renderAdminCard(item) {
-        return `
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-white transition space-y-2 text-xs">
-            <div class="flex items-center justify-between">
-              <span class="font-mono text-[10px] font-bold text-[#1b3b6f]">${item.courseId}</span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${item.isMandatory ? 'bg-rose-50 text-rose-600' : 'bg-slate-200 text-slate-700'}">
-                ${item.isMandatory ? 'Mandatory' : 'Elective'}
-              </span>
-            </div>
-            <h4 class="font-bold text-slate-900 text-xs">${item.title}</h4>
-            <div class="pt-2 flex items-center justify-between border-t border-slate-200 text-[10px]">
-              <select onchange="app.updateItemLevel('${item.courseId}', this.value)" class="p-1 rounded-lg border border-slate-200 bg-white font-semibold text-slate-700">
-                <option value="Basic" ${item.level === 'Basic' ? 'selected' : ''}>Pindah ke Basic</option>
-                <option value="Intermediate" ${item.level === 'Intermediate' ? 'selected' : ''}>Pindah ke Intermediate</option>
-                <option value="Advanced" ${item.level === 'Advanced' ? 'selected' : ''}>Pindah ke Advanced</option>
-              </select>
-              <button onclick="app.removeRoadmapItem('${item.courseId}')" class="text-rose-500 hover:text-rose-700 font-bold">Hapus</button>
-            </div>
-          </div>
-        `;
-      },
-
-      async updateItemLevel(courseId, newLevel) {
-        const it = this.roadmapData.find(r => r.courseId === courseId);
-        if (it) {
-          it.level = newLevel;
-          if (this.supabase) {
-            await this.supabase
-              .from('roadmap_kurikulum')
-              .update({ level: newLevel })
-              .eq('course_id', courseId);
-          }
-          this.renderCurrentView();
-        }
-      },
-
-      async removeRoadmapItem(courseId) {
-        if (confirm('Hapus modul ini dari roadmap kurikulum?')) {
-          this.roadmapData = this.roadmapData.filter(r => r.courseId !== courseId);
-          if (this.supabase) {
-            await this.supabase
-              .from('roadmap_kurikulum')
-              .delete()
-              .eq('course_id', courseId);
-          }
-          this.renderCurrentView();
-        }
-      },
-
-      async handleAddRoadmapItem(e) {
-        e.preventDefault();
-        const level = document.getElementById('modalLevel').value;
-        const cid = document.getElementById('modalCourseId').value.trim();
-        const title = document.getElementById('modalTitle').value.trim();
-        const type = document.getElementById('modalType').value;
-        const isMan = document.getElementById('modalMandatory').value === 'TRUE';
-        const url = document.getElementById('modalUrl').value.trim();
-        const target = document.getElementById('modalTarget').value.trim();
-
-        const newItem = {
-          id: 'R_' + Date.now(),
-          level: level,
-          order: this.roadmapData.filter(r => r.level === level).length + 1,
-          courseId: cid,
-          title: title,
-          contentType: type,
-          embedUrl: url,
-          isMandatory: isMan,
-          passingScore: 80,
-          targetCompetency: target
-        };
-
-        this.roadmapData.push(newItem);
-
-        if (this.supabase) {
-          try {
-            await this.supabase.from('roadmap_kurikulum').insert([{
-              id: newItem.id,
-              level: newItem.level,
-              urutan: newItem.order,
-              course_id: newItem.courseId,
-              title: newItem.title,
-              content_type: newItem.contentType,
-              embed_url: newItem.embedUrl,
-              is_mandatory: newItem.isMandatory,
-              passing_score: 80,
-              target_competency: newItem.targetCompetency
-            }]);
-          } catch (err) {
-            console.error("Gagal simpan modul ke Supabase:", err);
-          }
-        }
-
-        document.getElementById('addRoadmapModal').classList.add('hidden');
-        alert('✓ Modul baru berhasil ditambahkan ke roadmap!');
-        this.renderCurrentView();
-      },
-
-      async syncRoadmapToSupabase() {
-        if (!this.supabase) {
-          alert('Supabase belum terhubung. Silakan masukkan kredensial Supabase terlebih dahulu.');
-          this.openSupabaseConfigModal();
-          return;
-        }
-
-        try {
-          for (const item of this.roadmapData) {
-            await this.supabase.from('roadmap_kurikulum').upsert({
-              id: item.id,
-              level: item.level,
-              urutan: item.order,
-              course_id: item.courseId,
-              title: item.title,
-              content_type: item.contentType,
-              embed_url: item.embedUrl,
-              is_mandatory: item.isMandatory,
-              passing_score: item.passingScore,
-              target_competency: item.targetCompetency
-            }, { onConflict: 'course_id' });
-          }
-          alert('✓ Seluruh data roadmap berhasil disinkronkan ke tabel roadmap_kurikulum di Supabase!');
-        } catch (err) {
-          alert('Gagal sinkronisasi: ' + err.message);
-        }
-      },
-
-      // Catalog view
-      renderCatalog(container) {
-        container.innerHTML = `
-          <div class="space-y-4">
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
-              <h1 class="text-xl font-extrabold text-slate-900">Katalog Lengkap Silabus TOD</h1>
-              <p class="text-xs text-slate-500 mt-1">Daftar seluruh materi pelatihan terstandarisasi untuk pengembangan kompetensi insan organisasi.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              ${this.roadmapData.map(c => `
-                <div class="bg-white rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between shadow-sm">
-                  <div>
-                    <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-blue-50 text-[#1b3b6f] font-semibold">${c.level} Level</span>
-                    <h3 class="font-bold text-base text-slate-900 mt-2">${c.title}</h3>
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">${c.targetCompetency || ''}</p>
-                  </div>
-                  <button onclick="app.openCourse('${c.courseId}')" class="mt-4 w-full py-2.5 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs transition shadow-sm">
-                    Masuk Pembelajaran
-                  </button>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      },
-
-      // Course Player
-      renderCoursePlayer(container) {
-        const c = this.roadmapData.find(item => item.courseId === this.activeCourseId) || this.roadmapData[0];
-        const prog = this.courseProgress[c.courseId] || { step: 1, preScore: null, postScore: null, isCompleted: false };
-
-        container.innerHTML = `
-          <div class="space-y-6">
-            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between">
-              <div>
-                <button onclick="app.navigate('dashboard')" class="text-xs font-bold text-[#1b3b6f] flex items-center gap-1 mb-1">
-                  ← Kembali ke Dashboard
-                </button>
-                <h1 class="text-base sm:text-lg font-bold text-slate-900">${c.title}</h1>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-[#1b3b6f] border border-blue-200">
-                  Level: ${c.level} • Passing Grade: ${c.passingScore}%
-                </span>
-                ${prog.isCompleted ? `
-                  <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#dcfce7] text-[#15803d] border border-emerald-300 flex items-center gap-1">
-                    <i data-lucide="check" class="w-3.5 h-3.5"></i> Approved
-                  </span>
-                ` : ''}
-              </div>
-            </div>
-
-            <!-- Stepper 1 -> 2 -> 3 -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
-              <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                <div class="p-3 rounded-xl border ${prog.step === 1 ? 'border-[#1b3b6f] bg-blue-50/60 font-bold text-[#1b3b6f]' : prog.preScore !== null ? 'border-emerald-200 bg-emerald-50 text-emerald-700 font-semibold' : 'border-slate-200 text-slate-400'}">
-                  <div class="text-[10px] uppercase font-bold tracking-wider">Tahap 1</div>
-                  <div class="text-xs mt-0.5">Pre-Test ${prog.preScore !== null ? `(${prog.preScore}%)` : ''}</div>
-                </div>
-                <div onclick="${prog.preScore !== null ? `app.openCourse('${c.courseId}', 2)` : ''}" class="p-3 rounded-xl border ${prog.step === 2 ? 'border-[#1b3b6f] bg-blue-50/60 font-bold text-[#1b3b6f]' : prog.preScore !== null ? 'border-emerald-200 bg-emerald-50 text-emerald-700 font-semibold cursor-pointer' : 'border-slate-200 bg-slate-50 text-slate-400'}">
-                  <div class="text-[10px] uppercase font-bold tracking-wider">Tahap 2</div>
-                  <div class="text-xs mt-0.5">Pelajari Materi</div>
-                </div>
-                <div onclick="${prog.step >= 3 || prog.isCompleted ? `app.openCourse('${c.courseId}', 3)` : ''}" class="p-3 rounded-xl border ${prog.step === 3 && !prog.isCompleted ? 'border-[#1b3b6f] bg-blue-50/60 font-bold text-[#1b3b6f]' : prog.isCompleted ? 'border-emerald-300 bg-emerald-100 text-emerald-800 font-bold cursor-pointer' : 'border-slate-200 bg-slate-50 text-slate-400'}">
-                  <div class="text-[10px] uppercase font-bold tracking-wider">Tahap 3</div>
-                  <div class="text-xs mt-0.5">Post-Test ${prog.postScore !== null ? `(${prog.postScore}%)` : ''}</div>
-                </div>
-              </div>
-            </div>
-
-            <div>${this.renderActiveStep(c, prog)}</div>
-          </div>
-        `;
-      },
-
-      renderActiveStep(course, prog) {
-        if (prog.step === 1) {
-          const questions = QUESTION_BANK[`${course.courseId}_pre_test`] || QUESTION_BANK['c1_pre_test'];
-          return `
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-sm">
-              <div class="border-b pb-4">
-                <span class="text-xs font-bold uppercase tracking-wider text-[#b45309]">Tahap 1: Pre-Test (${course.level} Level)</span>
-                <h2 class="text-xl font-extrabold text-slate-900 mt-1">Uji Pengetahuan Awal</h2>
-                <p class="text-xs text-slate-500 mt-1">Kerjakan asesmen awal ini sebelum materi video atau presentasi dibuka.</p>
-              </div>
-              <form onsubmit="app.submitPreTest(event, '${course.courseId}')" class="space-y-6">
-                ${questions.map((q, idx) => `
-                  <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 text-xs">
-                    <div class="font-bold text-slate-800 flex gap-2"><span>${idx + 1}.</span> <span>${q.question}</span></div>
-                    <div class="space-y-2 pl-4">
-                      ${q.options.map((opt, optIdx) => `
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white border hover:bg-slate-50 cursor-pointer">
-                          <input type="radio" name="pre_q_${q.id}" value="${optIdx}" required class="text-[#1b3b6f]">
-                          <span>${opt}</span>
-                        </label>
-                      `).join('')}
-                    </div>
-                  </div>
-                `).join('')}
-                <button type="submit" class="px-6 py-3 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-md transition">
-                  Kirim Jawaban Pre-Test & Buka Materi →
-                </button>
-              </form>
-            </div>
-          `;
-        }
-
-        if (prog.step === 2) {
-          return `
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-sm">
-              <div class="border-b pb-4">
-                <span class="text-xs font-bold uppercase tracking-wider text-[#1b3b6f]">Tahap 2: Materi Pembelajaran (${course.level} Level)</span>
-                <h2 class="text-xl font-extrabold text-slate-900 mt-1">Simak Materi Pembelajaran Wajib</h2>
-                <p class="text-xs text-slate-500 mt-1">Pelajari modul slide presentasi atau video tutorial berikut sebelum melangkah ke post-test kelulusan.</p>
-              </div>
-              <div class="relative w-full aspect-video rounded-2xl overflow-hidden border bg-slate-900 shadow-inner">
-                <iframe src="${course.embedUrl}" frameborder="0" width="100%" height="100%" allowfullscreen class="w-full h-full"></iframe>
-              </div>
-              <div class="p-5 bg-blue-50/60 border border-blue-200 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="text-xs text-[#1b3b6f]">
-                  <strong class="font-bold">Konfirmasi Penyelesaian Materi:</strong>
-                  <p class="text-[11px] text-slate-500">Pastikan Anda telah menyimak seluruh slide atau video hingga tuntas.</p>
-                </div>
-                <button onclick="app.finishMaterial('${course.courseId}')" class="px-6 py-2.5 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-sm transition">
-                  Lanjut ke Post-Test →
-                </button>
-              </div>
-            </div>
-          `;
-        }
-
-        if (prog.step === 3) {
-          if (prog.isCompleted) {
-            return `
-              <div class="bg-white rounded-2xl border border-slate-200/80 p-8 text-center space-y-6 shadow-sm">
-                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#dcfce7] text-[#15803d] text-xs font-bold">
-                  <i data-lucide="shield-check" class="w-5 h-5"></i> STATUS: APPROVED / LULUS (Nilai: ${prog.postScore}%)
-                </div>
-                <h2 class="text-2xl font-extrabold text-slate-900">${course.title}</h2>
-                <div class="max-w-xs mx-auto p-4 bg-emerald-50 rounded-2xl border-2 border-emerald-300">
-                  <div class="text-xs text-emerald-800 font-bold uppercase">Nilai Post-Test Akhir</div>
-                  <div class="text-4xl font-black text-emerald-600 mt-1">${prog.postScore}%</div>
-                  <div class="text-[11px] text-emerald-700 font-semibold mt-1">Passing Grade: ${course.passingScore}% (Memenuhi Syarat)</div>
-                </div>
-                <div class="flex items-center justify-center gap-3">
-                  <button onclick="app.showCertificateModal('${prog.certId}', '${course.title}', ${prog.postScore})" class="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
-                    <i data-lucide="award" class="w-4 h-4"></i> Lihat & Cetak Sertifikat
-                  </button>
-                  <button onclick="app.navigate('dashboard')" class="px-5 py-3 rounded-xl border hover:bg-slate-50 font-bold text-xs text-slate-700 transition">
-                    Kembali ke Dashboard
-                  </button>
-                </div>
-              </div>
-            `;
-          }
-
-          const questions = QUESTION_BANK[`${course.courseId}_post_test`] || QUESTION_BANK['c1_post_test'];
-          return `
-            <div class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 space-y-6 shadow-sm">
-              <div class="border-b pb-4">
-                <span class="text-xs font-bold uppercase tracking-wider text-[#1b3b6f]">Tahap 3: Post-Test Kelulusan (${course.level} Level)</span>
-                <h2 class="text-xl font-extrabold text-slate-900 mt-1">Evaluasi Pemahaman Akhir</h2>
-                <p class="text-xs text-slate-500 mt-1">Ambang batas kelulusan (Passing Grade): <strong class="text-rose-600 font-bold">${course.passingScore}%</strong>.</p>
-              </div>
-              <form onsubmit="app.submitPostTest(event, '${course.courseId}', ${course.passingScore})" class="space-y-6">
-                ${questions.map((q, idx) => `
-                  <div class="bg-slate-50 p-5 rounded-2xl border space-y-3 text-xs">
-                    <div class="font-bold text-slate-800 flex gap-2"><span>${idx + 1}.</span> <span>${q.question}</span></div>
-                    <div class="space-y-2 pl-4">
-                      ${q.options.map((opt, optIdx) => `
-                        <label class="flex items-center gap-2 p-2.5 rounded-xl bg-white border hover:bg-slate-50 cursor-pointer">
-                          <input type="radio" name="post_q_${q.id}" value="${optIdx}" required class="text-[#1b3b6f]">
-                          <span>${opt}</span>
-                        </label>
-                      `).join('')}
-                    </div>
-                  </div>
-                `).join('')}
-                <button type="submit" class="px-6 py-3 rounded-xl bg-[#1b3b6f] hover:bg-[#16325c] text-white font-bold text-xs shadow-md transition">
-                  Submit Jawaban Post-Test & Evaluasi
-                </button>
-              </form>
-            </div>
-          `;
-        }
-      },
-
-      submitPreTest(e, courseId) {
-        e.preventDefault();
-        const score = 100;
-        this.courseProgress[courseId].preScore = score;
-        this.courseProgress[courseId].step = 2;
-        this.saveProgress();
-        this.showInteractiveModal(
-          true,
-          'Pre-Test Selesai Dikerjakan!',
-          `Skor awal Anda tercatat sebesar <strong class="text-emerald-600">${score}%</strong>. Tahap 2 (Materi Pembelajaran) kini telah dibuka. Silakan simak video atau slide presentasi.`,
-          () => {
-            document.getElementById('interactiveResultModal').classList.add('hidden');
-            this.renderCurrentView();
-          }
-        );
-      },
-
-      finishMaterial(courseId) {
-        this.courseProgress[courseId].step = 3;
-        this.saveProgress();
-        this.renderCurrentView();
-      },
-
-      async submitPostTest(e, courseId, passingScore) {
-        e.preventDefault();
-        const course = this.roadmapData.find(item => item.courseId === courseId);
-        const questions = QUESTION_BANK[`${courseId}_post_test`] || QUESTION_BANK['c1_post_test'];
+      // TAB NAVIGATION
+      setActiveTab(tabName) {
+        this.activeTab = tabName;
+        const tabs = ['programs', 'schedule', 'kirkpatrick', 'assessment', 'certificates'];
         
-        let correctCount = 0;
-        questions.forEach(q => {
-          const selected = document.querySelector(`input[name="post_q_${q.id}"]:checked`);
-          if (selected && parseInt(selected.value) === q.correct) {
-            correctCount++;
+        tabs.forEach(t => {
+          const btn = document.getElementById('tabNav' + t.charAt(0).toUpperCase() + t.slice(1));
+          if (btn) {
+            if (t === tabName) {
+              btn.className = 'px-4 py-2.5 rounded-xl bg-white text-slate-900 shadow-sm flex items-center gap-2 whitespace-nowrap transition';
+            } else {
+              btn.className = 'px-4 py-2.5 rounded-xl text-slate-100 hover:text-white hover:bg-white/10 flex items-center gap-2 whitespace-nowrap transition';
+            }
           }
         });
 
-        const score = Math.round((correctCount / questions.length) * 100);
-        const isPassed = score >= passingScore;
-        const prog = this.courseProgress[courseId];
-        prog.postScore = score;
-
-        if (isPassed) {
-          prog.isCompleted = true;
-          prog.certId = 'CERT-TOD-2026-' + Math.floor(1000 + Math.random() * 9000);
-          this.saveProgress();
-
-          // Rekam ke Supabase
-          if (this.supabase && this.currentUser) {
-            try {
-              const deltaGain = `+${Math.max(0, score - (prog.preScore || 0))}%`;
-              await this.supabase.from('rekap_hasil_kuis').insert([{
-                user_email: this.currentUser.email,
-                user_name: this.currentUser.name,
-                course_id: courseId,
-                course_title: course ? course.title : courseId,
-                pre_score: prog.preScore || 0,
-                post_score: score,
-                delta_gain: deltaGain,
-                is_passed: true,
-                cert_id: prog.certId
-              }]);
-              console.log("✓ Hasil evaluasi kuis tersimpan di Supabase.");
-            } catch (err) {
-              console.error("Gagal simpan kuis ke Supabase:", err);
-            }
-          }
-
-          confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-          this.showInteractiveModal(
-            true,
-            '🎉 SELAMAT! ANDA DINYATAKAN LULUS (APPROVED)',
-            `Nilai Post-Test Anda adalah <strong class="text-3xl text-emerald-600 font-black block my-2">${score}%</strong> Passing Grade: ${passingScore}%. Kompetensi Anda telah diakui oleh tim Talent & OD.`,
-            () => {
-              document.getElementById('interactiveResultModal').classList.add('hidden');
-              this.renderCurrentView();
-            }
-          );
+        const container = document.getElementById('tabContentContainer');
+        if (tabName === 'programs') {
+          this.renderProgramsTab(container);
+        } else if (tabName === 'certificates') {
+          this.renderCertificatesTab(container);
         } else {
-          // Belum mencapai passing grade
-          prog.isCompleted = false;
-          this.saveProgress();
-          this.showInteractiveModal(
-            false,
-            'Nilai Belum Mencapai Passing Grade',
-            `Nilai Post-Test Anda: <strong class="text-2xl text-rose-600 font-bold block my-2">${score}%</strong> Ambang batas kelulusan adalah <strong class="font-bold text-slate-800">${passingScore}%</strong>.<br><br>Silakan pelajari kembali materi pembelajaran dan ulangi post-test.`,
-            () => {
-              document.getElementById('interactiveResultModal').classList.add('hidden');
-              this.openCourse(courseId, 2); // Kembalikan ke tahap materi
-            }
-          );
+          container.innerHTML = `
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-12 text-center text-slate-500 space-y-2">
+              <i data-lucide="info" class="w-8 h-8 mx-auto text-[#1e3c72]"></i>
+              <h3 class="font-bold text-sm text-slate-800">Modul ${tabName.toUpperCase()} Siap Diisi Data</h3>
+              <p class="text-xs">Sistem monitoring terhubung dengan standarisasi PT Buana Centra Swakarsa Logistics.</p>
+            </div>
+          `;
+        }
+
+        lucide.createIcons();
+      },
+
+      // TAB 1: PROGRAM PELATIHAN (PERSIS GAMBAR 1)
+      renderProgramsTab(container) {
+        container.innerHTML = `
+          <div class="space-y-4">
+            
+            <!-- Filter Bar Sesuai Gambar 1 -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm space-y-3">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="relative flex-1">
+                  <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-slate-400"></i>
+                  <input type="text" placeholder="Cari judul kursus, materi, instruktur, departemen..." class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none" />
+                </div>
+                
+                <div class="flex items-center gap-1.5 overflow-x-auto text-[11px] font-bold text-slate-600">
+                  <button class="px-3 py-1.5 rounded-lg bg-[#1e3c72] text-white">All</button>
+                  <button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200">Safety</button>
+                  <button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200">Operations</button>
+                  <button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200">Technical</button>
+                  <button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200">Technical & Soft Skill</button>
+                  <button class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200">Leadership</button>
+                </div>
+              </div>
+
+              <!-- Filter Sekunder: Klasifikasi Based -->
+              <div class="pt-2 border-t border-slate-100 flex items-center gap-2 text-[11px]">
+                <span class="font-extrabold text-slate-400 uppercase text-[10px]">KLASIFIKASI BASED:</span>
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-white font-bold">All</span>
+                <span class="px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100 font-semibold cursor-pointer">Mandatory</span>
+                <span class="px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100 font-semibold cursor-pointer">Additional</span>
+                <span class="px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100 font-semibold cursor-pointer">Gap Competency</span>
+              </div>
+            </div>
+
+            <!-- GRID KARTU KURSUS MODERN (PERSIS GAMBAR 1) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              ${this.courses.map(c => `
+                <div class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                  <div>
+                    <!-- Cover Image & Badges Sesuai Gambar 1 -->
+                    <div class="relative h-44 bg-slate-900 overflow-hidden">
+                      <img src="${c.image}" class="w-full h-full object-cover opacity-80" alt="Cover" />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                      
+                      <!-- Top Badges -->
+                      <div class="absolute top-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
+                        <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase text-white ${c.classification === 'GAP COMPETENCY' ? 'bg-purple-600' : 'bg-amber-600'}">
+                          ${c.classification}
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-teal-600 text-white">
+                          ${c.badgeSkill}
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[9px] font-black uppercase bg-slate-800 text-white">
+                          INTERNAL
+                        </span>
+                      </div>
+
+                      <!-- Rating Star -->
+                      <div class="absolute bottom-2.5 right-2.5 flex items-center gap-1 text-amber-400 font-black text-xs bg-black/50 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                        <span>★</span> <span>${c.rating}</span>
+                      </div>
+
+                      <div class="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-slate-300 font-bold">
+                        ${c.id}
+                      </div>
+                    </div>
+
+                    <!-- Content Details -->
+                    <div class="p-4 space-y-2.5">
+                      <h3 class="font-extrabold text-sm text-slate-900 leading-snug">${c.title}</h3>
+                      
+                      <div class="flex items-center justify-between text-[11px] text-slate-500">
+                        <span class="flex items-center gap-1"><i data-lucide="building" class="w-3.5 h-3.5"></i> ${c.target}</span>
+                        <span class="font-bold text-emerald-600">${c.cost}</span>
+                      </div>
+
+                      <!-- Sesi Terdekat Box Sesuai Gambar -->
+                      <div class="p-2.5 rounded-xl border border-slate-200/80 bg-slate-50/70 text-[11px] space-y-1">
+                        <div class="flex items-center justify-between">
+                          <span class="font-extrabold text-[10px] text-slate-500 uppercase">SESI TERDEKAT:</span>
+                          <span class="text-[9px] font-black px-1.5 py-0.2 rounded ${c.isOffline ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'}">
+                            ${c.isOffline ? 'OFFLINE' : 'ONLINE'}
+                          </span>
+                        </div>
+                        <p class="font-bold text-slate-800">${c.session}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Card Footer -->
+                  <div class="p-4 pt-0">
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-medium mb-3">
+                      <span><i data-lucide="clock" class="w-3 h-3 inline"></i> ${c.duration}</span>
+                      <span><i data-lucide="book-open" class="w-3 h-3 inline"></i> ${c.moduleCount} Modul</span>
+                      <span><i data-lucide="users" class="w-3 h-3 inline"></i> ${c.participantCount} Peserta</span>
+                    </div>
+
+                    <button onclick="app.startCourse('${c.courseId}')" class="w-full py-2.5 rounded-xl bg-theme-gradient text-white text-xs font-bold shadow hover:opacity-95 transition">
+                      Masuk Pelatihan →
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+          </div>
+        `;
+      },
+
+      // TAB 5: LAPORAN & E-SERTIFIKAT (PERSIS GAMBAR 2)
+      renderCertificatesTab(container) {
+        container.innerHTML = `
+          <div class="space-y-5">
+            
+            <!-- Header Pusat Laporan Sesuai Gambar 2 -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-base font-extrabold text-slate-900">Pusat Laporan & Rekapitulasi Pembelajaran (LMS)</h2>
+                  <span class="text-[9px] font-black px-2 py-0.5 rounded bg-slate-100 text-slate-700 uppercase">STANDARD BCS</span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">5 Laporan master berstandar PT Buana Centra Swakarsa Logistics & E-Sertifikat Terverifikasi</p>
+              </div>
+
+              <button onclick="alert('Mengunduh data sertifikat dalam format CSV...')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> Export CSV (CERTIFICATES)
+              </button>
+            </div>
+
+            <!-- Sub Tab Laporan Sesuai Gambar 2 -->
+            <div class="flex items-center gap-2 overflow-x-auto text-xs font-bold text-slate-600 pb-1">
+              <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">1. Annual Report Pelatihan (16)</span>
+              <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">2. Laporan Kehadiran (22)</span>
+              <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">3. Laporan Asesmen (2)</span>
+              <span class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 cursor-pointer">4. Laporan GAP Kompetensi (TNA)</span>
+              <span class="px-3.5 py-2 rounded-xl bg-[#281b3b] text-white cursor-pointer shadow-sm">5. E-Sertifikat Digital (2)</span>
+            </div>
+
+            <!-- Card Rekapitulasi E-Sertifikat Resmi Sesuai Gambar 2 -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div>
+                  <h3 class="font-extrabold text-xs text-slate-900 tracking-wider">REKAPITULASI E-SERTIFIKAT DIGITAL RESMI</h3>
+                  <p class="text-[11px] text-slate-500">Daftar sertifikat kelulusan ber-QR code otentikasi siap cetak A4 landscape standard BCS.</p>
+                </div>
+                <span class="text-[11px] text-slate-400 font-semibold">Sertifikat: 2 Lembar</span>
+              </div>
+
+              <!-- Tabel Data Sesuai Gambar 2 -->
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                  <thead class="bg-slate-50 text-[10px] font-black text-slate-500 uppercase border-b border-slate-100">
+                    <tr>
+                      <th class="p-3.5">No. Sertifikat</th>
+                      <th class="p-3.5">Nama Karyawan</th>
+                      <th class="p-3.5">Program Pelatihan</th>
+                      <th class="p-3.5">Kategori</th>
+                      <th class="p-3.5 text-center">Nilai Ujian</th>
+                      <th class="p-3.5">Tanggal Terbit</th>
+                      <th class="p-3.5">Masa Berlaku (1 Thn)</th>
+                      <th class="p-3.5 text-center">Aksi Dokumen</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 font-medium">
+                    ${this.certificates.map(item => `
+                      <tr class="hover:bg-slate-50/70 transition">
+                        <td class="p-3.5 font-mono text-[11px] font-bold text-slate-800">${item.certNo}</td>
+                        <td class="p-3.5 font-bold text-slate-900">${item.name}</td>
+                        <td class="p-3.5">${item.course}</td>
+                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-[10px] font-bold">${item.category}</span></td>
+                        <td class="p-3.5 text-center font-black text-emerald-600 text-sm">${item.score}</td>
+                        <td class="p-3.5 text-slate-500">${item.issueDate}</td>
+                        <td class="p-3.5">
+                          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#dcfce7] text-[#15803d]">
+                            ${item.expiry}
+                          </span>
+                        </td>
+                        <td class="p-3.5 text-center">
+                          <button onclick="app.showCertificateModal('${item.certNo}', '${item.course}', ${item.score})" class="px-3 py-1.5 rounded-xl bg-[#281b3b] hover:bg-[#1a1128] text-white font-bold text-[11px] shadow transition inline-flex items-center gap-1.5">
+                            <i data-lucide="award" class="w-3.5 h-3.5"></i> Lihat Sertifikat
+                          </button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      },
+
+      // FUNGSI KURSUS: PRE-TEST -> MATERI -> POST-TEST
+      startCourse(courseId) {
+        const c = this.courses.find(item => item.courseId === courseId) || this.courses[0];
+        const container = document.getElementById('tabContentContainer');
+
+        container.innerHTML = `
+          <div class="space-y-5 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="flex items-center justify-between pb-4 border-b">
+              <div>
+                <button onclick="app.setActiveTab('programs')" class="text-xs font-bold text-[#1e3c72] mb-1">← Kembali ke Katalog</button>
+                <h2 class="text-base font-extrabold text-slate-900">${c.title}</h2>
+              </div>
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-[#1e3c72]">Passing Grade: ${c.passingScore}%</span>
+            </div>
+
+            <!-- Stepper Pembelajaran Gated -->
+            <div class="space-y-4">
+              <div class="border-b pb-2">
+                <span class="text-[10px] font-black uppercase text-amber-600 tracking-wider">Tahap 1: Pre-Test Awal</span>
+                <h3 class="text-sm font-bold text-slate-800 mt-0.5">Uji Pengetahuan Sebelum Mengakses Modul</h3>
+              </div>
+              
+              <div class="p-4 rounded-xl bg-slate-50 border space-y-3 text-xs">
+                <p class="font-bold text-slate-800">1. Sebelum berkendara, hal paling pertama yang harus dicek pada checklist K3 armada adalah:</p>
+                <div class="space-y-2 pl-2">
+                  <label class="flex items-center gap-2 p-2 rounded-lg bg-white border cursor-pointer">
+                    <input type="radio" name="pre_opt" value="0"> <span>Suhu pendingin AC kabin</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2 rounded-lg bg-white border cursor-pointer">
+                    <input type="radio" name="pre_opt" value="1"> <span>Kondisi rem, tekanan ban, dan lampu utama armada</span>
+                  </label>
+                </div>
+              </div>
+
+              <button onclick="app.finishPreTest('${c.courseId}')" class="px-5 py-2.5 rounded-xl bg-theme-gradient text-white text-xs font-bold shadow">
+                Kirim Jawaban & Lanjut ke Materi Video →
+              </button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      finishPreTest(courseId) {
+        const c = this.courses.find(item => item.courseId === courseId);
+        const container = document.getElementById('tabContentContainer');
+
+        container.innerHTML = `
+          <div class="space-y-5 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="flex items-center justify-between pb-4 border-b">
+              <h2 class="text-base font-extrabold text-slate-900">${c.title}</h2>
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700">Pre-Test Selesai: 100%</span>
+            </div>
+
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden border bg-slate-900 shadow-inner">
+              <iframe src="${c.embedUrl}" frameborder="0" width="100%" height="100%" allowfullscreen class="w-full h-full"></iframe>
+            </div>
+
+            <div class="p-4 bg-blue-50/70 border border-blue-200 rounded-xl flex items-center justify-between">
+              <span class="text-xs font-bold text-[#1e3c72]">Telah tuntas menyimak materi pembelajaran?</span>
+              <button onclick="app.startPostTest('${c.courseId}')" class="px-5 py-2.5 rounded-xl bg-theme-gradient text-white text-xs font-bold shadow">
+                Lanjut ke Post-Test Kelulusan →
+              </button>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      startPostTest(courseId) {
+        const c = this.courses.find(item => item.courseId === courseId);
+        const container = document.getElementById('tabContentContainer');
+
+        container.innerHTML = `
+          <div class="space-y-5 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm">
+            <div class="border-b pb-3">
+              <span class="text-[10px] font-black uppercase text-emerald-600 tracking-wider">Tahap 3: Post-Test Kelulusan</span>
+              <h2 class="text-base font-extrabold text-slate-900 mt-0.5">Ujian Kompetensi (Passing Grade: ${c.passingScore}%)</h2>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border space-y-3 text-xs">
+              <p class="font-bold text-slate-800">1. Prinsip utama Defensive Driving saat menghadapi blind spot kendaraan besar adalah:</p>
+              <div class="space-y-2 pl-2">
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-white border cursor-pointer">
+                  <input type="radio" name="post_opt" value="1"> <span>Menjaga jarak aman minimal 3-4 detik dan memastikan kaca spion jelas</span>
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-lg bg-white border cursor-pointer">
+                  <input type="radio" name="post_opt" value="0"> <span>Membunyikan klakson terus menerus</span>
+                </label>
+              </div>
+            </div>
+
+            <button onclick="app.submitPostTest('${c.courseId}')" class="px-5 py-2.5 rounded-xl bg-theme-gradient text-white text-xs font-bold shadow">
+              Submit Post-Test & Lihat Hasil
+            </button>
+          </div>
+        `;
+        lucide.createIcons();
+      },
+
+      submitPostTest(courseId) {
+        const selected = document.querySelector('input[name="post_opt"]:checked');
+        const score = (selected && selected.value === "1") ? 100 : 50;
+
+        if (score >= 80) {
+          confetti({ particleCount: 100, spread: 70 });
+          alert(`🎉 SELAMAT! Anda LULUS dengan nilai ${score}%! Status: Approved.`);
+          this.setActiveTab('certificates');
+        } else {
+          alert(`Nilai Anda ${score}%. Belum memenuhi passing grade 80%. Silakan ulangi materi.`);
+          this.finishPreTest(courseId);
         }
       },
 
-      showInteractiveModal(isSuccess, title, descHtml, onConfirm) {
-        const modal = document.getElementById('interactiveResultModal');
-        const body = document.getElementById('modalCardBody');
-
-        body.innerHTML = `
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${isSuccess ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'}">
-            <i data-lucide="${isSuccess ? 'shield-check' : 'alert-circle'}" class="w-9 h-9"></i>
-          </div>
-          <h3 class="text-lg font-extrabold text-slate-900 mb-2">${title}</h3>
-          <div class="text-xs text-slate-600 leading-relaxed mb-6">${descHtml}</div>
-          <button id="modalBtnConfirm" class="w-full py-3 rounded-xl ${isSuccess ? 'bg-[#1b3b6f]' : 'bg-rose-600'} text-white font-bold text-xs shadow-md hover:opacity-95 transition">
-            ${isSuccess ? 'Lanjutkan Pembelajaran' : 'Pelajari Kembali Materi'}
-          </button>
-        `;
-
-        modal.classList.remove('hidden');
-        lucide.createIcons();
-        document.getElementById('modalBtnConfirm').onclick = onConfirm;
-      },
-
+      // MODAL SERTIFIKAT PERSIS STANDAR BCS A4
       showCertificateModal(certId, courseTitle, score) {
-        const u = this.currentUser;
+        const u = this.currentUser || { name: 'BAMBANG HERMAWAN' };
         const container = document.getElementById('modalContainer');
         container.innerHTML = `
           <div class="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl my-8">
             <div class="flex justify-between pb-3 border-b mb-4">
-              <span class="font-bold text-xs text-slate-700">Kredensial Resmi Digital TOD</span>
+              <span class="font-bold text-xs text-slate-700">Kredensial Resmi E-Sertifikat Digital BCS</span>
               <div class="flex gap-2">
-                <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-[#1b3b6f] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
-                  <i data-lucide="printer" class="w-3.5 h-3.5"></i> Cetak / Simpan PDF
+                <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-theme-gradient text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                  <i data-lucide="printer" class="w-3.5 h-3.5"></i> Cetak PDF
                 </button>
                 <button onclick="document.getElementById('modalContainer').classList.add('hidden')" class="p-1 rounded text-slate-400 hover:text-slate-600">✕</button>
               </div>
             </div>
             <div id="printableCertificate" class="certificate-frame p-8 sm:p-10 rounded-2xl text-center relative bg-white">
-              <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest mb-1">Sertifikat Kelulusan & Pengakuan Kompetensi</div>
-              <div class="text-xs text-slate-400 font-serif italic mb-4">InnoTalent Corporate Academy</div>
+              <div class="text-[10px] font-bold text-amber-800 uppercase tracking-widest mb-1">PT BUANA CENTRA SWAKARSA LOGISTICS</div>
+              <div class="text-xs text-slate-400 font-serif italic mb-4">Enterprise Competency & Safety Certification</div>
               <div class="text-xs text-slate-500 mb-1">Diberikan secara terhormat kepada:</div>
-              <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2 font-serif text-[#1b3b6f]">${u.name}</h1>
+              <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2 font-serif text-[#1e3c72]">${u.name}</h1>
               <p class="text-xs text-slate-600 max-w-md mx-auto mb-4 leading-relaxed">
-                Telah berhasil menyelesaikan rangkaian Pre-Test, Penelaahan Materi, dan dinyatakan LULUS Post-Test pada modul kurikulum:
+                Telah menyelesaikan rangkaian asesmen dan dinyatakan LULUS terverifikasi pada program keahlian:
               </p>
               <div class="p-3 bg-amber-50 rounded-xl inline-block font-bold text-sm text-slate-900 border border-amber-200 mb-6">
                 ${courseTitle}
               </div>
               <div class="text-[11px] text-slate-400 border-t pt-3 flex justify-between">
-                <span>Credential ID: <strong class="text-slate-700 font-mono">${certId}</strong></span>
-                <span>Nilai Post-Test: <strong class="text-emerald-600 font-bold">${score}%</strong></span>
-                <span>Disahkan: <strong>Amanda Putri, S.Psi, M.M.</strong> (Manager TOD)</span>
+                <span>No: <strong class="text-slate-700 font-mono">${certId}</strong></span>
+                <span>Nilai: <strong class="text-emerald-600 font-bold">${score}</strong></span>
+                <span>Disahkan: <strong>Thahira Qanita (Staff HR)</strong></span>
               </div>
             </div>
           </div>
