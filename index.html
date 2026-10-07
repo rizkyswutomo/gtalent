@@ -35,9 +35,6 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
-  <!-- Konfigurasi Supabase Eksternal -->
-  <script src="config.js"></script>
 
   <style>
     body {
@@ -60,23 +57,36 @@
     }
   </style>
 </head>
-<body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9]">
+<body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9] overflow-x-hidden">
 
-  <!-- ==================== 1. AUTH SCREEN DENGAN FOTO TRUK GRAHATRANS + LAYER BIRU 40% ==================== -->
-  <div id="authScreen" class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto bg-cover bg-center bg-no-repeat relative"
-       style="background-image: url('grahatrans-bg.jpg'), linear-gradient(to right, #1e3c72, #2a5298, #3b609d);">
+  <!-- ==================== 1. AUTH SCREEN (FULL VIEWPORT + LAYER NAVY 40%) ==================== -->
+  <div id="authScreen" class="fixed inset-0 z-50 w-full h-full min-h-screen flex items-center justify-center p-4 overflow-y-auto">
     
-    <!-- LAYER OVERLAY WARNA BIRU 40% (SESUAI PERMINTAAN) -->
-    <div class="absolute inset-0 bg-[#1e3c72]/40 backdrop-blur-[1.5px]"></div>
-    
-    <!-- KARTU FORMULIR LOGIN / REGISTER -->
-    <div class="bg-white/95 backdrop-blur-md rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-white/50 my-6 z-10">
+    <!-- FOTO ARMADA TRUK GRAHATRANS (DENGAN FALLBACK GAMBAR LOGISTIK CADANGAN AGAR TIDAK KOSONG) -->
+    <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+         style="background-image: url('grahatrans-bg.jpg'), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=80');">
+    </div>
+
+    <!-- LAYER WARNA BIRU NAVY DENGAN OPACITY 40% PERSIS SEPERTI PERMINTAAN ANDA -->
+    <div class="fixed inset-0 z-0 bg-[#1e3c72] opacity-40"></div>
+
+    <!-- KARTU FORMULIR LOGIN DI TENGAH (EFEK GLASSMORPHIC PREMIUM) -->
+    <div class="relative z-10 bg-white/95 backdrop-blur-md rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/60 my-auto">
       
-      <!-- Logo GrahaTrans Transparan Sesuai Gambar -->
+      <!-- HEADER LOGO GRAHATRANS TRANSPARAN DENGAN VEKTOR EMBLEM CADANGAN -->
       <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-100">
-        <img src="grahatrans-logo.png" alt="GrahaTrans Logo" class="h-10 object-contain" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png'; this.classList.add('hidden'); document.getElementById('logoFallback').classList.remove('hidden');" />
-        <div id="logoFallback" class="hidden font-black text-lg text-[#1e3c72] tracking-tight">GrahaTrans</div>
-        
+        <div class="flex items-center gap-2">
+          <img src="grahatrans-logo.png" alt="GrahaTrans" class="h-9 object-contain" onerror="this.classList.add('hidden'); document.getElementById('logoSvgFallback').classList.remove('hidden');" />
+          
+          <!-- Vektor Logo 3D GrahaTrans jika file PNG belum diupload -->
+          <div id="logoSvgFallback" class="hidden flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1e3c72] to-[#0ea5e9] flex items-center justify-center text-white font-black text-lg shadow">
+              G
+            </div>
+            <span class="text-lg font-black text-[#1e3c72] tracking-tight">GrahaTrans</span>
+          </div>
+        </div>
+
         <div class="border-l border-slate-200 pl-3">
           <span class="text-xs font-black text-slate-900 block leading-tight">HUMAN CAPITAL LMS</span>
           <p class="text-[10px] text-slate-500 font-medium">GrahaTrans Corporate Academy</p>
@@ -159,17 +169,17 @@
     </div>
   </div>
 
-  <!-- ==================== 2. APLIKASI UTAMA ==================== -->
+  <!-- ==================== 2. APLIKASI UTAMA SETELAH LOGIN ==================== -->
   <div id="appContainer" class="hidden flex-1 flex flex-col min-h-screen">
     
     <!-- TOPBAR NAVBAR -->
     <header class="bg-theme-gradient text-white sticky top-0 z-30 shadow-md">
       <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Sisi Kiri: Logo GrahaTrans pada Navbar -->
+        <!-- Logo GrahaTrans pada Navbar -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
           <div class="bg-white/95 px-2.5 py-1 rounded-xl shadow-sm flex items-center">
-            <img src="grahatrans-logo.png" alt="GrahaTrans" class="h-6 object-contain" />
+            <span class="text-xs font-black text-[#1e3c72] tracking-wider">GrahaTrans</span>
           </div>
           <span class="text-white/40 font-light">|</span>
           <span class="text-white/90 text-xs font-semibold tracking-wide">Main Dashboard</span>
@@ -218,7 +228,7 @@
       </div>
     </header>
 
-    <!-- WRAPPER KONTEN UTAMA: SIDEBAR KIRI + WORKSPACE KANAN -->
+    <!-- WRAPPER KONTEN: SIDEBAR KIRI + WORKSPACE KANAN -->
     <div class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
       
       <!-- SIDEBAR KIRI -->
@@ -265,7 +275,7 @@
       <!-- WORKSPACE UTAMA KANAN -->
       <main class="flex-1 min-w-0 space-y-6" id="mainContent">
 
-        <!-- 1. TITLE BAR ATAS -->
+        <!-- 1. TITLE BAR ATAS (PERSIS GAMBAR 1 & 2) -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 mt-0.5 border border-amber-200/60">
@@ -294,7 +304,7 @@
           </div>
         </div>
 
-        <!-- 2. ENAM KARTU KPI METRIC CARDS -->
+        <!-- 2. ENAM KARTU KPI METRIC CARDS (PERSIS GAMBAR 1) -->
         <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
           
           <div class="bg-white p-3.5 rounded-2xl border border-slate-200/90 shadow-sm">
@@ -408,7 +418,7 @@
       </div>
 
       <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-        Sistem dilengkapi <strong>fitur auto-clean URL</strong> (jika memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
+        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
       </p>
 
       <form onsubmit="app.saveSupabaseConfig(event)" class="space-y-4 text-xs">
@@ -478,8 +488,14 @@
   <!-- Modal Sertifikat Resmi Siap Cetak -->
   <div id="modalContainer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto"></div>
 
-  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <!-- ==================== JAVASCRIPT LOGIC TERSATUKAN ==================== -->
   <script>
+    // KREDENSIAL SUPABASE TERTANAM LANGSUNG (TIDAK BUTUH CONFIG.JS TERPISAH)
+    window.SUPABASE_CONFIG = {
+      url: "https://jvthmnuhoyysmttdedae.supabase.co", // Sudah otomatis tanpa /rest/v1
+      anonKey: "YOUR_SUPABASE_ANON_KEY"
+    };
+
     const DEFAULT_COURSES = [
       {
         id: 'CRS-TEC-0020',
@@ -585,6 +601,7 @@
         let rawKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
         if (rawUrl && rawKey && !rawUrl.includes('YOUR_PROJECT_ID')) {
+          // AUTO-CLEAN: Hapus /rest/v1 atau slash di ujung secara otomatis!
           const cleanUrl = rawUrl.trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
           const cleanKey = rawKey.trim();
 
@@ -627,7 +644,7 @@
         localStorage.setItem('innotalent_sb_key', key);
         this.initSupabaseClient();
         document.getElementById('supabaseModal').classList.add('hidden');
-        alert('✓ Kredensial Supabase berhasil disimpan! URL dinormalkan ke: ' + url);
+        alert('✓ Kredensial Supabase tersimpan! URL: ' + url);
       },
 
       switchAuthMode(mode) {
