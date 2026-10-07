@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-[#f4f6f9]">
+<html lang="id" class="h-full bg-[#0f172a]">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,8 +39,6 @@
   <style>
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #1e293b;
-      background-color: #f4f6f9;
     }
     .bg-theme-gradient {
       background: linear-gradient(to right, #1e3c72, #2a5298, #3b609d);
@@ -59,86 +57,85 @@
 </head>
 <body class="h-full flex flex-col antialiased text-slate-800 bg-[#f4f6f9] overflow-x-hidden">
 
-  <!-- ==================== 1. AUTH SCREEN (FULL VIEWPORT + LAYER NAVY 40%) ==================== -->
+  <!-- ==================== 1. LOGIN SCREEN DENGAN FOTO TRUK + LAYER OPACITY NAVY 40% ==================== -->
   <div id="authScreen" class="fixed inset-0 z-50 w-full h-full min-h-screen flex items-center justify-center p-4 overflow-y-auto">
     
-    <!-- FOTO ARMADA TRUK GRAHATRANS (DENGAN FALLBACK GAMBAR LOGISTIK CADANGAN AGAR TIDAK KOSONG) -->
+    <!-- BACKGROUND FOTO ARMADA TRUK KONTAINER GRAHATRANS (FULL SCREEN) -->
     <div class="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
          style="background-image: url('grahatrans-bg.jpg'), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=2000&q=80');">
     </div>
 
-    <!-- LAYER WARNA BIRU NAVY DENGAN OPACITY 40% PERSIS SEPERTI PERMINTAAN ANDA -->
+    <!-- LAYER WARNA BIRU NAVY DENGAN OPACITY 40% (SESUAI PERMINTAAN ANDA) -->
     <div class="fixed inset-0 z-0 bg-[#1e3c72] opacity-40"></div>
 
-    <!-- KARTU FORMULIR LOGIN DI TENGAH (EFEK GLASSMORPHIC PREMIUM) -->
-    <div class="relative z-10 bg-white/95 backdrop-blur-md rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/60 my-auto">
+    <!-- KARTU LOGIN DARK GLASSMORPHIC MEWAH (AGAR LOGO PUTIH GRAHATRANS TERBACA TAJAM) -->
+    <div class="relative z-10 bg-slate-900/85 backdrop-blur-xl rounded-3xl max-w-md w-full p-8 shadow-2xl border border-white/20 text-white my-auto">
       
-      <!-- HEADER LOGO GRAHATRANS TRANSPARAN DENGAN VEKTOR EMBLEM CADANGAN -->
-      <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-100">
-        <div class="flex items-center gap-2">
+      <!-- HEADER LOGO GRAHATRANS PUTIH SESUAI GAMBAR BARU -->
+      <div class="mb-6 pb-4 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
           <img src="grahatrans-logo.png" alt="GrahaTrans" class="h-9 object-contain" onerror="this.classList.add('hidden'); document.getElementById('logoSvgFallback').classList.remove('hidden');" />
           
-          <!-- Vektor Logo 3D GrahaTrans jika file PNG belum diupload -->
-          <div id="logoSvgFallback" class="hidden flex items-center gap-2">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1e3c72] to-[#0ea5e9] flex items-center justify-center text-white font-black text-lg shadow">
+          <!-- Logo Vektor Putih Otomatis jika file PNG belum diupload -->
+          <div id="logoSvgFallback" class="hidden flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-white/15 border border-white/30 flex items-center justify-center font-black text-white text-base">
               G
             </div>
-            <span class="text-lg font-black text-[#1e3c72] tracking-tight">GrahaTrans</span>
+            <span class="text-xl font-black text-white tracking-wider">GrahaTrans</span>
           </div>
         </div>
 
-        <div class="border-l border-slate-200 pl-3">
-          <span class="text-xs font-black text-slate-900 block leading-tight">HUMAN CAPITAL LMS</span>
-          <p class="text-[10px] text-slate-500 font-medium">GrahaTrans Corporate Academy</p>
-        </div>
+        <span class="text-[9px] font-black px-2 py-0.5 rounded bg-blue-500/30 text-blue-200 border border-blue-400/40 uppercase tracking-widest">
+          LMS HRIS
+        </span>
       </div>
 
       <!-- Tab Switcher: Masuk vs Buat Akun Baru -->
-      <div class="flex p-1 bg-slate-100/80 rounded-xl mb-6 text-xs font-bold">
+      <div class="flex p-1 bg-white/10 rounded-xl mb-6 text-xs font-bold border border-white/10">
         <button id="tabLoginBtn" onclick="app.switchAuthMode('login')" class="flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition">
           Masuk Akun
         </button>
-        <button id="tabRegisterBtn" onclick="app.switchAuthMode('register')" class="flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition">
+        <button id="tabRegisterBtn" onclick="app.switchAuthMode('register')" class="flex-1 py-2 rounded-lg text-slate-300 hover:text-white transition">
           Buat Akun Baru
         </button>
       </div>
 
       <!-- FORM LOGIN -->
-      <form id="formLogin" onsubmit="app.handleLogin(event)" class="space-y-4">
+      <form id="formLogin" onsubmit="app.handleLogin(event)" class="space-y-4 text-xs">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Email Pengguna:</label>
-          <input type="email" id="loginEmail" required placeholder="nama@grahatrans.com atau admin@innotalent.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Email Pengguna:</label>
+          <input type="email" id="loginEmail" required placeholder="nama@grahatrans.com atau admin@innotalent.com" class="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:bg-white/15" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Password:</label>
-          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Password:</label>
+          <input type="password" id="loginPassword" required placeholder="Masukkan password Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none focus:bg-white/15" />
         </div>
-        <button type="submit" id="btnSubmitLogin" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md shadow-blue-900/20 hover:opacity-95 transition flex items-center justify-center gap-2">
+        <button type="submit" id="btnSubmitLogin" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-blue-900/40 transition flex items-center justify-center gap-2">
           <i data-lucide="log-in" class="w-4 h-4"></i> Masuk Pembelajaran
         </button>
         
-        <div class="p-3 bg-slate-50/80 border border-slate-200 rounded-xl text-[11px] text-slate-600 mt-2">
-          <div class="font-bold text-slate-700 mb-1 flex items-center justify-between">
+        <div class="p-3 bg-white/5 border border-white/10 rounded-xl text-[11px] text-slate-300 mt-2">
+          <div class="font-bold text-white mb-1 flex items-center justify-between">
             <span>Akses Cepat Pengujian:</span>
-            <button type="button" onclick="app.fillDefaultAdmin()" class="text-[10px] text-[#1e3c72] underline font-semibold">Gunakan Akun HR</button>
+            <button type="button" onclick="app.fillDefaultAdmin()" class="text-[10px] text-blue-300 underline font-semibold">Gunakan Akun HR</button>
           </div>
-          <p>Email: <span class="font-mono text-[#1e3c72] font-bold">admin@innotalent.com</span> | Pass: <span class="font-mono text-[#1e3c72] font-bold">admin123</span></p>
+          <p>Email: <span class="font-mono text-blue-200 font-bold">admin@innotalent.com</span> | Pass: <span class="font-mono text-blue-200 font-bold">admin123</span></p>
         </div>
       </form>
 
       <!-- FORM REGISTER -->
-      <form id="formRegister" onsubmit="app.handleRegister(event)" class="space-y-3.5 hidden">
+      <form id="formRegister" onsubmit="app.handleRegister(event)" class="space-y-3 text-xs hidden">
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap:</label>
-          <input type="text" id="regName" required placeholder="Contoh: Bambang Hermawan" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Nama Lengkap:</label>
+          <input type="text" id="regName" required placeholder="Contoh: Bambang Hermawan" class="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Email Kantor:</label>
-          <input type="email" id="regEmail" required placeholder="bambang@grahatrans.com" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Email Kantor:</label>
+          <input type="email" id="regEmail" required placeholder="bambang@grahatrans.com" class="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Departemen / Divisi:</label>
-          <select id="regDept" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-white">
+          <label class="block font-bold text-slate-300 mb-1">Departemen / Divisi:</label>
+          <select id="regDept" required class="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-slate-800 text-white focus:ring-2 focus:ring-blue-400 focus:outline-none">
             <option value="Operations & Safety">Operations & Safety</option>
             <option value="Fleet & Technical">Fleet & Technical</option>
             <option value="Human Capital / HRIS">Human Capital / HRIS</option>
@@ -147,21 +144,21 @@
           </select>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru:</label>
-          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Password Baru:</label>
+          <input type="password" id="regPassword" required placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Konfirmasi Password:</label>
-          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-[#1e3c72] focus:outline-none bg-slate-50/70" />
+          <label class="block font-bold text-slate-300 mb-1">Konfirmasi Password:</label>
+          <input type="password" id="regPasswordConfirm" required placeholder="Ulangi password baru" class="w-full px-3.5 py-2 rounded-xl border border-white/20 bg-white/10 text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-400 focus:outline-none" />
         </div>
-        <button type="submit" id="btnSubmitRegister" class="w-full py-3 rounded-xl bg-theme-gradient text-white font-bold text-xs shadow-md hover:opacity-95 transition flex items-center justify-center gap-2">
+        <button type="submit" id="btnSubmitRegister" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition flex items-center justify-center gap-2">
           <i data-lucide="user-plus" class="w-4 h-4"></i> Daftarkan Akun Saya
         </button>
       </form>
 
       <!-- Supabase Config Trigger -->
-      <div class="mt-4 pt-3 border-t text-center">
-        <button onclick="app.openSupabaseConfigModal()" class="text-[11px] text-slate-400 hover:text-[#1e3c72] flex items-center justify-center gap-1 mx-auto">
+      <div class="mt-4 pt-3 border-t border-white/10 text-center">
+        <button onclick="app.openSupabaseConfigModal()" class="text-[11px] text-slate-400 hover:text-white flex items-center justify-center gap-1 mx-auto transition">
           <i data-lucide="database" class="w-3.5 h-3.5"></i> Status Koneksi Supabase Backend
         </button>
       </div>
@@ -172,20 +169,20 @@
   <!-- ==================== 2. APLIKASI UTAMA SETELAH LOGIN ==================== -->
   <div id="appContainer" class="hidden flex-1 flex flex-col min-h-screen">
     
-    <!-- TOPBAR NAVBAR -->
+    <!-- TOPBAR NAVBAR DENGAN LOGO GRAHATRANS PUTIH -->
     <header class="bg-theme-gradient text-white sticky top-0 z-30 shadow-md">
       <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Logo GrahaTrans pada Navbar -->
+        <!-- Sisi Kiri: Logo GrahaTrans pada Navbar -->
         <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('programs')">
-          <div class="bg-white/95 px-2.5 py-1 rounded-xl shadow-sm flex items-center">
-            <span class="text-xs font-black text-[#1e3c72] tracking-wider">GrahaTrans</span>
+          <div class="bg-white/10 px-3 py-1.5 rounded-xl border border-white/20 flex items-center gap-2">
+            <span class="text-xs font-black text-white tracking-widest">GrahaTrans</span>
           </div>
           <span class="text-white/40 font-light">|</span>
           <span class="text-white/90 text-xs font-semibold tracking-wide">Main Dashboard</span>
         </div>
 
-        <!-- Sisi Kanan: Search Bar, Ikon & Profil Karyawan -->
+        <!-- Sisi Kanan: Search Bar & Profil Karyawan -->
         <div class="flex items-center space-x-4">
           <div class="relative hidden md:block w-72">
             <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-slate-400"></i>
@@ -231,7 +228,7 @@
     <!-- WRAPPER KONTEN: SIDEBAR KIRI + WORKSPACE KANAN -->
     <div class="flex-1 max-w-[1600px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row gap-6">
       
-      <!-- SIDEBAR KIRI -->
+      <!-- SIDEBAR KIRI (PERSIS GAMBAR REFERENSI) -->
       <aside class="w-full lg:w-64 flex-shrink-0 space-y-4">
         
         <div class="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-sm flex items-center space-x-3">
@@ -347,7 +344,7 @@
 
         </div>
 
-        <!-- 3. CONTAINER TAB BAR UTAMA -->
+        <!-- 3. CONTAINER TAB BAR UTAMA (PERSIS GAMBAR 1 & 2) -->
         <div class="bg-[#8b92a5] p-1.5 rounded-2xl flex items-center space-x-1 overflow-x-auto text-xs font-bold text-slate-200">
           <button id="tabNavPrograms" onclick="app.setActiveTab('programs')" class="px-4 py-2.5 rounded-xl bg-white text-slate-800 shadow-sm flex items-center gap-2 whitespace-nowrap transition">
             <i data-lucide="graduation-cap" class="w-4 h-4 text-[#1e3c72]"></i> Program Pelatihan
@@ -418,7 +415,7 @@
       </div>
 
       <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
+        Sistem sudah dilengkapi <strong>fitur auto-clean URL</strong> (jika Anda memasukkan akhiran <code class="bg-slate-100 px-1 py-0.5 rounded font-mono">/rest/v1/</code>, sistem akan otomatis membersihkannya).
       </p>
 
       <form onsubmit="app.saveSupabaseConfig(event)" class="space-y-4 text-xs">
@@ -488,11 +485,11 @@
   <!-- Modal Sertifikat Resmi Siap Cetak -->
   <div id="modalContainer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto"></div>
 
-  <!-- ==================== JAVASCRIPT LOGIC TERSATUKAN ==================== -->
+  <!-- ==================== JAVASCRIPT LOGIC LENGKAP ==================== -->
   <script>
-    // KREDENSIAL SUPABASE TERTANAM LANGSUNG (TIDAK BUTUH CONFIG.JS TERPISAH)
+    // KREDENSIAL SUPABASE LANGSUNG TERTANAM (URL SUDAH DINORMALKAN)
     window.SUPABASE_CONFIG = {
-      url: "https://jvthmnuhoyysmttdedae.supabase.co", // Sudah otomatis tanpa /rest/v1
+      url: "https://jvthmnuhoyysmttdedae.supabase.co",
       anonKey: "YOUR_SUPABASE_ANON_KEY"
     };
 
@@ -601,7 +598,7 @@
         let rawKey = localStorage.getItem('innotalent_sb_key') || (window.SUPABASE_CONFIG ? window.SUPABASE_CONFIG.anonKey : '');
 
         if (rawUrl && rawKey && !rawUrl.includes('YOUR_PROJECT_ID')) {
-          // AUTO-CLEAN: Hapus /rest/v1 atau slash di ujung secara otomatis!
+          // AUTO-CLEAN: Secara otomatis membuang /rest/v1 dan slash di akhir URL
           const cleanUrl = rawUrl.trim().replace(/\/rest\/v1\/?$/, '').replace(/\/+$/, '');
           const cleanKey = rawKey.trim();
 
@@ -657,12 +654,12 @@
           formLogin.classList.add('hidden');
           formRegister.classList.remove('hidden');
           tabRegisterBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition';
-          tabLoginBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition';
+          tabLoginBtn.className = 'flex-1 py-2 rounded-lg text-slate-300 hover:text-white transition';
         } else {
           formRegister.classList.add('hidden');
           formLogin.classList.remove('hidden');
           tabLoginBtn.className = 'flex-1 py-2 rounded-lg bg-white text-[#1e3c72] shadow-sm transition';
-          tabRegisterBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition';
+          tabRegisterBtn.className = 'flex-1 py-2 rounded-lg text-slate-300 hover:text-white transition';
         }
       },
 
